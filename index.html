@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>&#x30AB;&#x30D0;&#x30CD;&#x30EA; &#x51FA;&#x7387;&#x304C;&#x4E0A;&#x304C;&#x308B;&#x533A;&#x9593;&#x5206;&#x6790;</title>
+  <title>&#x30AB;&#x30D0;&#x30CD;&#x30EA; &#x5DEE;&#x679A;&#x3068;&#x4F38;&#x3073;&#x308B;AT&#x306E;&#x6761;&#x4EF6;</title>
   <style>
     :root {
       --bg: #f5f2ea;
@@ -12,23 +12,13 @@
       --muted: #66706d;
       --line: #d9d3c4;
       --green: #176f5f;
-      --red: #a94239;
       --blue: #276b8f;
+      --red: #a94239;
       --gold: #b6842c;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, system-ui, sans-serif;
-      letter-spacing: 0;
-    }
-    header {
-      padding: 28px clamp(16px, 4vw, 48px) 18px;
-      background: #fff7e7;
-      border-bottom: 1px solid var(--line);
-    }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, system-ui, sans-serif; letter-spacing: 0; }
+    header { padding: 28px clamp(16px, 4vw, 48px) 18px; background: #fff7e7; border-bottom: 1px solid var(--line); }
     h1 { margin: 0 0 8px; font-size: clamp(25px, 3vw, 40px); line-height: 1.2; }
     h2 { margin: 0 0 10px; font-size: 20px; }
     h3 { margin: 0 0 8px; font-size: 15px; }
@@ -36,573 +26,608 @@
     .lead { color: var(--muted); line-height: 1.7; max-width: 1120px; font-size: 14px; }
     main { padding: 18px clamp(16px, 4vw, 48px) 38px; }
     .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
-    .metric, section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
+    .metric, section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
     .metric { padding: 13px; }
     .metric span { display: block; font-size: 24px; font-weight: 900; }
     .metric small { color: var(--muted); }
     section { padding: 16px; margin-bottom: 16px; }
-    .callout {
-      border-left: 4px solid var(--gold);
-      background: #fff;
-      padding: 12px;
-      border-radius: 6px;
-      line-height: 1.7;
-      color: #3a403d;
-    }
+    .callout { border-left: 4px solid var(--gold); background: #fff; padding: 12px; border-radius: 6px; line-height: 1.7; color: #3a403d; }
     .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .bar-chart { display: grid; gap: 6px; }
-    .bar-row { display: grid; grid-template-columns: 96px 1fr 86px; gap: 10px; align-items: center; min-height: 28px; }
-    .bar-label { color: var(--muted); font-size: 12px; font-weight: 800; }
-    .bar-track { height: 18px; background: #eee8dc; border-radius: 4px; overflow: hidden; }
-    .bar { height: 100%; border-radius: 4px; }
-    .plusbar { background: linear-gradient(90deg, var(--green), #5ba695); }
-    .minusbar { background: linear-gradient(90deg, var(--red), #d68178); }
-    .bar-num { text-align: right; font-size: 12px; font-weight: 900; font-variant-numeric: tabular-nums; }
     .scroll { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; background: #fff; font-size: 12px; }
     th, td { border: 1px solid var(--line); padding: 7px 8px; text-align: right; white-space: nowrap; }
     th:first-child, td:first-child { text-align: left; }
     th { background: #f0eadc; color: #38413f; }
-    tr.plus td:first-child { border-left: 4px solid var(--green); }
-    tr.rulezone td:first-child { border-left: 4px solid var(--blue); }
-    tr.ceiling td:first-child { border-left: 4px solid var(--gold); font-weight: 900; }
-    .small { color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .bar-chart { display: grid; gap: 6px; }
+    .bar-row { display: grid; grid-template-columns: 128px 1fr 72px; gap: 10px; align-items: center; min-height: 28px; }
+    .bar-label { color: var(--muted); font-size: 12px; font-weight: 800; }
+    .bar-track { height: 18px; background: #eee8dc; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--green), #5ba695); }
+    .bar-num { text-align: right; font-size: 12px; font-weight: 900; font-variant-numeric: tabular-nums; }
+    .small { color: var(--muted); font-size: 12px; line-height: 1.7; margin-top: 8px; }
     footer { color: var(--muted); padding: 0 clamp(16px, 4vw, 48px) 28px; font-size: 12px; line-height: 1.7; }
-    @media (max-width: 980px) {
-      .grid, .two { grid-template-columns: 1fr; }
-      .bar-row { grid-template-columns: 82px 1fr 76px; }
-    }
+    @media (max-width: 980px) { .grid, .two { grid-template-columns: 1fr; } .bar-row { grid-template-columns: 110px 1fr 68px; } }
   </style>
 </head>
 <body>
   <header>
-    <h1>&#x30AB;&#x30D0;&#x30CD;&#x30EA; &#x51FA;&#x7387;&#x304C;&#x4E0A;&#x304C;&#x308B;&#x533A;&#x9593;&#x5206;&#x6790;</h1>
-    <p class="lead">&#x898F;&#x5B9A;G&#x6570;&#x306F;&#x524D;&#x5146;&#x3092;&#x631F;&#x3080;&#x524D;&#x63D0;&#x3067;&#x3001;150G&#x306F;150-169G&#x3001;300G&#x306F;300-319G&#x3001;&#x77ED;&#x7E2E;&#x5929;&#x4E95;596G&#x306F;596-610G&#x3068;&#x3057;&#x3066;&#x5225;&#x67A0;&#x306B;&#x3057;&#x307E;&#x3057;&#x305F;&#x3002;&#x51FA;&#x7387;&#x306F;&#x5B9F;&#x6A5F;&#x306E;&#x6B63;&#x78BA;&#x306A;&#x30B3;&#x30A4;&#x30F3;&#x5358;&#x4FA1;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;&#x5C65;&#x6B74;&#x306E;&#x51FA;&#x7389;&#x5024;&#x3068;50&#x679A;/31G&#x306E;&#x6295;&#x8CC7;&#x4EEE;&#x5B9A;&#x304B;&#x3089;&#x4F5C;&#x3063;&#x305F;&#x76EE;&#x5B89;&#x3067;&#x3059;&#x3002;</p>
+    <h1>&#x30AB;&#x30D0;&#x30CD;&#x30EA; &#x5DEE;&#x679A;&#x3068;&#x4F38;&#x3073;&#x308B;AT&#x306E;&#x6761;&#x4EF6;</h1>
+    <p class="lead">&#x5929;&#x4E95;&#x3084;&#x898F;&#x5B9A;G&#x6570;&#x306E;&#x3088;&#x3046;&#x306A;&#x5F53;&#x305F;&#x308A;&#x524D;&#x306E;&#x5F37;&#x3055;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;REG&#x524D;&#x306E;&#x5F53;&#x65E5;&#x7D2F;&#x8A08;&#x5DEE;&#x679A;&#x3001;&#x524D;&#x56DE;&#x7D50;&#x679C;&#x3001;&#x5F53;&#x65E5;&#x4F55;&#x56DE;&#x76EE;&#x306E;REG&#x304B;&#x3092;&#x4F7F;&#x3063;&#x3066;&#x3001;&#x540C;&#x3058;&#x30B2;&#x30FC;&#x30E0;&#x6570;&#x5E2F;&#x306E;&#x5F71;&#x97FF;&#x3092;&#x306A;&#x308B;&#x3079;&#x304F;&#x5DEE;&#x3057;&#x5F15;&#x3044;&#x305F;&#x4FE1;&#x53F7;&#x3092;&#x63A2;&#x3057;&#x307E;&#x3057;&#x305F;&#x3002;</p>
   </header>
   <main>
     <div class="grid">
       <div class="metric"><span>13,451</span><small>&#x521D;&#x5F53;&#x305F;&#x308A;REG/RB</small></div>
-      <div class="metric"><span>996-1010G</span><small>&#x63A8;&#x5B9A;&#x5DEE;&#x679A;&#x6700;&#x9AD8;&#x533A;&#x9593;</small></div>
-      <div class="metric"><span>631</span><small>1&#x5230;&#x9054;&#x3042;&#x305F;&#x308A;&#x63A8;&#x5B9A;&#x5DEE;</small></div>
-      <div class="metric"><span>7842.8%</span><small>&#x6700;&#x9AD8;&#x51FA;&#x7387;&#x6307;&#x6570;</small></div>
+      <div class="metric"><span>43.8%</span><small>&#x5168;&#x4F53;&#x30A8;&#x30D4;&#x30DC;&#x7387;</small></div>
+      <div class="metric"><span>16.3%</span><small>&#x5168;&#x4F53;5&#x9023;&#x4EE5;&#x4E0A;&#x7387;</small></div>
+      <div class="metric"><span>396</span><small>&#x5E73;&#x5747;&#x56DE;&#x53CE;&#x679A;&#x6570;</small></div>
     </div>
 
     <section>
-      <h2>&#x8AAD;&#x307F;&#x65B9;</h2>
+      <h2>&#x8981;&#x70B9;</h2>
       <div class="callout">
-        &#x300C;&#x5230;&#x9054;&#x53F0;&#x6570;&#x300D;&#x306F;&#x305D;&#x306E;&#x533A;&#x9593;&#x958B;&#x59CB;G&#x307E;&#x3067;&#x30CF;&#x30DE;&#x3063;&#x305F;&#x521D;&#x5F53;&#x305F;&#x308A;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x6570;&#x3002;
-        &#x300C;&#x63A8;&#x5B9A;&#x5DEE;/&#x5230;&#x9054;&#x300D;&#x306F;&#x3001;&#x305D;&#x306E;&#x533A;&#x9593;&#x3060;&#x3051;&#x6253;&#x3063;&#x3066;&#x5F53;&#x305F;&#x3089;REG&#x304B;&#x3089;&#x6B21;REG&#x307E;&#x3067;&#x306E;&#x51FA;&#x7389;&#x3092;&#x53D7;&#x3051;&#x53D6;&#x308A;&#x3001;&#x5F53;&#x305F;&#x3089;&#x306A;&#x3051;&#x308C;&#x3070;&#x533A;&#x9593;&#x7D42;&#x4E86;&#x3067;&#x30E4;&#x30E1;&#x308B;&#x3068;&#x3057;&#x305F;&#x7C21;&#x6613;&#x6307;&#x6A19;&#x3002;
-        &#x5B9F;&#x969B;&#x306E;&#x671F;&#x5F85;&#x5024;&#x306F;&#x72B6;&#x614B;&#x30FB;&#x5468;&#x671F;&#x30FB;&#x99FF;&#x57CE;&#x5931;&#x6557;&#x5F8C;&#x5F15;&#x304D;&#x7D99;&#x304E;&#x3067;&#x5909;&#x308F;&#x308A;&#x307E;&#x3059;&#x3002;
+        &#x30B2;&#x30FC;&#x30E0;&#x6570;&#x5E2F;&#x3067;&#x88DC;&#x6B63;&#x3057;&#x305F;&#x4E0A;&#x3067;&#x3001;&#x30A8;&#x30D4;&#x30DC;&#x7387;&#x304C;&#x4E0A;&#x304C;&#x3063;&#x305F;&#x6761;&#x4EF6;&#x306E;&#x4E0A;&#x4F4D;&#x306F; <b>差枚 500~999枚 × 前回AT非突入</b>&#x3002;
+        &#x5B9F;&#x6E2C;&#x30A8;&#x30D4;&#x30DC;&#x7387; <b>53.7%</b>&#x3001;&#x30BE;&#x30FC;&#x30F3;&#x88DC;&#x6B63;&#x5F8C;&#x306E;&#x4E0A;&#x632F;&#x308C; <b>+11.0pt</b>&#x3002;
+        5&#x9023;&#x4EE5;&#x4E0A;&#x306E;AT&#x304C;&#x4E0A;&#x304C;&#x3063;&#x305F;&#x6761;&#x4EF6;&#x306E;&#x4E0A;&#x4F4D;&#x306F; <b>差枚 500~999枚 × 当日3-4回目REG</b>&#x3002;
       </div>
+      <p class="small">&#x6CE8;: &#x5DEE;&#x679A;&#x306F;&#x5C65;&#x6B74;&#x306E;&#x51FA;&#x7389;&#x5024;&#x3092;&#x5F53;&#x65E5;&#x3067;&#x7D2F;&#x7A4D;&#x3057;&#x305F;&#x4EE3;&#x7406;&#x5024;&#x3002;&#x5B8C;&#x5168;&#x306A;&#x30B9;&#x30E9;&#x30F3;&#x30D7;&#x30B0;&#x30E9;&#x30D5;&#x3067;&#x306F;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;&#x3053;&#x3053;&#x3067;&#x306F;&#x300C;&#x51F9;&#x307F;&#x72B6;&#x614B;&#x306E;&#x4EEE;&#x8AAC;&#x62BD;&#x51FA;&#x300D;&#x3068;&#x3057;&#x3066;&#x898B;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
     </section>
 
     <section>
-      <h2>&#x533A;&#x9593;&#x5225;&#x306E;&#x63A8;&#x5B9A;&#x5DEE;&#x679A;</h2>
+      <h2>&#x5DEE;&#x679A;&#x51F9;&#x307F;&#x5225;</h2>
       <div class="two">
         <div>
-          <h3>&#x63A8;&#x5B9A;&#x5DEE;/&#x5230;&#x9054;</h3>
+          <h3>&#x30A8;&#x30D4;&#x30DC;&#x7387;</h3>
           <div class="bar-chart"><div class="bar-row">
-        <div class="bar-label">33-99G</div>
-        <div class="bar-track"><div class="bar minusbar" style="width:2%"></div></div>
-        <div class="bar-num">-3</div>
+        <div class="bar-label">-3000枚以下</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        <div class="bar-num">48.1%</div>
       </div><div class="bar-row">
-        <div class="bar-label">100-149G</div>
-        <div class="bar-track"><div class="bar minusbar" style="width:2%"></div></div>
-        <div class="bar-num">-10</div>
+        <div class="bar-label">-3000~-2001枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:93.0937963748145%"></div></div>
+        <div class="bar-num">44.8%</div>
       </div><div class="bar-row">
-        <div class="bar-label">150-169G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:2%"></div></div>
-        <div class="bar-num">0</div>
+        <div class="bar-label">-2000~-1001枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:94.2926278573179%"></div></div>
+        <div class="bar-num">45.4%</div>
       </div><div class="bar-row">
-        <div class="bar-label">170-199G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:3.3969544714393396%"></div></div>
-        <div class="bar-num">21</div>
+        <div class="bar-label">-1000~-501枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:94.28040063170144%"></div></div>
+        <div class="bar-num">45.4%</div>
       </div><div class="bar-row">
-        <div class="bar-label">200-299G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:2%"></div></div>
-        <div class="bar-num">3</div>
+        <div class="bar-label">-500~-1枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:84.62502720530378%"></div></div>
+        <div class="bar-num">40.7%</div>
       </div><div class="bar-row">
-        <div class="bar-label">300-319G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:2%"></div></div>
-        <div class="bar-num">11</div>
+        <div class="bar-label">0~499枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:88.73006486426551%"></div></div>
+        <div class="bar-num">42.7%</div>
       </div><div class="bar-row">
-        <div class="bar-label">320-349G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:12.438228066372682%"></div></div>
-        <div class="bar-num">78</div>
+        <div class="bar-label">500~999枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:87.06816841766724%"></div></div>
+        <div class="bar-num">41.9%</div>
       </div><div class="bar-row">
-        <div class="bar-label">350-495G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:2%"></div></div>
-        <div class="bar-num">11</div>
-      </div><div class="bar-row">
-        <div class="bar-label">496-595G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:2.9112515541779906%"></div></div>
-        <div class="bar-num">18</div>
-      </div><div class="bar-row">
-        <div class="bar-label">596-610G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:34.009138211428244%"></div></div>
-        <div class="bar-num">215</div>
-      </div><div class="bar-row">
-        <div class="bar-label">611-650G</div>
-        <div class="bar-track"><div class="bar minusbar" style="width:2.758237048962387%"></div></div>
-        <div class="bar-num">-17</div>
-      </div><div class="bar-row">
-        <div class="bar-label">651-995G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:29.48564710866533%"></div></div>
-        <div class="bar-num">186</div>
-      </div><div class="bar-row">
-        <div class="bar-label">996-1010G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:100%"></div></div>
-        <div class="bar-num">631</div>
-      </div><div class="bar-row">
-        <div class="bar-label">1011G+</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:2%"></div></div>
-        <div class="bar-num">0</div>
+        <div class="bar-label">1000枚以上</div>
+        <div class="bar-track"><div class="bar-fill" style="width:87.0008825595942%"></div></div>
+        <div class="bar-num">41.9%</div>
       </div></div>
         </div>
         <div>
-          <h3>&#x5E73;&#x5747;&#x56DE;&#x53CE;/&#x5230;&#x9054;</h3>
+          <h3>5&#x9023;&#x4EE5;&#x4E0A;AT&#x7387;</h3>
           <div class="bar-chart"><div class="bar-row">
-        <div class="bar-label">33-99G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:14.156990205950407%"></div></div>
-        <div class="bar-num">90</div>
+        <div class="bar-label">-3000枚以下</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        <div class="bar-num">18.5%</div>
       </div><div class="bar-row">
-        <div class="bar-label">100-149G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:10.028913826979752%"></div></div>
-        <div class="bar-num">64</div>
+        <div class="bar-label">-3000~-2001枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:96.02821051905977%"></div></div>
+        <div class="bar-num">17.8%</div>
       </div><div class="bar-row">
-        <div class="bar-label">150-169G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:4.882761230035893%"></div></div>
-        <div class="bar-num">31</div>
+        <div class="bar-label">-2000~-1001枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:93.05667163686445%"></div></div>
+        <div class="bar-num">17.2%</div>
       </div><div class="bar-row">
-        <div class="bar-label">170-199G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:10.123986744721117%"></div></div>
-        <div class="bar-num">65</div>
+        <div class="bar-label">-1000~-501枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:85.47850058106538%"></div></div>
+        <div class="bar-num">15.8%</div>
       </div><div class="bar-row">
-        <div class="bar-label">200-299G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:21.591496110739516%"></div></div>
-        <div class="bar-num">138</div>
+        <div class="bar-label">-500~-1枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:78.17213842058564%"></div></div>
+        <div class="bar-num">14.5%</div>
       </div><div class="bar-row">
-        <div class="bar-label">300-319G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:6.575915447177409%"></div></div>
-        <div class="bar-num">42</div>
+        <div class="bar-label">0~499枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:85.22920509785305%"></div></div>
+        <div class="bar-num">15.8%</div>
       </div><div class="bar-row">
-        <div class="bar-label">320-349G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:18.74585250755582%"></div></div>
-        <div class="bar-num">120</div>
+        <div class="bar-label">500~999枚</div>
+        <div class="bar-track"><div class="bar-fill" style="width:88.29040016731736%"></div></div>
+        <div class="bar-num">16.3%</div>
       </div><div class="bar-row">
-        <div class="bar-label">350-495G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:29.598413987255284%"></div></div>
-        <div class="bar-num">189</div>
-      </div><div class="bar-row">
-        <div class="bar-label">496-595G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:23.00122156994752%"></div></div>
-        <div class="bar-num">147</div>
-      </div><div class="bar-row">
-        <div class="bar-label">596-610G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:36.14352915120269%"></div></div>
-        <div class="bar-num">231</div>
-      </div><div class="bar-row">
-        <div class="bar-label">611-650G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:6.618230407588569%"></div></div>
-        <div class="bar-num">42</div>
-      </div><div class="bar-row">
-        <div class="bar-label">651-995G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:69.96940616121007%"></div></div>
-        <div class="bar-num">447</div>
-      </div><div class="bar-row">
-        <div class="bar-label">996-1010G</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:100%"></div></div>
-        <div class="bar-num">639</div>
-      </div><div class="bar-row">
-        <div class="bar-label">1011G+</div>
-        <div class="bar-track"><div class="bar plusbar" style="width:2%"></div></div>
-        <div class="bar-num">0</div>
+        <div class="bar-label">1000枚以上</div>
+        <div class="bar-track"><div class="bar-fill" style="width:86.39998216902649%"></div></div>
+        <div class="bar-num">16.0%</div>
       </div></div>
         </div>
       </div>
-    </section>
-
-    <section>
-      <h2>&#x533A;&#x9593;&#x5225;&#x8A73;&#x7D30;</h2>
       <div class="scroll">
         <table>
-          <thead>
-            <tr>
-              <th>&#x533A;&#x9593;</th>
-              <th>&#x5230;&#x9054;&#x53F0;&#x6570;</th>
-              <th>&#x5F53;&#x305F;&#x308A;</th>
-              <th>&#x533A;&#x9593;&#x5F53;&#x9078;&#x7387;</th>
-              <th>AT&#x7387;</th>
-              <th>&#x5F53;&#x305F;&#x308A;&#x6642;&#x5E73;&#x5747;&#x51FA;&#x7389;</th>
-              <th>&#x56DE;&#x53CE;/&#x5230;&#x9054;</th>
-              <th>&#x6295;&#x8CC7;/&#x5230;&#x9054;</th>
-              <th>&#x63A8;&#x5B9A;&#x5DEE;/&#x5230;&#x9054;</th>
-              <th>&#x51FA;&#x7387;&#x6307;&#x6570;</th>
-              <th>&#x5E73;&#x5747;AT&#x4EF6;&#x6570;</th>
-            </tr>
-          </thead>
-          <tbody><tr class="">
-        <td>33-99G</td>
-        <td>13,189</td>
-        <td>3,330</td>
-        <td>25.2%</td>
-        <td>54.8%</td>
-        <td>358</td>
-        <td>90</td>
-        <td>93</td>
-        <td>-3</td>
-        <td>97.2%</td>
-        <td>2.32</td>
-      </tr><tr class="">
-        <td>100-149G</td>
-        <td>9,859</td>
-        <td>1,763</td>
-        <td>17.9%</td>
-        <td>54.4%</td>
-        <td>358</td>
-        <td>64</td>
-        <td>74</td>
-        <td>-10</td>
-        <td>86.8%</td>
-        <td>2.36</td>
-      </tr><tr class="rulezone">
-        <td>150-169G</td>
-        <td>8,096</td>
-        <td>707</td>
-        <td>8.7%</td>
-        <td>54.6%</td>
-        <td>357</td>
-        <td>31</td>
-        <td>31</td>
-        <td>0</td>
-        <td>101.2%</td>
-        <td>2.32</td>
-      </tr><tr class="plus">
-        <td>170-199G</td>
-        <td>7,389</td>
-        <td>1,364</td>
+          <thead><tr><th>&#x5DEE;&#x679A;&#x72B6;&#x614B;</th><th>REG</th><th>&#x30A8;&#x30D4;&#x30DC;</th><th>4G&#x99FF;&#x57CE;</th><th>AT&#x7387;</th><th>5&#x9023;+</th><th>&#x5E73;&#x5747;AT&#x4EF6;</th><th>&#x5E73;&#x5747;&#x56DE;&#x53CE;</th><th>&#x5E73;&#x5747;&#x4E8B;&#x524D;&#x5DEE;</th></tr></thead>
+          <tbody><tr>
+        <td>-3000枚以下</td>
+        <td>881</td>
+        <td>48.1%</td>
+        <td>1.7%</td>
+        <td>64.0%</td>
         <td>18.5%</td>
-        <td>53.3%</td>
+        <td>2.73</td>
+        <td>411</td>
+        <td>-3,765</td>
+      </tr><tr>
+        <td>-3000~-2001枚</td>
+        <td>1,424</td>
+        <td>44.8%</td>
+        <td>2.8%</td>
+        <td>63.8%</td>
+        <td>17.8%</td>
+        <td>2.84</td>
+        <td>425</td>
+        <td>-2,429</td>
+      </tr><tr>
+        <td>-2000~-1001枚</td>
+        <td>2,695</td>
+        <td>45.4%</td>
+        <td>1.8%</td>
+        <td>62.0%</td>
+        <td>17.2%</td>
+        <td>2.76</td>
+        <td>414</td>
+        <td>-1,460</td>
+      </tr><tr>
+        <td>-1000~-501枚</td>
+        <td>2,270</td>
+        <td>45.4%</td>
+        <td>2.8%</td>
+        <td>61.7%</td>
+        <td>15.8%</td>
+        <td>2.55</td>
+        <td>383</td>
+        <td>-743</td>
+      </tr><tr>
+        <td>-500~-1枚</td>
+        <td>2,254</td>
+        <td>40.7%</td>
+        <td>2.2%</td>
+        <td>55.6%</td>
+        <td>14.5%</td>
+        <td>2.32</td>
         <td>350</td>
-        <td>65</td>
-        <td>43</td>
-        <td>21</td>
-        <td>149.5%</td>
-        <td>2.29</td>
-      </tr><tr class="plus">
-        <td>200-299G</td>
-        <td>6,025</td>
-        <td>1,980</td>
-        <td>32.9%</td>
-        <td>63.2%</td>
-        <td>420</td>
-        <td>138</td>
-        <td>135</td>
-        <td>3</td>
-        <td>102.0%</td>
-        <td>2.80</td>
-      </tr><tr class="rulezone">
-        <td>300-319G</td>
-        <td>4,045</td>
-        <td>391</td>
-        <td>9.7%</td>
-        <td>63.9%</td>
-        <td>435</td>
-        <td>42</td>
-        <td>31</td>
-        <td>11</td>
-        <td>136.8%</td>
-        <td>2.79</td>
-      </tr><tr class="plus">
-        <td>320-349G</td>
-        <td>3,654</td>
-        <td>908</td>
-        <td>24.8%</td>
-        <td>70.8%</td>
-        <td>482</td>
-        <td>120</td>
-        <td>41</td>
-        <td>78</td>
-        <td>289.9%</td>
-        <td>3.18</td>
-      </tr><tr class="plus">
-        <td>350-495G</td>
-        <td>2,746</td>
-        <td>1,279</td>
-        <td>46.6%</td>
-        <td>63.2%</td>
-        <td>406</td>
-        <td>189</td>
-        <td>179</td>
-        <td>11</td>
-        <td>105.9%</td>
-        <td>2.66</td>
-      </tr><tr class="plus">
-        <td>496-595G</td>
-        <td>1,467</td>
-        <td>503</td>
-        <td>34.3%</td>
-        <td>66.0%</td>
-        <td>429</td>
-        <td>147</td>
-        <td>129</td>
-        <td>18</td>
-        <td>114.3%</td>
-        <td>2.93</td>
-      </tr><tr class="ceiling">
-        <td>596-610G</td>
-        <td>964</td>
-        <td>395</td>
-        <td>41.0%</td>
-        <td>94.9%</td>
-        <td>564</td>
-        <td>231</td>
-        <td>16</td>
-        <td>215</td>
-        <td>1407.4%</td>
-        <td>3.77</td>
-      </tr><tr class="">
-        <td>611-650G</td>
-        <td>569</td>
-        <td>85</td>
-        <td>14.9%</td>
-        <td>68.2%</td>
-        <td>283</td>
-        <td>42</td>
-        <td>60</td>
-        <td>-17</td>
-        <td>70.8%</td>
-        <td>2.06</td>
-      </tr><tr class="plus">
-        <td>651-995G</td>
-        <td>484</td>
-        <td>405</td>
-        <td>83.7%</td>
-        <td>75.8%</td>
-        <td>534</td>
-        <td>447</td>
-        <td>261</td>
-        <td>186</td>
-        <td>171.2%</td>
-        <td>3.63</td>
-      </tr><tr class="ceiling">
-        <td>996-1010G</td>
-        <td>79</td>
-        <td>79</td>
-        <td>100.0%</td>
-        <td>100.0%</td>
-        <td>639</td>
-        <td>639</td>
-        <td>8</td>
-        <td>631</td>
-        <td>7842.8%</td>
-        <td>4.53</td>
-      </tr><tr class="">
-        <td>1011G+</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.0%</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.00</td>
+        <td>-271</td>
+      </tr><tr>
+        <td>0~499枚</td>
+        <td>1,021</td>
+        <td>42.7%</td>
+        <td>1.2%</td>
+        <td>59.2%</td>
+        <td>15.8%</td>
+        <td>2.52</td>
+        <td>390</td>
+        <td>230</td>
+      </tr><tr>
+        <td>500~999枚</td>
+        <td>704</td>
+        <td>41.9%</td>
+        <td>2.3%</td>
+        <td>58.8%</td>
+        <td>16.3%</td>
+        <td>2.67</td>
+        <td>412</td>
+        <td>735</td>
+      </tr><tr>
+        <td>1000枚以上</td>
+        <td>2,202</td>
+        <td>41.9%</td>
+        <td>2.5%</td>
+        <td>60.3%</td>
+        <td>16.0%</td>
+        <td>2.59</td>
+        <td>407</td>
+        <td>2,727</td>
       </tr></tbody>
         </table>
       </div>
-      <p class="small">&#x8272;&#x306E;&#x76EE;&#x5B89;: &#x9752;=150/300G&#x306E;&#x898F;&#x5B9A;G&#x6570;&#x524D;&#x5146;&#x30BE;&#x30FC;&#x30F3;&#x3001;&#x91D1;=596/996G&#x5929;&#x4E95;&#x5019;&#x88DC;&#x3001;&#x7DD1;=&#x63A8;&#x5B9A;&#x5DEE;&#x679A;&#x304C;&#x30D7;&#x30E9;&#x30B9;&#x3002;</p>
     </section>
 
     <section>
-      <h2>&#x671D;&#x4E00;&#x521D;&#x56DE;REG&#x3060;&#x3051;</h2>
+      <h2>&#x30BE;&#x30FC;&#x30F3;&#x88DC;&#x6B63;&#x5F8C;&#x306E;&#x30A8;&#x30D4;&#x30DC;&#x4E0A;&#x632F;&#x308C;</h2>
       <div class="scroll">
         <table>
-          <thead>
-            <tr>
-              <th>&#x533A;&#x9593;</th><th>&#x5230;&#x9054;&#x53F0;&#x6570;</th><th>&#x5F53;&#x305F;&#x308A;</th><th>&#x533A;&#x9593;&#x5F53;&#x9078;&#x7387;</th><th>AT&#x7387;</th><th>&#x5F53;&#x305F;&#x308A;&#x6642;&#x5E73;&#x5747;&#x51FA;&#x7389;</th><th>&#x56DE;&#x53CE;/&#x5230;&#x9054;</th><th>&#x6295;&#x8CC7;/&#x5230;&#x9054;</th><th>&#x63A8;&#x5B9A;&#x5DEE;/&#x5230;&#x9054;</th><th>&#x51FA;&#x7387;&#x6307;&#x6570;</th><th>&#x5E73;&#x5747;AT&#x4EF6;&#x6570;</th>
-            </tr>
-          </thead>
-          <tbody><tr class="">
-        <td>33-99G</td>
-        <td>719</td>
-        <td>99</td>
-        <td>13.8%</td>
-        <td>39.4%</td>
-        <td>314</td>
-        <td>43</td>
-        <td>103</td>
-        <td>-60</td>
-        <td>41.9%</td>
-        <td>1.91</td>
-      </tr><tr class="">
-        <td>100-149G</td>
-        <td>620</td>
-        <td>92</td>
-        <td>14.8%</td>
-        <td>41.3%</td>
-        <td>292</td>
-        <td>43</td>
-        <td>75</td>
-        <td>-31</td>
-        <td>58.1%</td>
-        <td>1.75</td>
-      </tr><tr class="rulezone">
-        <td>150-169G</td>
-        <td>528</td>
-        <td>78</td>
-        <td>14.8%</td>
-        <td>41.0%</td>
-        <td>178</td>
-        <td>26</td>
-        <td>30</td>
-        <td>-4</td>
-        <td>87.7%</td>
-        <td>1.23</td>
-      </tr><tr class="plus">
-        <td>170-199G</td>
-        <td>450</td>
-        <td>83</td>
-        <td>18.4%</td>
-        <td>48.2%</td>
-        <td>249</td>
-        <td>46</td>
-        <td>43</td>
-        <td>3</td>
-        <td>106.9%</td>
-        <td>1.64</td>
-      </tr><tr class="">
-        <td>200-299G</td>
-        <td>367</td>
-        <td>101</td>
-        <td>27.5%</td>
-        <td>67.3%</td>
-        <td>441</td>
-        <td>121</td>
-        <td>145</td>
-        <td>-23</td>
-        <td>84.0%</td>
-        <td>3.05</td>
-      </tr><tr class="rulezone">
-        <td>300-319G</td>
-        <td>266</td>
-        <td>66</td>
-        <td>24.8%</td>
-        <td>68.2%</td>
-        <td>476</td>
-        <td>118</td>
-        <td>29</td>
-        <td>90</td>
-        <td>413.0%</td>
-        <td>3.08</td>
-      </tr><tr class="plus">
-        <td>320-349G</td>
-        <td>200</td>
-        <td>71</td>
-        <td>35.5%</td>
-        <td>70.4%</td>
-        <td>355</td>
-        <td>126</td>
-        <td>37</td>
-        <td>89</td>
-        <td>338.4%</td>
-        <td>2.35</td>
-      </tr><tr class="">
-        <td>350-495G</td>
-        <td>129</td>
-        <td>63</td>
-        <td>48.8%</td>
-        <td>58.7%</td>
-        <td>310</td>
-        <td>151</td>
-        <td>192</td>
-        <td>-40</td>
-        <td>79.0%</td>
-        <td>2.19</td>
-      </tr><tr class="">
-        <td>496-595G</td>
-        <td>66</td>
-        <td>24</td>
-        <td>36.4%</td>
-        <td>66.7%</td>
-        <td>275</td>
-        <td>100</td>
-        <td>118</td>
-        <td>-18</td>
-        <td>85.1%</td>
-        <td>2.08</td>
-      </tr><tr class="ceiling">
-        <td>596-610G</td>
-        <td>42</td>
-        <td>41</td>
-        <td>97.6%</td>
-        <td>97.6%</td>
-        <td>450</td>
+          <thead><tr><th>&#x6761;&#x4EF6;</th><th>REG</th><th>&#x5B9F;&#x6E2C;&#x7387;</th><th>&#x671F;&#x5F85;&#x7387;</th><th>&#x4E0A;&#x632F;&#x308C;</th><th>AT&#x7387;</th><th>&#x5E73;&#x5747;AT&#x4EF6;</th><th>&#x5E73;&#x5747;&#x56DE;&#x53CE;</th><th>&#x5E73;&#x5747;&#x4E8B;&#x524D;&#x5DEE;</th></tr></thead>
+          <tbody><tr>
+        <td>差枚 500~999枚 × 前回AT非突入</td>
+        <td>227</td>
+        <td>53.7%</td>
+        <td>42.7%</td>
+        <td>+11.0pt</td>
+        <td>70.0%</td>
+        <td>3.07</td>
+        <td>453</td>
+        <td>733</td>
+      </tr><tr>
+        <td>差枚 -3000枚以下 × 前回AT非突入</td>
+        <td>440</td>
+        <td>53.6%</td>
+        <td>44.3%</td>
+        <td>+9.3pt</td>
+        <td>70.5%</td>
+        <td>2.94</td>
+        <td>433</td>
+        <td>-3,814</td>
+      </tr><tr>
+        <td>差枚 -2000~-1001枚 × 前回AT非突入</td>
+        <td>1,194</td>
+        <td>52.8%</td>
+        <td>43.8%</td>
+        <td>+8.9pt</td>
+        <td>70.5%</td>
+        <td>2.98</td>
+        <td>434</td>
+        <td>-1,467</td>
+      </tr><tr>
+        <td>差枚 -1000~-501枚 × 前回AT非突入</td>
+        <td>977</td>
+        <td>51.2%</td>
+        <td>42.9%</td>
+        <td>+8.3pt</td>
+        <td>68.3%</td>
+        <td>2.97</td>
+        <td>444</td>
+        <td>-758</td>
+      </tr><tr>
+        <td>差枚 500~999枚 × 前回その他AT</td>
+        <td>68</td>
+        <td>51.5%</td>
+        <td>43.3%</td>
+        <td>+8.2pt</td>
+        <td>57.4%</td>
+        <td>2.93</td>
+        <td>474</td>
+        <td>738</td>
+      </tr><tr>
+        <td>差枚 -1000~-501枚 × 当日3-4回目REG</td>
+        <td>431</td>
+        <td>51.0%</td>
+        <td>42.9%</td>
+        <td>+8.2pt</td>
+        <td>66.4%</td>
+        <td>2.65</td>
+        <td>394</td>
+        <td>-761</td>
+      </tr><tr>
+        <td>差枚 -3000枚以下 × second_cycle</td>
+        <td>190</td>
+        <td>54.2%</td>
+        <td>46.1%</td>
+        <td>+8.1pt</td>
+        <td>71.1%</td>
+        <td>3.09</td>
         <td>439</td>
-        <td>8</td>
-        <td>432</td>
-        <td>5692.3%</td>
-        <td>3.20</td>
-      </tr><tr class="plus">
-        <td>611-650G</td>
-        <td>1</td>
-        <td>1</td>
-        <td>100.0%</td>
-        <td>100.0%</td>
-        <td>110</td>
-        <td>110</td>
-        <td>2</td>
-        <td>108</td>
-        <td>6820.0%</td>
-        <td>1.00</td>
-      </tr><tr class="">
-        <td>651-995G</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.0%</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.00</td>
-      </tr><tr class="ceiling">
-        <td>996-1010G</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.0%</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.00</td>
-      </tr><tr class="">
-        <td>1011G+</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.0%</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0.0%</td>
-        <td>0.00</td>
+        <td>-3,800</td>
+      </tr><tr>
+        <td>差枚 1000枚以上 × 前回AT非突入</td>
+        <td>721</td>
+        <td>50.8%</td>
+        <td>42.8%</td>
+        <td>+7.9pt</td>
+        <td>74.3%</td>
+        <td>3.23</td>
+        <td>498</td>
+        <td>2,707</td>
+      </tr><tr>
+        <td>差枚 -3000枚以下 × 前回その他AT</td>
+        <td>89</td>
+        <td>53.9%</td>
+        <td>46.4%</td>
+        <td>+7.5pt</td>
+        <td>60.7%</td>
+        <td>2.11</td>
+        <td>305</td>
+        <td>-3,810</td>
+      </tr><tr>
+        <td>前回AT非突入</td>
+        <td>5,221</td>
+        <td>50.7%</td>
+        <td>43.3%</td>
+        <td>+7.4pt</td>
+        <td>69.3%</td>
+        <td>2.99</td>
+        <td>444</td>
+        <td>-727</td>
+      </tr><tr>
+        <td>差枚 -3000枚以下 × mid_to_short_ceiling</td>
+        <td>162</td>
+        <td>51.9%</td>
+        <td>45.4%</td>
+        <td>+6.5pt</td>
+        <td>72.2%</td>
+        <td>2.95</td>
+        <td>455</td>
+        <td>-3,779</td>
+      </tr><tr>
+        <td>差枚 -3000~-2001枚 × 前回AT非突入</td>
+        <td>669</td>
+        <td>49.8%</td>
+        <td>44.1%</td>
+        <td>+5.6pt</td>
+        <td>69.4%</td>
+        <td>3.02</td>
+        <td>450</td>
+        <td>-2,425</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>&#x30BE;&#x30FC;&#x30F3;&#x88DC;&#x6B63;&#x5F8C;&#x306E;5&#x9023;&#x4EE5;&#x4E0A;AT&#x4E0A;&#x632F;&#x308C;</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>&#x6761;&#x4EF6;</th><th>REG</th><th>&#x5B9F;&#x6E2C;&#x7387;</th><th>&#x671F;&#x5F85;&#x7387;</th><th>&#x4E0A;&#x632F;&#x308C;</th><th>AT&#x7387;</th><th>&#x5E73;&#x5747;AT&#x4EF6;</th><th>&#x5E73;&#x5747;&#x56DE;&#x53CE;</th><th>&#x5E73;&#x5747;&#x4E8B;&#x524D;&#x5DEE;</th></tr></thead>
+          <tbody><tr>
+        <td>差枚 500~999枚 × 当日3-4回目REG</td>
+        <td>70</td>
+        <td>24.3%</td>
+        <td>16.0%</td>
+        <td>+8.2pt</td>
+        <td>57.1%</td>
+        <td>3.03</td>
+        <td>436</td>
+        <td>707</td>
+      </tr><tr>
+        <td>差枚 -3000枚以下 × deep</td>
+        <td>74</td>
+        <td>29.7%</td>
+        <td>24.6%</td>
+        <td>+5.1pt</td>
+        <td>82.4%</td>
+        <td>4.46</td>
+        <td>648</td>
+        <td>-3,997</td>
+      </tr><tr>
+        <td>差枚 500~999枚 × 前回AT非突入</td>
+        <td>227</td>
+        <td>20.3%</td>
+        <td>15.8%</td>
+        <td>+4.5pt</td>
+        <td>70.0%</td>
+        <td>3.07</td>
+        <td>453</td>
+        <td>733</td>
+      </tr><tr>
+        <td>差枚 -3000~-2001枚 × deep</td>
+        <td>102</td>
+        <td>28.4%</td>
+        <td>24.8%</td>
+        <td>+3.7pt</td>
+        <td>84.3%</td>
+        <td>4.22</td>
+        <td>626</td>
+        <td>-2,448</td>
+      </tr><tr>
+        <td>差枚 1000枚以上 × 前回AT非突入</td>
+        <td>721</td>
+        <td>19.4%</td>
+        <td>15.8%</td>
+        <td>+3.6pt</td>
+        <td>74.3%</td>
+        <td>3.23</td>
+        <td>498</td>
+        <td>2,707</td>
+      </tr><tr>
+        <td>差枚 1000枚以上 × mid_to_short_ceiling</td>
+        <td>247</td>
+        <td>20.2%</td>
+        <td>16.8%</td>
+        <td>+3.4pt</td>
+        <td>64.8%</td>
+        <td>3.01</td>
+        <td>480</td>
+        <td>2,740</td>
+      </tr><tr>
+        <td>差枚 -3000枚以下 × mid_to_short_ceiling</td>
+        <td>162</td>
+        <td>20.4%</td>
+        <td>16.9%</td>
+        <td>+3.4pt</td>
+        <td>72.2%</td>
+        <td>2.95</td>
+        <td>455</td>
+        <td>-3,779</td>
+      </tr><tr>
+        <td>差枚 0~499枚 × 前回AT非突入</td>
+        <td>325</td>
+        <td>19.1%</td>
+        <td>15.8%</td>
+        <td>+3.3pt</td>
+        <td>67.7%</td>
+        <td>3.03</td>
+        <td>471</td>
+        <td>229</td>
+      </tr><tr>
+        <td>差枚 -1000~-501枚 × 前回AT非突入</td>
+        <td>977</td>
+        <td>18.8%</td>
+        <td>15.9%</td>
+        <td>+3.0pt</td>
+        <td>68.3%</td>
+        <td>2.97</td>
+        <td>444</td>
+        <td>-758</td>
+      </tr><tr>
+        <td>差枚 -2000~-1001枚 × 前回5-7連</td>
+        <td>164</td>
+        <td>20.1%</td>
+        <td>17.3%</td>
+        <td>+2.9pt</td>
+        <td>59.1%</td>
+        <td>2.87</td>
+        <td>436</td>
+        <td>-1,445</td>
+      </tr><tr>
+        <td>差枚 500~999枚 × early</td>
+        <td>228</td>
+        <td>16.7%</td>
+        <td>13.8%</td>
+        <td>+2.8pt</td>
+        <td>54.8%</td>
+        <td>2.72</td>
+        <td>421</td>
+        <td>733</td>
+      </tr><tr>
+        <td>差枚 0~499枚 × first_cycle</td>
+        <td>329</td>
+        <td>17.6%</td>
+        <td>14.9%</td>
+        <td>+2.7pt</td>
+        <td>57.1%</td>
+        <td>2.49</td>
+        <td>370</td>
+        <td>221</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>&#x524D;&#x56DE;&#x7D50;&#x679C;&#x5225;</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>&#x524D;&#x56DE;&#x72B6;&#x614B;</th><th>REG</th><th>&#x30A8;&#x30D4;&#x30DC;</th><th>4G&#x99FF;&#x57CE;</th><th>AT&#x7387;</th><th>5&#x9023;+</th><th>&#x5E73;&#x5747;AT&#x4EF6;</th><th>&#x5E73;&#x5747;&#x56DE;&#x53CE;</th><th>&#x5E73;&#x5747;&#x4E8B;&#x524D;&#x5DEE;</th></tr></thead>
+          <tbody><tr>
+        <td>前回AT非突入</td>
+        <td>5,221</td>
+        <td>50.7%</td>
+        <td>2.4%</td>
+        <td>69.3%</td>
+        <td>18.7%</td>
+        <td>2.99</td>
+        <td>444</td>
+        <td>-727</td>
+      </tr><tr>
+        <td>前回エピボAT</td>
+        <td>4,075</td>
+        <td>39.1%</td>
+        <td>2.4%</td>
+        <td>54.9%</td>
+        <td>15.0%</td>
+        <td>2.40</td>
+        <td>367</td>
+        <td>-554</td>
+      </tr><tr>
+        <td>前回その他AT</td>
+        <td>1,258</td>
+        <td>43.0%</td>
+        <td>1.6%</td>
+        <td>55.9%</td>
+        <td>14.7%</td>
+        <td>2.32</td>
+        <td>356</td>
+        <td>-530</td>
+      </tr><tr>
+        <td>前回5-7連</td>
+        <td>1,009</td>
+        <td>38.1%</td>
+        <td>1.7%</td>
+        <td>53.2%</td>
+        <td>14.5%</td>
+        <td>2.32</td>
+        <td>357</td>
+        <td>-110</td>
+      </tr><tr>
+        <td>前回8連以上</td>
+        <td>968</td>
+        <td>33.1%</td>
+        <td>1.7%</td>
+        <td>55.5%</td>
+        <td>15.3%</td>
+        <td>2.50</td>
+        <td>405</td>
+        <td>1,001</td>
+      </tr><tr>
+        <td>前回なし</td>
+        <td>721</td>
+        <td>43.6%</td>
+        <td>2.9%</td>
+        <td>56.4%</td>
+        <td>13.2%</td>
+        <td>2.22</td>
+        <td>335</td>
+        <td>-408</td>
+      </tr><tr>
+        <td>前回駿城突破AT</td>
+        <td>199</td>
+        <td>42.2%</td>
+        <td>1.0%</td>
+        <td>52.8%</td>
+        <td>15.1%</td>
+        <td>2.22</td>
+        <td>345</td>
+        <td>-457</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>&#x5F53;&#x65E5;&#x4F55;&#x56DE;&#x76EE;REG&#x304B;</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>&#x56DE;&#x6570;</th><th>REG</th><th>&#x30A8;&#x30D4;&#x30DC;</th><th>4G&#x99FF;&#x57CE;</th><th>AT&#x7387;</th><th>5&#x9023;+</th><th>&#x5E73;&#x5747;AT&#x4EF6;</th><th>&#x5E73;&#x5747;&#x56DE;&#x53CE;</th><th>&#x5E73;&#x5747;&#x4E8B;&#x524D;&#x5DEE;</th></tr></thead>
+          <tbody><tr>
+        <td>当日1回目REG</td>
+        <td>721</td>
+        <td>43.6%</td>
+        <td>2.9%</td>
+        <td>56.4%</td>
+        <td>13.2%</td>
+        <td>2.22</td>
+        <td>335</td>
+        <td>-408</td>
+      </tr><tr>
+        <td>当日2回目REG</td>
+        <td>721</td>
+        <td>44.5%</td>
+        <td>2.5%</td>
+        <td>58.9%</td>
+        <td>15.4%</td>
+        <td>2.70</td>
+        <td>403</td>
+        <td>-449</td>
+      </tr><tr>
+        <td>当日3-4回目REG</td>
+        <td>1,436</td>
+        <td>44.4%</td>
+        <td>1.9%</td>
+        <td>60.9%</td>
+        <td>15.9%</td>
+        <td>2.56</td>
+        <td>388</td>
+        <td>-412</td>
+      </tr><tr>
+        <td>当日5回目以降REG</td>
+        <td>10,573</td>
+        <td>43.6%</td>
+        <td>2.2%</td>
+        <td>60.9%</td>
+        <td>16.6%</td>
+        <td>2.63</td>
+        <td>401</td>
+        <td>-477</td>
       </tr></tbody>
         </table>
       </div>
     </section>
   </main>
   <footer>
-    <p>&#x6CE8;: &#x3053;&#x308C;&#x306F;&#x5C65;&#x6B74;&#x30C7;&#x30FC;&#x30BF;&#x304B;&#x3089;&#x306E;&#x63A8;&#x5B9A;&#x3067;&#x3042;&#x308A;&#x3001;&#x5B9F;&#x969B;&#x306E;&#x30B9;&#x30ED;&#x30C3;&#x30C8;&#x306E;&#x51FA;&#x7387;&#x3092;&#x4FDD;&#x8A3C;&#x3059;&#x308B;&#x3082;&#x306E;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;&#x6B21;&#x306F;&#x99FF;&#x57CE;&#x5931;&#x6557;&#x5F8C;&#x306E;&#x5F15;&#x304D;&#x7D99;&#x304E;&#x3092;&#x52A0;&#x5473;&#x3057;&#x305F;&#x72B6;&#x614B;&#x5225;&#x5206;&#x6790;&#x306B;&#x9032;&#x3081;&#x307E;&#x3059;&#x3002;</p>
+    <p>&#x6B21;&#x306E;&#x8AB2;&#x984C;: &#x5C65;&#x6B74;&#x51FA;&#x7389;&#x306E;&#x7D2F;&#x7A4D;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;&#x30B9;&#x30E9;&#x30F3;&#x30D7;&#x30B0;&#x30E9;&#x30D5;&#x304B;&#x3089;REG&#x76F4;&#x524D;&#x306E;&#x5B9F;&#x5DEE;&#x679A;&#x3092;&#x53D6;&#x308C;&#x308B;&#x3068;&#x3001;&#x51F9;&#x307F;&#x3068;&#x9ED2;&#x7159;&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x306E;&#x4EEE;&#x8AAC;&#x306F;&#x3082;&#x3063;&#x3068;&#x5F37;&#x304F;&#x691C;&#x8A3C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
   </footer>
 </body>
 </html>
