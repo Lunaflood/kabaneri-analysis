@@ -1,0 +1,4229 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>カバネリ海門 ST間期待値・デキレ区間スキャン</title>
+  <style>
+    :root{--bg:#f5f2ea;--panel:#fffdf8;--ink:#1d2424;--muted:#64706c;--line:#d9d2c2;--green:#176f5f;--gold:#a87925;--red:#a4473f;--blue:#276b8f}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;letter-spacing:0}
+    header{padding:26px clamp(16px,4vw,48px) 18px;background:#fff8ea;border-bottom:1px solid var(--line)}
+    h1{margin:0 0 8px;font-size:clamp(25px,3vw,40px);line-height:1.2} h2{margin:0 0 10px;font-size:20px}
+    .lead{color:var(--muted);line-height:1.7;max-width:1180px;font-size:14px} main{padding:18px clamp(16px,4vw,48px) 40px}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}.metric,section{background:var(--panel);border:1px solid var(--line);border-radius:8px}.metric{padding:13px}.metric span{display:block;font-size:24px;font-weight:900}.metric small{color:var(--muted)}
+    section{padding:16px;margin-bottom:16px}.callout{border-left:4px solid var(--gold);background:#fff;padding:12px;border-radius:6px;line-height:1.7;color:#38413f}
+    .scroll{overflow-x:auto} table{width:100%;border-collapse:collapse;background:#fff;font-size:12px} th,td{border:1px solid var(--line);padding:7px 8px;text-align:right;white-space:nowrap} th:first-child,td:first-child{text-align:left} th{background:#efe7d8;color:#38413f}
+    tr.plus td:first-child{border-left:4px solid var(--green)} tr.hot td:first-child{border-left:4px solid var(--red);font-weight:900}
+    .small{color:var(--muted);font-size:12px;line-height:1.7;margin-top:8px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>カバネリ海門 ST間期待値・デキレ区間スキャン</h1>
+    <p class="lead">履歴からST間セッションを作り、指定Gから打ち始めてST後1Gヤメする前提で、機械割100%超の候補を探したページ。note公開部分の算出条件に合わせ、ベース31.4G/50枚、着席後35G除外、差枚-9999〜+2000枚、10G以上RBを初当たり、2-5Gを通常ST、6-9Gを上位STとして扱う。</p>
+  </header>
+  <main>
+    <div class="grid">
+      <div class="metric"><span>28,641</span><small>ST到達まで閉じたセッション</small></div>
+      <div class="metric"><span>438,754</span><small>打ち出し状態サンプル</small></div>
+      <div class="metric"><span>900G～ × スルー0 × 差枚-2000以下 × 当日4区間目以降</span><small>期待差枚トップ候補</small></div>
+      <div class="metric"><span>735</span><small>平均期待差枚(note条件)</small></div>
+    </div>
+
+    <section>
+      <h2>算出の読み方</h2>
+      <div class="callout">
+        機械割(note)は「履歴上の回収枚数 ÷ note条件の推定投資枚数」。着席後35G除外を入れるので、天井直前は高く出やすい。機械割(生)は35G除外なしの参考値。デキレ区間というより、履歴上かなり甘く見えている状態候補として読むのが安全。
+      </div>
+      <p class="small">閉店前リスク、ST間1100G超え、リセット後700G超え、差枚+2000枚超の状態は除外。液晶周期や黒煙ポイントの目視情報は履歴から取れないため未反映。</p>
+    </section>
+
+    <section>
+      <h2>状態別ボーダー</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>状態</th><th>100%</th><th>104%</th><th>106%</th><th>108%</th><th>110%</th></tr></thead>
+          <tbody><tr>
+        <td>リセット後</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+      </tr><tr>
+        <td>駆け抜け後</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+      </tr><tr>
+        <td>上位後</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>0G～</td>
+      </tr><tr>
+        <td>非短縮後</td>
+        <td>0G～</td>
+        <td>0G～</td>
+        <td>30G～</td>
+        <td>30G～</td>
+        <td>30G～</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>期待差枚トップ</h2>
+      <div class="scroll"><table><thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead><tbody><tr class="hot">
+        <td>900G～ × スルー0 × 差枚-2000以下 × 当日4区間目以降</td>
+        <td>124</td>
+        <td>989</td>
+        <td>89</td>
+        <td>-2,990</td>
+        <td>823</td>
+        <td>88</td>
+        <td>735</td>
+        <td>214</td>
+        <td>938.1%</td>
+        <td>583.0%</td>
+        <td>6,635</td>
+        <td>89.5%</td>
+        <td>61.3%</td>
+        <td>34.7%</td>
+        <td>20.2%</td>
+        <td>25.0%</td>
+      </tr><tr class="hot">
+        <td>800G～ × スルー0 × 差枚-2000以下 × 当日4区間目以降</td>
+        <td>137</td>
+        <td>971</td>
+        <td>171</td>
+        <td>-2,934</td>
+        <td>936</td>
+        <td>218</td>
+        <td>717</td>
+        <td>308</td>
+        <td>428.8%</td>
+        <td>343.0%</td>
+        <td>3,350</td>
+        <td>81.0%</td>
+        <td>56.2%</td>
+        <td>34.3%</td>
+        <td>22.6%</td>
+        <td>26.3%</td>
+      </tr><tr class="hot">
+        <td>900G～ × 非短縮後 × スルー0 × 差枚-2000以下</td>
+        <td>136</td>
+        <td>989</td>
+        <td>89</td>
+        <td>-2,938</td>
+        <td>804</td>
+        <td>88</td>
+        <td>716</td>
+        <td>195</td>
+        <td>915.6%</td>
+        <td>569.3%</td>
+        <td>6,460</td>
+        <td>90.4%</td>
+        <td>63.2%</td>
+        <td>33.1%</td>
+        <td>19.1%</td>
+        <td>23.5%</td>
+      </tr><tr class="hot">
+        <td>800G～ × 非短縮後 × スルー0 × 差枚-2000以下</td>
+        <td>147</td>
+        <td>972</td>
+        <td>172</td>
+        <td>-2,901</td>
+        <td>913</td>
+        <td>219</td>
+        <td>694</td>
+        <td>285</td>
+        <td>417.3%</td>
+        <td>333.9%</td>
+        <td>3,234</td>
+        <td>81.0%</td>
+        <td>55.8%</td>
+        <td>34.0%</td>
+        <td>22.4%</td>
+        <td>25.9%</td>
+      </tr><tr class="hot">
+        <td>900G～ × スルー0 × 差枚-1500以下 × 当日4区間目以降</td>
+        <td>179</td>
+        <td>990</td>
+        <td>90</td>
+        <td>-2,601</td>
+        <td>756</td>
+        <td>89</td>
+        <td>667</td>
+        <td>146</td>
+        <td>845.9%</td>
+        <td>528.1%</td>
+        <td>5,933</td>
+        <td>88.8%</td>
+        <td>64.8%</td>
+        <td>32.4%</td>
+        <td>18.4%</td>
+        <td>21.2%</td>
+      </tr><tr class="hot">
+        <td>590G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>474</td>
+        <td>624</td>
+        <td>34</td>
+        <td>-174</td>
+        <td>679</td>
+        <td>36</td>
+        <td>643</td>
+        <td>256</td>
+        <td>1886.1%</td>
+        <td>1239.6%</td>
+        <td>14,953</td>
+        <td>98.3%</td>
+        <td>70.0%</td>
+        <td>33.1%</td>
+        <td>15.8%</td>
+        <td>16.7%</td>
+      </tr><tr class="hot">
+        <td>900G～ × スルー0 × 差枚-1000以下 × 当日4区間目以降</td>
+        <td>213</td>
+        <td>991</td>
+        <td>91</td>
+        <td>-2,386</td>
+        <td>729</td>
+        <td>91</td>
+        <td>639</td>
+        <td>117</td>
+        <td>803.8%</td>
+        <td>503.6%</td>
+        <td>5,617</td>
+        <td>89.2%</td>
+        <td>65.3%</td>
+        <td>32.4%</td>
+        <td>17.8%</td>
+        <td>20.7%</td>
+      </tr><tr class="hot">
+        <td>900G～ × 非短縮後 × スルー0 × 差枚-1500以下</td>
+        <td>230</td>
+        <td>991</td>
+        <td>91</td>
+        <td>-2,436</td>
+        <td>721</td>
+        <td>90</td>
+        <td>630</td>
+        <td>109</td>
+        <td>799.3%</td>
+        <td>500.0%</td>
+        <td>5,572</td>
+        <td>90.4%</td>
+        <td>69.1%</td>
+        <td>30.0%</td>
+        <td>17.0%</td>
+        <td>19.1%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー2+ × 差枚-1500以下</td>
+        <td>114</td>
+        <td>593</td>
+        <td>73</td>
+        <td>-2,495</td>
+        <td>693</td>
+        <td>64</td>
+        <td>629</td>
+        <td>300</td>
+        <td>1076.5%</td>
+        <td>595.2%</td>
+        <td>6,878</td>
+        <td>89.5%</td>
+        <td>84.2%</td>
+        <td>16.7%</td>
+        <td>13.2%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>590G～ × 前回ST1000枚以上</td>
+        <td>864</td>
+        <td>619</td>
+        <td>29</td>
+        <td>-116</td>
+        <td>648</td>
+        <td>29</td>
+        <td>619</td>
+        <td>232</td>
+        <td>2254.1%</td>
+        <td>1420.0%</td>
+        <td>17,287</td>
+        <td>97.8%</td>
+        <td>71.2%</td>
+        <td>31.5%</td>
+        <td>14.1%</td>
+        <td>15.3%</td>
+      </tr><tr class="hot">
+        <td>900G～ × スルー0 × 差枚-500以下 × 当日4区間目以降</td>
+        <td>245</td>
+        <td>990</td>
+        <td>90</td>
+        <td>-2,180</td>
+        <td>706</td>
+        <td>89</td>
+        <td>617</td>
+        <td>96</td>
+        <td>793.0%</td>
+        <td>494.2%</td>
+        <td>5,502</td>
+        <td>88.6%</td>
+        <td>64.1%</td>
+        <td>31.0%</td>
+        <td>16.7%</td>
+        <td>19.6%</td>
+      </tr><tr class="hot">
+        <td>800G～ × スルー0 × 差枚-1500以下 × 当日4区間目以降</td>
+        <td>207</td>
+        <td>972</td>
+        <td>172</td>
+        <td>-2,540</td>
+        <td>832</td>
+        <td>219</td>
+        <td>613</td>
+        <td>204</td>
+        <td>380.3%</td>
+        <td>304.4%</td>
+        <td>2,858</td>
+        <td>80.2%</td>
+        <td>58.9%</td>
+        <td>30.9%</td>
+        <td>19.3%</td>
+        <td>22.2%</td>
+      </tr><tr class="hot">
+        <td>560G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>492</td>
+        <td>622</td>
+        <td>62</td>
+        <td>-116</td>
+        <td>657</td>
+        <td>45</td>
+        <td>613</td>
+        <td>244</td>
+        <td>1463.6%</td>
+        <td>667.2%</td>
+        <td>7,918</td>
+        <td>98.0%</td>
+        <td>69.9%</td>
+        <td>32.1%</td>
+        <td>14.6%</td>
+        <td>15.4%</td>
+      </tr><tr class="hot">
+        <td>450G～ × 駆け抜け後 × スルー2+ × 差枚-1500以下</td>
+        <td>100</td>
+        <td>557</td>
+        <td>107</td>
+        <td>-2,655</td>
+        <td>727</td>
+        <td>119</td>
+        <td>609</td>
+        <td>315</td>
+        <td>613.0%</td>
+        <td>425.1%</td>
+        <td>4,532</td>
+        <td>83.0%</td>
+        <td>80.0%</td>
+        <td>17.0%</td>
+        <td>14.0%</td>
+        <td>15.0%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー2+ × 差枚-1000以下</td>
+        <td>168</td>
+        <td>593</td>
+        <td>73</td>
+        <td>-2,091</td>
+        <td>671</td>
+        <td>65</td>
+        <td>606</td>
+        <td>277</td>
+        <td>1039.8%</td>
+        <td>574.2%</td>
+        <td>6,611</td>
+        <td>91.7%</td>
+        <td>83.9%</td>
+        <td>14.3%</td>
+        <td>10.1%</td>
+        <td>11.9%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 前回ST1000枚以上</td>
+        <td>902</td>
+        <td>617</td>
+        <td>57</td>
+        <td>-68</td>
+        <td>641</td>
+        <td>36</td>
+        <td>604</td>
+        <td>236</td>
+        <td>1775.9%</td>
+        <td>710.3%</td>
+        <td>8,539</td>
+        <td>96.3%</td>
+        <td>70.2%</td>
+        <td>31.3%</td>
+        <td>13.7%</td>
+        <td>15.1%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 上位後 × スルー1+ × 前回ST1000枚以上</td>
+        <td>474</td>
+        <td>591</td>
+        <td>71</td>
+        <td>-74</td>
+        <td>663</td>
+        <td>60</td>
+        <td>603</td>
+        <td>274</td>
+        <td>1107.3%</td>
+        <td>589.9%</td>
+        <td>6,837</td>
+        <td>97.0%</td>
+        <td>68.4%</td>
+        <td>34.0%</td>
+        <td>15.0%</td>
+        <td>16.5%</td>
+      </tr><tr class="hot">
+        <td>900G～ × 非短縮後 × スルー0 × 当日4区間目以降</td>
+        <td>309</td>
+        <td>990</td>
+        <td>90</td>
+        <td>-1,653</td>
+        <td>690</td>
+        <td>90</td>
+        <td>600</td>
+        <td>79</td>
+        <td>768.6%</td>
+        <td>480.0%</td>
+        <td>5,320</td>
+        <td>88.3%</td>
+        <td>63.8%</td>
+        <td>30.7%</td>
+        <td>15.9%</td>
+        <td>18.8%</td>
+      </tr><tr class="hot">
+        <td>900G～ × スルー0 × 当日4区間目以降</td>
+        <td>309</td>
+        <td>990</td>
+        <td>90</td>
+        <td>-1,653</td>
+        <td>690</td>
+        <td>90</td>
+        <td>600</td>
+        <td>79</td>
+        <td>768.6%</td>
+        <td>480.0%</td>
+        <td>5,320</td>
+        <td>88.3%</td>
+        <td>63.8%</td>
+        <td>30.7%</td>
+        <td>15.9%</td>
+        <td>18.8%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー0 × 差枚-1000以下</td>
+        <td>469</td>
+        <td>590</td>
+        <td>70</td>
+        <td>-2,172</td>
+        <td>659</td>
+        <td>60</td>
+        <td>600</td>
+        <td>271</td>
+        <td>1107.6%</td>
+        <td>588.7%</td>
+        <td>6,822</td>
+        <td>90.8%</td>
+        <td>77.4%</td>
+        <td>19.8%</td>
+        <td>13.2%</td>
+        <td>14.3%</td>
+      </tr><tr class="hot">
+        <td>520G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>441</td>
+        <td>590</td>
+        <td>70</td>
+        <td>-51</td>
+        <td>659</td>
+        <td>59</td>
+        <td>600</td>
+        <td>270</td>
+        <td>1110.2%</td>
+        <td>590.1%</td>
+        <td>6,840</td>
+        <td>97.7%</td>
+        <td>68.5%</td>
+        <td>33.6%</td>
+        <td>14.5%</td>
+        <td>15.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 駆け抜け後 × スルー2+ × 差枚-1500以下</td>
+        <td>109</td>
+        <td>584</td>
+        <td>84</td>
+        <td>-2,629</td>
+        <td>683</td>
+        <td>84</td>
+        <td>599</td>
+        <td>282</td>
+        <td>814.3%</td>
+        <td>509.3%</td>
+        <td>5,692</td>
+        <td>88.1%</td>
+        <td>82.6%</td>
+        <td>18.3%</td>
+        <td>13.8%</td>
+        <td>15.6%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー2+ × 差枚-500以下</td>
+        <td>209</td>
+        <td>593</td>
+        <td>73</td>
+        <td>-1,835</td>
+        <td>662</td>
+        <td>64</td>
+        <td>598</td>
+        <td>269</td>
+        <td>1029.5%</td>
+        <td>566.4%</td>
+        <td>6,515</td>
+        <td>90.9%</td>
+        <td>81.8%</td>
+        <td>13.4%</td>
+        <td>9.6%</td>
+        <td>11.0%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 上位後 × スルー1+ × 差枚-500以下</td>
+        <td>259</td>
+        <td>611</td>
+        <td>51</td>
+        <td>-1,806</td>
+        <td>624</td>
+        <td>26</td>
+        <td>597</td>
+        <td>229</td>
+        <td>2360.2%</td>
+        <td>772.2%</td>
+        <td>9,421</td>
+        <td>98.5%</td>
+        <td>78.8%</td>
+        <td>25.1%</td>
+        <td>13.1%</td>
+        <td>15.1%</td>
+      </tr><tr class="hot">
+        <td>520G～ × スルー1+ × 前回8連以上</td>
+        <td>449</td>
+        <td>591</td>
+        <td>71</td>
+        <td>-61</td>
+        <td>656</td>
+        <td>61</td>
+        <td>596</td>
+        <td>266</td>
+        <td>1081.7%</td>
+        <td>580.6%</td>
+        <td>6,712</td>
+        <td>97.6%</td>
+        <td>68.6%</td>
+        <td>33.4%</td>
+        <td>14.5%</td>
+        <td>15.8%</td>
+      </tr></tbody></table></div>
+    </section>
+
+    <section>
+      <h2>天井以外の隠れ候補</h2>
+      <div class="scroll"><table><thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead><tbody><tr class="hot">
+        <td>500G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>448</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-22</td>
+        <td>668</td>
+        <td>82</td>
+        <td>585</td>
+        <td>268</td>
+        <td>809.3%</td>
+        <td>494.7%</td>
+        <td>5,523</td>
+        <td>96.7%</td>
+        <td>67.6%</td>
+        <td>34.2%</td>
+        <td>14.7%</td>
+        <td>15.8%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 前回8連以上</td>
+        <td>457</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-31</td>
+        <td>663</td>
+        <td>84</td>
+        <td>579</td>
+        <td>263</td>
+        <td>792.4%</td>
+        <td>487.2%</td>
+        <td>5,424</td>
+        <td>96.5%</td>
+        <td>67.8%</td>
+        <td>33.9%</td>
+        <td>14.7%</td>
+        <td>15.8%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 差枚-500以下 × 前回8連以上</td>
+        <td>135</td>
+        <td>582</td>
+        <td>82</td>
+        <td>-1,470</td>
+        <td>642</td>
+        <td>78</td>
+        <td>563</td>
+        <td>246</td>
+        <td>818.5%</td>
+        <td>491.9%</td>
+        <td>5,501</td>
+        <td>97.8%</td>
+        <td>68.9%</td>
+        <td>35.6%</td>
+        <td>14.8%</td>
+        <td>16.3%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー2+</td>
+        <td>201</td>
+        <td>587</td>
+        <td>87</td>
+        <td>-707</td>
+        <td>647</td>
+        <td>87</td>
+        <td>560</td>
+        <td>243</td>
+        <td>740.2%</td>
+        <td>467.1%</td>
+        <td>5,147</td>
+        <td>89.1%</td>
+        <td>82.6%</td>
+        <td>15.9%</td>
+        <td>14.9%</td>
+        <td>15.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー2+ × 差枚-500以下</td>
+        <td>201</td>
+        <td>587</td>
+        <td>87</td>
+        <td>-707</td>
+        <td>647</td>
+        <td>87</td>
+        <td>560</td>
+        <td>243</td>
+        <td>740.2%</td>
+        <td>467.1%</td>
+        <td>5,147</td>
+        <td>89.1%</td>
+        <td>82.6%</td>
+        <td>15.9%</td>
+        <td>14.9%</td>
+        <td>15.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>530</td>
+        <td>608</td>
+        <td>108</td>
+        <td>-95</td>
+        <td>676</td>
+        <td>119</td>
+        <td>557</td>
+        <td>241</td>
+        <td>569.3%</td>
+        <td>394.5%</td>
+        <td>4,143</td>
+        <td>94.3%</td>
+        <td>66.6%</td>
+        <td>33.6%</td>
+        <td>14.9%</td>
+        <td>16.2%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー1+</td>
+        <td>532</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-738</td>
+        <td>646</td>
+        <td>89</td>
+        <td>557</td>
+        <td>240</td>
+        <td>727.5%</td>
+        <td>457.7%</td>
+        <td>5,029</td>
+        <td>87.4%</td>
+        <td>82.1%</td>
+        <td>15.2%</td>
+        <td>14.3%</td>
+        <td>15.4%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー1+ × 差枚-500以下</td>
+        <td>532</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-738</td>
+        <td>646</td>
+        <td>89</td>
+        <td>557</td>
+        <td>240</td>
+        <td>727.5%</td>
+        <td>457.7%</td>
+        <td>5,029</td>
+        <td>87.4%</td>
+        <td>82.1%</td>
+        <td>15.2%</td>
+        <td>14.3%</td>
+        <td>15.4%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>906</td>
+        <td>587</td>
+        <td>87</td>
+        <td>52</td>
+        <td>635</td>
+        <td>85</td>
+        <td>549</td>
+        <td>232</td>
+        <td>742.6%</td>
+        <td>459.2%</td>
+        <td>5,062</td>
+        <td>91.4%</td>
+        <td>65.1%</td>
+        <td>32.2%</td>
+        <td>13.7%</td>
+        <td>15.1%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 前回8連以上</td>
+        <td>932</td>
+        <td>587</td>
+        <td>87</td>
+        <td>27</td>
+        <td>630</td>
+        <td>86</td>
+        <td>544</td>
+        <td>227</td>
+        <td>730.2%</td>
+        <td>453.0%</td>
+        <td>4,980</td>
+        <td>91.2%</td>
+        <td>65.1%</td>
+        <td>32.2%</td>
+        <td>13.6%</td>
+        <td>15.0%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 前回ST1000枚以上</td>
+        <td>1,042</td>
+        <td>604</td>
+        <td>104</td>
+        <td>-16</td>
+        <td>645</td>
+        <td>112</td>
+        <td>533</td>
+        <td>216</td>
+        <td>575.0%</td>
+        <td>390.9%</td>
+        <td>4,113</td>
+        <td>90.0%</td>
+        <td>64.8%</td>
+        <td>31.8%</td>
+        <td>14.0%</td>
+        <td>15.5%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後</td>
+        <td>796</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-757</td>
+        <td>614</td>
+        <td>89</td>
+        <td>526</td>
+        <td>209</td>
+        <td>692.4%</td>
+        <td>435.5%</td>
+        <td>4,746</td>
+        <td>87.2%</td>
+        <td>81.2%</td>
+        <td>13.6%</td>
+        <td>12.7%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × 差枚-500以下</td>
+        <td>796</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-757</td>
+        <td>614</td>
+        <td>89</td>
+        <td>526</td>
+        <td>209</td>
+        <td>692.4%</td>
+        <td>435.5%</td>
+        <td>4,746</td>
+        <td>87.2%</td>
+        <td>81.2%</td>
+        <td>13.6%</td>
+        <td>12.7%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー0 × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>458</td>
+        <td>589</td>
+        <td>89</td>
+        <td>125</td>
+        <td>603</td>
+        <td>88</td>
+        <td>514</td>
+        <td>197</td>
+        <td>681.7%</td>
+        <td>426.1%</td>
+        <td>4,631</td>
+        <td>86.2%</td>
+        <td>62.7%</td>
+        <td>30.3%</td>
+        <td>12.7%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>531</td>
+        <td>556</td>
+        <td>106</td>
+        <td>15</td>
+        <td>630</td>
+        <td>116</td>
+        <td>514</td>
+        <td>220</td>
+        <td>542.0%</td>
+        <td>373.0%</td>
+        <td>3,875</td>
+        <td>95.3%</td>
+        <td>70.1%</td>
+        <td>31.6%</td>
+        <td>12.6%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>450G～ × リセット後 × スルー2+</td>
+        <td>202</td>
+        <td>563</td>
+        <td>113</td>
+        <td>-629</td>
+        <td>640</td>
+        <td>128</td>
+        <td>512</td>
+        <td>218</td>
+        <td>501.4%</td>
+        <td>355.4%</td>
+        <td>3,625</td>
+        <td>80.7%</td>
+        <td>75.7%</td>
+        <td>14.9%</td>
+        <td>13.9%</td>
+        <td>14.9%</td>
+      </tr><tr class="hot">
+        <td>450G～ × リセット後 × スルー2+ × 差枚-500以下</td>
+        <td>202</td>
+        <td>563</td>
+        <td>113</td>
+        <td>-629</td>
+        <td>640</td>
+        <td>128</td>
+        <td>512</td>
+        <td>218</td>
+        <td>501.4%</td>
+        <td>355.4%</td>
+        <td>3,625</td>
+        <td>80.7%</td>
+        <td>75.7%</td>
+        <td>14.9%</td>
+        <td>13.9%</td>
+        <td>14.9%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 前回8連以上</td>
+        <td>541</td>
+        <td>557</td>
+        <td>107</td>
+        <td>9</td>
+        <td>629</td>
+        <td>117</td>
+        <td>512</td>
+        <td>218</td>
+        <td>535.7%</td>
+        <td>369.8%</td>
+        <td>3,831</td>
+        <td>95.2%</td>
+        <td>70.2%</td>
+        <td>31.6%</td>
+        <td>12.8%</td>
+        <td>13.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー0 × 前回8連以上</td>
+        <td>475</td>
+        <td>589</td>
+        <td>89</td>
+        <td>84</td>
+        <td>598</td>
+        <td>89</td>
+        <td>509</td>
+        <td>192</td>
+        <td>673.8%</td>
+        <td>421.4%</td>
+        <td>4,571</td>
+        <td>86.1%</td>
+        <td>62.5%</td>
+        <td>30.5%</td>
+        <td>12.6%</td>
+        <td>14.3%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 差枚-1000以下 × 前回8連以上</td>
+        <td>81</td>
+        <td>586</td>
+        <td>86</td>
+        <td>-1,946</td>
+        <td>592</td>
+        <td>83</td>
+        <td>509</td>
+        <td>192</td>
+        <td>709.9%</td>
+        <td>431.2%</td>
+        <td>4,719</td>
+        <td>97.5%</td>
+        <td>67.9%</td>
+        <td>37.0%</td>
+        <td>13.6%</td>
+        <td>16.0%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー0 × 前回ST1000枚以上</td>
+        <td>512</td>
+        <td>600</td>
+        <td>100</td>
+        <td>67</td>
+        <td>613</td>
+        <td>105</td>
+        <td>508</td>
+        <td>191</td>
+        <td>581.7%</td>
+        <td>386.8%</td>
+        <td>4,080</td>
+        <td>85.5%</td>
+        <td>62.9%</td>
+        <td>29.9%</td>
+        <td>13.1%</td>
+        <td>14.8%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>620</td>
+        <td>573</td>
+        <td>123</td>
+        <td>-49</td>
+        <td>649</td>
+        <td>143</td>
+        <td>506</td>
+        <td>212</td>
+        <td>453.7%</td>
+        <td>331.4%</td>
+        <td>3,292</td>
+        <td>93.5%</td>
+        <td>69.2%</td>
+        <td>31.6%</td>
+        <td>13.2%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 差枚-500以下 × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>257</td>
+        <td>586</td>
+        <td>86</td>
+        <td>-1,438</td>
+        <td>589</td>
+        <td>84</td>
+        <td>505</td>
+        <td>188</td>
+        <td>701.9%</td>
+        <td>430.8%</td>
+        <td>4,706</td>
+        <td>92.2%</td>
+        <td>66.1%</td>
+        <td>32.7%</td>
+        <td>12.8%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 差枚-500以下 × 前回8連以上</td>
+        <td>150</td>
+        <td>554</td>
+        <td>104</td>
+        <td>-1,451</td>
+        <td>614</td>
+        <td>113</td>
+        <td>501</td>
+        <td>207</td>
+        <td>542.7%</td>
+        <td>370.1%</td>
+        <td>3,846</td>
+        <td>96.0%</td>
+        <td>70.7%</td>
+        <td>32.0%</td>
+        <td>13.3%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 差枚-500以下 × 前回8連以上</td>
+        <td>271</td>
+        <td>586</td>
+        <td>86</td>
+        <td>-1,461</td>
+        <td>584</td>
+        <td>84</td>
+        <td>500</td>
+        <td>183</td>
+        <td>693.6%</td>
+        <td>425.8%</td>
+        <td>4,643</td>
+        <td>91.9%</td>
+        <td>65.7%</td>
+        <td>32.8%</td>
+        <td>12.9%</td>
+        <td>14.0%</td>
+      </tr></tbody></table></div>
+      <p class="small">520G未満かつ駆け抜け後/上位後を明示条件に含まない候補。ここが「ぱっと見で当たり前ではない」部分。</p>
+    </section>
+
+    <section>
+      <h2>同じG数からの上乗せ候補</h2>
+      <div class="scroll"><table><thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead><tbody><tr class="hot">
+        <td>450G～ × 駆け抜け後 × スルー2+ × 差枚-1500以下</td>
+        <td>100</td>
+        <td>557</td>
+        <td>107</td>
+        <td>-2,655</td>
+        <td>727</td>
+        <td>119</td>
+        <td>609</td>
+        <td>315</td>
+        <td>613.0%</td>
+        <td>425.1%</td>
+        <td>4,532</td>
+        <td>83.0%</td>
+        <td>80.0%</td>
+        <td>17.0%</td>
+        <td>14.0%</td>
+        <td>15.0%</td>
+      </tr><tr class="hot">
+        <td>400G～ × 駆け抜け後 × スルー2+ × 差枚-1500以下</td>
+        <td>89</td>
+        <td>535</td>
+        <td>135</td>
+        <td>-2,632</td>
+        <td>722</td>
+        <td>162</td>
+        <td>560</td>
+        <td>311</td>
+        <td>445.6%</td>
+        <td>335.3%</td>
+        <td>3,312</td>
+        <td>84.3%</td>
+        <td>79.8%</td>
+        <td>16.9%</td>
+        <td>13.5%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>800G～ × スルー0 × 差枚-2000以下 × 当日4区間目以降</td>
+        <td>137</td>
+        <td>971</td>
+        <td>171</td>
+        <td>-2,934</td>
+        <td>936</td>
+        <td>218</td>
+        <td>717</td>
+        <td>308</td>
+        <td>428.8%</td>
+        <td>343.0%</td>
+        <td>3,350</td>
+        <td>81.0%</td>
+        <td>56.2%</td>
+        <td>34.3%</td>
+        <td>22.6%</td>
+        <td>26.3%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー2+ × 差枚-1500以下</td>
+        <td>114</td>
+        <td>593</td>
+        <td>73</td>
+        <td>-2,495</td>
+        <td>693</td>
+        <td>64</td>
+        <td>629</td>
+        <td>300</td>
+        <td>1076.5%</td>
+        <td>595.2%</td>
+        <td>6,878</td>
+        <td>89.5%</td>
+        <td>84.2%</td>
+        <td>16.7%</td>
+        <td>13.2%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>800G～ × 非短縮後 × スルー0 × 差枚-2000以下</td>
+        <td>147</td>
+        <td>972</td>
+        <td>172</td>
+        <td>-2,901</td>
+        <td>913</td>
+        <td>219</td>
+        <td>694</td>
+        <td>285</td>
+        <td>417.3%</td>
+        <td>333.9%</td>
+        <td>3,234</td>
+        <td>81.0%</td>
+        <td>55.8%</td>
+        <td>34.0%</td>
+        <td>22.4%</td>
+        <td>25.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 駆け抜け後 × スルー2+ × 差枚-1500以下</td>
+        <td>109</td>
+        <td>584</td>
+        <td>84</td>
+        <td>-2,629</td>
+        <td>683</td>
+        <td>84</td>
+        <td>599</td>
+        <td>282</td>
+        <td>814.3%</td>
+        <td>509.3%</td>
+        <td>5,692</td>
+        <td>88.1%</td>
+        <td>82.6%</td>
+        <td>18.3%</td>
+        <td>13.8%</td>
+        <td>15.6%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー2+ × 差枚-1000以下</td>
+        <td>168</td>
+        <td>593</td>
+        <td>73</td>
+        <td>-2,091</td>
+        <td>671</td>
+        <td>65</td>
+        <td>606</td>
+        <td>277</td>
+        <td>1039.8%</td>
+        <td>574.2%</td>
+        <td>6,611</td>
+        <td>91.7%</td>
+        <td>83.9%</td>
+        <td>14.3%</td>
+        <td>10.1%</td>
+        <td>11.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 駆け抜け後 × スルー0 × 差枚-1000以下</td>
+        <td>499</td>
+        <td>587</td>
+        <td>87</td>
+        <td>-2,181</td>
+        <td>676</td>
+        <td>85</td>
+        <td>591</td>
+        <td>274</td>
+        <td>797.1%</td>
+        <td>489.6%</td>
+        <td>5,454</td>
+        <td>88.6%</td>
+        <td>75.4%</td>
+        <td>20.8%</td>
+        <td>13.8%</td>
+        <td>14.8%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 上位後 × スルー1+ × 前回ST1000枚以上</td>
+        <td>474</td>
+        <td>591</td>
+        <td>71</td>
+        <td>-74</td>
+        <td>663</td>
+        <td>60</td>
+        <td>603</td>
+        <td>274</td>
+        <td>1107.3%</td>
+        <td>589.9%</td>
+        <td>6,837</td>
+        <td>97.0%</td>
+        <td>68.4%</td>
+        <td>34.0%</td>
+        <td>15.0%</td>
+        <td>16.5%</td>
+      </tr><tr class="hot">
+        <td>600G～ × 上位後 × 差枚-500以下 × 当日4区間目以降</td>
+        <td>112</td>
+        <td>626</td>
+        <td>26</td>
+        <td>-1,836</td>
+        <td>621</td>
+        <td>35</td>
+        <td>586</td>
+        <td>274</td>
+        <td>1775.8%</td>
+        <td>1484.7%</td>
+        <td>17,849</td>
+        <td>97.3%</td>
+        <td>76.8%</td>
+        <td>25.9%</td>
+        <td>12.5%</td>
+        <td>12.5%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー0 × 差枚-1000以下</td>
+        <td>469</td>
+        <td>590</td>
+        <td>70</td>
+        <td>-2,172</td>
+        <td>659</td>
+        <td>60</td>
+        <td>600</td>
+        <td>271</td>
+        <td>1107.6%</td>
+        <td>588.7%</td>
+        <td>6,822</td>
+        <td>90.8%</td>
+        <td>77.4%</td>
+        <td>19.8%</td>
+        <td>13.2%</td>
+        <td>14.3%</td>
+      </tr><tr class="hot">
+        <td>520G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>441</td>
+        <td>590</td>
+        <td>70</td>
+        <td>-51</td>
+        <td>659</td>
+        <td>59</td>
+        <td>600</td>
+        <td>270</td>
+        <td>1110.2%</td>
+        <td>590.1%</td>
+        <td>6,840</td>
+        <td>97.7%</td>
+        <td>68.5%</td>
+        <td>33.6%</td>
+        <td>14.5%</td>
+        <td>15.9%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー2+ × 差枚-500以下</td>
+        <td>209</td>
+        <td>593</td>
+        <td>73</td>
+        <td>-1,835</td>
+        <td>662</td>
+        <td>64</td>
+        <td>598</td>
+        <td>269</td>
+        <td>1029.5%</td>
+        <td>566.4%</td>
+        <td>6,515</td>
+        <td>90.9%</td>
+        <td>81.8%</td>
+        <td>13.4%</td>
+        <td>9.6%</td>
+        <td>11.0%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 上位後 × スルー1+ × 前回ST1000枚以上</td>
+        <td>484</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-51</td>
+        <td>668</td>
+        <td>83</td>
+        <td>585</td>
+        <td>268</td>
+        <td>805.3%</td>
+        <td>493.2%</td>
+        <td>5,503</td>
+        <td>96.1%</td>
+        <td>67.8%</td>
+        <td>34.3%</td>
+        <td>15.1%</td>
+        <td>16.3%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>448</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-22</td>
+        <td>668</td>
+        <td>82</td>
+        <td>585</td>
+        <td>268</td>
+        <td>809.3%</td>
+        <td>494.7%</td>
+        <td>5,523</td>
+        <td>96.7%</td>
+        <td>67.6%</td>
+        <td>34.2%</td>
+        <td>14.7%</td>
+        <td>15.8%</td>
+      </tr><tr class="hot">
+        <td>520G～ × スルー1+ × 前回8連以上</td>
+        <td>449</td>
+        <td>591</td>
+        <td>71</td>
+        <td>-61</td>
+        <td>656</td>
+        <td>61</td>
+        <td>596</td>
+        <td>266</td>
+        <td>1081.7%</td>
+        <td>580.6%</td>
+        <td>6,712</td>
+        <td>97.6%</td>
+        <td>68.6%</td>
+        <td>33.4%</td>
+        <td>14.5%</td>
+        <td>15.8%</td>
+      </tr><tr class="hot">
+        <td>520G～ × スルー1+ × 差枚-500以下 × 前回8連以上</td>
+        <td>134</td>
+        <td>588</td>
+        <td>68</td>
+        <td>-1,525</td>
+        <td>651</td>
+        <td>57</td>
+        <td>594</td>
+        <td>264</td>
+        <td>1141.3%</td>
+        <td>598.7%</td>
+        <td>6,958</td>
+        <td>98.5%</td>
+        <td>69.4%</td>
+        <td>35.8%</td>
+        <td>14.9%</td>
+        <td>16.4%</td>
+      </tr><tr class="hot">
+        <td>350G～ × 駆け抜け後 × スルー2+ × 差枚-1000以下</td>
+        <td>113</td>
+        <td>514</td>
+        <td>164</td>
+        <td>-2,153</td>
+        <td>684</td>
+        <td>207</td>
+        <td>476</td>
+        <td>263</td>
+        <td>329.5%</td>
+        <td>261.8%</td>
+        <td>2,322</td>
+        <td>74.3%</td>
+        <td>67.3%</td>
+        <td>17.7%</td>
+        <td>14.2%</td>
+        <td>15.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 前回8連以上</td>
+        <td>457</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-31</td>
+        <td>663</td>
+        <td>84</td>
+        <td>579</td>
+        <td>263</td>
+        <td>792.4%</td>
+        <td>487.2%</td>
+        <td>5,424</td>
+        <td>96.5%</td>
+        <td>67.8%</td>
+        <td>33.9%</td>
+        <td>14.7%</td>
+        <td>15.8%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 上位後 × スルー1+ × 前回8連以上</td>
+        <td>446</td>
+        <td>590</td>
+        <td>70</td>
+        <td>-65</td>
+        <td>651</td>
+        <td>59</td>
+        <td>591</td>
+        <td>262</td>
+        <td>1096.6%</td>
+        <td>582.7%</td>
+        <td>6,746</td>
+        <td>97.8%</td>
+        <td>68.8%</td>
+        <td>33.4%</td>
+        <td>14.6%</td>
+        <td>15.7%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 上位後 × スルー1+ × 前回8連以上</td>
+        <td>454</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-35</td>
+        <td>658</td>
+        <td>82</td>
+        <td>576</td>
+        <td>259</td>
+        <td>799.1%</td>
+        <td>488.3%</td>
+        <td>5,442</td>
+        <td>96.7%</td>
+        <td>68.1%</td>
+        <td>33.9%</td>
+        <td>14.8%</td>
+        <td>15.6%</td>
+      </tr><tr class="hot">
+        <td>520G～ × 駆け抜け後 × スルー0 × 差枚-500以下</td>
+        <td>545</td>
+        <td>591</td>
+        <td>71</td>
+        <td>-1,984</td>
+        <td>648</td>
+        <td>60</td>
+        <td>587</td>
+        <td>258</td>
+        <td>1072.1%</td>
+        <td>571.7%</td>
+        <td>6,603</td>
+        <td>90.6%</td>
+        <td>77.8%</td>
+        <td>19.1%</td>
+        <td>12.8%</td>
+        <td>13.9%</td>
+      </tr><tr class="hot">
+        <td>590G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>474</td>
+        <td>624</td>
+        <td>34</td>
+        <td>-174</td>
+        <td>679</td>
+        <td>36</td>
+        <td>643</td>
+        <td>256</td>
+        <td>1886.1%</td>
+        <td>1239.6%</td>
+        <td>14,953</td>
+        <td>98.3%</td>
+        <td>70.0%</td>
+        <td>33.1%</td>
+        <td>15.8%</td>
+        <td>16.7%</td>
+      </tr><tr class="hot">
+        <td>520G～ × リセット後 × スルー2+</td>
+        <td>192</td>
+        <td>595</td>
+        <td>75</td>
+        <td>-738</td>
+        <td>652</td>
+        <td>67</td>
+        <td>585</td>
+        <td>255</td>
+        <td>973.6%</td>
+        <td>544.5%</td>
+        <td>6,223</td>
+        <td>91.1%</td>
+        <td>84.4%</td>
+        <td>16.7%</td>
+        <td>15.6%</td>
+        <td>16.7%</td>
+      </tr><tr class="hot">
+        <td>520G～ × リセット後 × スルー2+ × 差枚-500以下</td>
+        <td>192</td>
+        <td>595</td>
+        <td>75</td>
+        <td>-738</td>
+        <td>652</td>
+        <td>67</td>
+        <td>585</td>
+        <td>255</td>
+        <td>973.6%</td>
+        <td>544.5%</td>
+        <td>6,223</td>
+        <td>91.1%</td>
+        <td>84.4%</td>
+        <td>16.7%</td>
+        <td>15.6%</td>
+        <td>16.7%</td>
+      </tr></tbody></table></div>
+      <p class="small">同じ打ち出しGの全体平均より期待差枚が大きい条件。G数の深さそのものではなく、履歴条件の影響を拾う目的。</p>
+    </section>
+
+    <section>
+      <h2>隠れ上乗せ候補</h2>
+      <div class="scroll"><table><thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead><tbody><tr class="hot">
+        <td>500G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>448</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-22</td>
+        <td>668</td>
+        <td>82</td>
+        <td>585</td>
+        <td>268</td>
+        <td>809.3%</td>
+        <td>494.7%</td>
+        <td>5,523</td>
+        <td>96.7%</td>
+        <td>67.6%</td>
+        <td>34.2%</td>
+        <td>14.7%</td>
+        <td>15.8%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 前回8連以上</td>
+        <td>457</td>
+        <td>585</td>
+        <td>85</td>
+        <td>-31</td>
+        <td>663</td>
+        <td>84</td>
+        <td>579</td>
+        <td>263</td>
+        <td>792.4%</td>
+        <td>487.2%</td>
+        <td>5,424</td>
+        <td>96.5%</td>
+        <td>67.8%</td>
+        <td>33.9%</td>
+        <td>14.7%</td>
+        <td>15.8%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 差枚-500以下 × 前回8連以上</td>
+        <td>135</td>
+        <td>582</td>
+        <td>82</td>
+        <td>-1,470</td>
+        <td>642</td>
+        <td>78</td>
+        <td>563</td>
+        <td>246</td>
+        <td>818.5%</td>
+        <td>491.9%</td>
+        <td>5,501</td>
+        <td>97.8%</td>
+        <td>68.9%</td>
+        <td>35.6%</td>
+        <td>14.8%</td>
+        <td>16.3%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー2+</td>
+        <td>201</td>
+        <td>587</td>
+        <td>87</td>
+        <td>-707</td>
+        <td>647</td>
+        <td>87</td>
+        <td>560</td>
+        <td>243</td>
+        <td>740.2%</td>
+        <td>467.1%</td>
+        <td>5,147</td>
+        <td>89.1%</td>
+        <td>82.6%</td>
+        <td>15.9%</td>
+        <td>14.9%</td>
+        <td>15.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー2+ × 差枚-500以下</td>
+        <td>201</td>
+        <td>587</td>
+        <td>87</td>
+        <td>-707</td>
+        <td>647</td>
+        <td>87</td>
+        <td>560</td>
+        <td>243</td>
+        <td>740.2%</td>
+        <td>467.1%</td>
+        <td>5,147</td>
+        <td>89.1%</td>
+        <td>82.6%</td>
+        <td>15.9%</td>
+        <td>14.9%</td>
+        <td>15.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>530</td>
+        <td>608</td>
+        <td>108</td>
+        <td>-95</td>
+        <td>676</td>
+        <td>119</td>
+        <td>557</td>
+        <td>241</td>
+        <td>569.3%</td>
+        <td>394.5%</td>
+        <td>4,143</td>
+        <td>94.3%</td>
+        <td>66.6%</td>
+        <td>33.6%</td>
+        <td>14.9%</td>
+        <td>16.2%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー1+</td>
+        <td>532</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-738</td>
+        <td>646</td>
+        <td>89</td>
+        <td>557</td>
+        <td>240</td>
+        <td>727.5%</td>
+        <td>457.7%</td>
+        <td>5,029</td>
+        <td>87.4%</td>
+        <td>82.1%</td>
+        <td>15.2%</td>
+        <td>14.3%</td>
+        <td>15.4%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × スルー1+ × 差枚-500以下</td>
+        <td>532</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-738</td>
+        <td>646</td>
+        <td>89</td>
+        <td>557</td>
+        <td>240</td>
+        <td>727.5%</td>
+        <td>457.7%</td>
+        <td>5,029</td>
+        <td>87.4%</td>
+        <td>82.1%</td>
+        <td>15.2%</td>
+        <td>14.3%</td>
+        <td>15.4%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>906</td>
+        <td>587</td>
+        <td>87</td>
+        <td>52</td>
+        <td>635</td>
+        <td>85</td>
+        <td>549</td>
+        <td>232</td>
+        <td>742.6%</td>
+        <td>459.2%</td>
+        <td>5,062</td>
+        <td>91.4%</td>
+        <td>65.1%</td>
+        <td>32.2%</td>
+        <td>13.7%</td>
+        <td>15.1%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 前回8連以上</td>
+        <td>932</td>
+        <td>587</td>
+        <td>87</td>
+        <td>27</td>
+        <td>630</td>
+        <td>86</td>
+        <td>544</td>
+        <td>227</td>
+        <td>730.2%</td>
+        <td>453.0%</td>
+        <td>4,980</td>
+        <td>91.2%</td>
+        <td>65.1%</td>
+        <td>32.2%</td>
+        <td>13.6%</td>
+        <td>15.0%</td>
+      </tr><tr class="hot">
+        <td>400G～ × スルー1+ × 前回8連以上 × 当日4区間目以降</td>
+        <td>412</td>
+        <td>542</td>
+        <td>142</td>
+        <td>-170</td>
+        <td>649</td>
+        <td>173</td>
+        <td>475</td>
+        <td>226</td>
+        <td>374.3%</td>
+        <td>286.2%</td>
+        <td>2,672</td>
+        <td>93.9%</td>
+        <td>68.2%</td>
+        <td>34.7%</td>
+        <td>12.9%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>400G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>541</td>
+        <td>538</td>
+        <td>138</td>
+        <td>25</td>
+        <td>638</td>
+        <td>167</td>
+        <td>471</td>
+        <td>222</td>
+        <td>381.8%</td>
+        <td>289.8%</td>
+        <td>2,725</td>
+        <td>93.3%</td>
+        <td>69.3%</td>
+        <td>32.2%</td>
+        <td>12.4%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>531</td>
+        <td>556</td>
+        <td>106</td>
+        <td>15</td>
+        <td>630</td>
+        <td>116</td>
+        <td>514</td>
+        <td>220</td>
+        <td>542.0%</td>
+        <td>373.0%</td>
+        <td>3,875</td>
+        <td>95.3%</td>
+        <td>70.1%</td>
+        <td>31.6%</td>
+        <td>12.6%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>450G～ × リセット後 × スルー2+</td>
+        <td>202</td>
+        <td>563</td>
+        <td>113</td>
+        <td>-629</td>
+        <td>640</td>
+        <td>128</td>
+        <td>512</td>
+        <td>218</td>
+        <td>501.4%</td>
+        <td>355.4%</td>
+        <td>3,625</td>
+        <td>80.7%</td>
+        <td>75.7%</td>
+        <td>14.9%</td>
+        <td>13.9%</td>
+        <td>14.9%</td>
+      </tr><tr class="hot">
+        <td>450G～ × リセット後 × スルー2+ × 差枚-500以下</td>
+        <td>202</td>
+        <td>563</td>
+        <td>113</td>
+        <td>-629</td>
+        <td>640</td>
+        <td>128</td>
+        <td>512</td>
+        <td>218</td>
+        <td>501.4%</td>
+        <td>355.4%</td>
+        <td>3,625</td>
+        <td>80.7%</td>
+        <td>75.7%</td>
+        <td>14.9%</td>
+        <td>13.9%</td>
+        <td>14.9%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 前回8連以上</td>
+        <td>541</td>
+        <td>557</td>
+        <td>107</td>
+        <td>9</td>
+        <td>629</td>
+        <td>117</td>
+        <td>512</td>
+        <td>218</td>
+        <td>535.7%</td>
+        <td>369.8%</td>
+        <td>3,831</td>
+        <td>95.2%</td>
+        <td>70.2%</td>
+        <td>31.6%</td>
+        <td>12.8%</td>
+        <td>13.9%</td>
+      </tr><tr class="hot">
+        <td>500G～ × 前回ST1000枚以上</td>
+        <td>1,042</td>
+        <td>604</td>
+        <td>104</td>
+        <td>-16</td>
+        <td>645</td>
+        <td>112</td>
+        <td>533</td>
+        <td>216</td>
+        <td>575.0%</td>
+        <td>390.9%</td>
+        <td>4,113</td>
+        <td>90.0%</td>
+        <td>64.8%</td>
+        <td>31.8%</td>
+        <td>14.0%</td>
+        <td>15.5%</td>
+      </tr><tr class="hot">
+        <td>400G～ × スルー1+ × 前回ST1000枚以上 × 当日4区間目以降</td>
+        <td>473</td>
+        <td>559</td>
+        <td>159</td>
+        <td>-205</td>
+        <td>662</td>
+        <td>200</td>
+        <td>462</td>
+        <td>213</td>
+        <td>331.4%</td>
+        <td>261.3%</td>
+        <td>2,324</td>
+        <td>91.8%</td>
+        <td>66.6%</td>
+        <td>34.7%</td>
+        <td>13.1%</td>
+        <td>15.0%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>620</td>
+        <td>573</td>
+        <td>123</td>
+        <td>-49</td>
+        <td>649</td>
+        <td>143</td>
+        <td>506</td>
+        <td>212</td>
+        <td>453.7%</td>
+        <td>331.4%</td>
+        <td>3,292</td>
+        <td>93.5%</td>
+        <td>69.2%</td>
+        <td>31.6%</td>
+        <td>13.2%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後</td>
+        <td>796</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-757</td>
+        <td>614</td>
+        <td>89</td>
+        <td>526</td>
+        <td>209</td>
+        <td>692.4%</td>
+        <td>435.5%</td>
+        <td>4,746</td>
+        <td>87.2%</td>
+        <td>81.2%</td>
+        <td>13.6%</td>
+        <td>12.7%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>500G～ × リセット後 × 差枚-500以下</td>
+        <td>796</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-757</td>
+        <td>614</td>
+        <td>89</td>
+        <td>526</td>
+        <td>209</td>
+        <td>692.4%</td>
+        <td>435.5%</td>
+        <td>4,746</td>
+        <td>87.2%</td>
+        <td>81.2%</td>
+        <td>13.6%</td>
+        <td>12.7%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>450G～ × スルー1+ × 差枚-500以下 × 前回8連以上</td>
+        <td>150</td>
+        <td>554</td>
+        <td>104</td>
+        <td>-1,451</td>
+        <td>614</td>
+        <td>113</td>
+        <td>501</td>
+        <td>207</td>
+        <td>542.7%</td>
+        <td>370.1%</td>
+        <td>3,846</td>
+        <td>96.0%</td>
+        <td>70.7%</td>
+        <td>32.0%</td>
+        <td>13.3%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>350G～ × リセット後 × スルー1+ × 差枚-500以下</td>
+        <td>516</td>
+        <td>537</td>
+        <td>187</td>
+        <td>-518</td>
+        <td>662</td>
+        <td>244</td>
+        <td>418</td>
+        <td>205</td>
+        <td>271.0%</td>
+        <td>222.1%</td>
+        <td>1,785</td>
+        <td>70.0%</td>
+        <td>66.1%</td>
+        <td>16.1%</td>
+        <td>14.7%</td>
+        <td>16.7%</td>
+      </tr><tr class="hot">
+        <td>450G～ × 前回ST1000枚以上 × 前回8連以上</td>
+        <td>1,124</td>
+        <td>565</td>
+        <td>115</td>
+        <td>72</td>
+        <td>627</td>
+        <td>129</td>
+        <td>498</td>
+        <td>204</td>
+        <td>485.6%</td>
+        <td>342.9%</td>
+        <td>3,469</td>
+        <td>87.5%</td>
+        <td>64.1%</td>
+        <td>31.4%</td>
+        <td>13.1%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>450G～ × 前回8連以上</td>
+        <td>1,157</td>
+        <td>565</td>
+        <td>115</td>
+        <td>53</td>
+        <td>627</td>
+        <td>130</td>
+        <td>498</td>
+        <td>203</td>
+        <td>483.2%</td>
+        <td>341.7%</td>
+        <td>3,452</td>
+        <td>87.4%</td>
+        <td>64.1%</td>
+        <td>31.5%</td>
+        <td>13.1%</td>
+        <td>14.6%</td>
+      </tr></tbody></table></div>
+      <p class="small">520G未満、駆け抜け後/上位後を明示条件に含まない、かつ同じG数平均との差がプラスの候補。</p>
+    </section>
+
+    <section>
+      <h2>機械割トップ</h2>
+      <div class="scroll"><table><thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead><tbody><tr class="hot">
+        <td>560G～ × スルー0 × 前回ST1000枚以上</td>
+        <td>410</td>
+        <td>610</td>
+        <td>50</td>
+        <td>-10</td>
+        <td>620</td>
+        <td>25</td>
+        <td>595</td>
+        <td>226</td>
+        <td>2437.6%</td>
+        <td>774.1%</td>
+        <td>9,456</td>
+        <td>94.4%</td>
+        <td>70.5%</td>
+        <td>30.2%</td>
+        <td>12.7%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 上位後 × スルー1+ × 差枚-500以下</td>
+        <td>259</td>
+        <td>611</td>
+        <td>51</td>
+        <td>-1,806</td>
+        <td>624</td>
+        <td>26</td>
+        <td>597</td>
+        <td>229</td>
+        <td>2360.2%</td>
+        <td>772.2%</td>
+        <td>9,421</td>
+        <td>98.5%</td>
+        <td>78.8%</td>
+        <td>25.1%</td>
+        <td>13.1%</td>
+        <td>15.1%</td>
+      </tr><tr class="hot">
+        <td>590G～ × 前回ST1000枚以上</td>
+        <td>864</td>
+        <td>619</td>
+        <td>29</td>
+        <td>-116</td>
+        <td>648</td>
+        <td>29</td>
+        <td>619</td>
+        <td>232</td>
+        <td>2254.1%</td>
+        <td>1420.0%</td>
+        <td>17,287</td>
+        <td>97.8%</td>
+        <td>71.2%</td>
+        <td>31.5%</td>
+        <td>14.1%</td>
+        <td>15.3%</td>
+      </tr><tr class="hot">
+        <td>560G～ × スルー0 × 差枚-1000以下 × 前回ST1000枚以上</td>
+        <td>80</td>
+        <td>611</td>
+        <td>51</td>
+        <td>-1,869</td>
+        <td>507</td>
+        <td>25</td>
+        <td>482</td>
+        <td>114</td>
+        <td>2014.5%</td>
+        <td>626.9%</td>
+        <td>7,590</td>
+        <td>96.3%</td>
+        <td>73.8%</td>
+        <td>31.3%</td>
+        <td>11.3%</td>
+        <td>11.3%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 上位後 × スルー1+ × 差枚-1000以下</td>
+        <td>188</td>
+        <td>612</td>
+        <td>52</td>
+        <td>-2,207</td>
+        <td>583</td>
+        <td>29</td>
+        <td>554</td>
+        <td>185</td>
+        <td>1985.9%</td>
+        <td>697.5%</td>
+        <td>8,437</td>
+        <td>98.4%</td>
+        <td>77.1%</td>
+        <td>23.9%</td>
+        <td>10.6%</td>
+        <td>12.8%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 上位後 × スルー1+ × 差枚-1500以下</td>
+        <td>137</td>
+        <td>612</td>
+        <td>52</td>
+        <td>-2,568</td>
+        <td>552</td>
+        <td>28</td>
+        <td>524</td>
+        <td>156</td>
+        <td>1962.7%</td>
+        <td>673.1%</td>
+        <td>8,137</td>
+        <td>99.3%</td>
+        <td>80.3%</td>
+        <td>21.2%</td>
+        <td>7.3%</td>
+        <td>10.9%</td>
+      </tr><tr class="hot">
+        <td>600G～ × 上位後 × スルー2+</td>
+        <td>90</td>
+        <td>623</td>
+        <td>23</td>
+        <td>-621</td>
+        <td>557</td>
+        <td>30</td>
+        <td>527</td>
+        <td>215</td>
+        <td>1886.1%</td>
+        <td>1543.1%</td>
+        <td>18,615</td>
+        <td>97.8%</td>
+        <td>67.8%</td>
+        <td>34.4%</td>
+        <td>8.9%</td>
+        <td>7.8%</td>
+      </tr><tr class="hot">
+        <td>590G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>474</td>
+        <td>624</td>
+        <td>34</td>
+        <td>-174</td>
+        <td>679</td>
+        <td>36</td>
+        <td>643</td>
+        <td>256</td>
+        <td>1886.1%</td>
+        <td>1239.6%</td>
+        <td>14,953</td>
+        <td>98.3%</td>
+        <td>70.0%</td>
+        <td>33.1%</td>
+        <td>15.8%</td>
+        <td>16.7%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 前回ST1000枚以上</td>
+        <td>902</td>
+        <td>617</td>
+        <td>57</td>
+        <td>-68</td>
+        <td>641</td>
+        <td>36</td>
+        <td>604</td>
+        <td>236</td>
+        <td>1775.9%</td>
+        <td>710.3%</td>
+        <td>8,539</td>
+        <td>96.3%</td>
+        <td>70.2%</td>
+        <td>31.3%</td>
+        <td>13.7%</td>
+        <td>15.1%</td>
+      </tr><tr class="hot">
+        <td>600G～ × 上位後 × 差枚-500以下 × 当日4区間目以降</td>
+        <td>112</td>
+        <td>626</td>
+        <td>26</td>
+        <td>-1,836</td>
+        <td>621</td>
+        <td>35</td>
+        <td>586</td>
+        <td>274</td>
+        <td>1775.8%</td>
+        <td>1484.7%</td>
+        <td>17,849</td>
+        <td>97.3%</td>
+        <td>76.8%</td>
+        <td>25.9%</td>
+        <td>12.5%</td>
+        <td>12.5%</td>
+      </tr><tr class="hot">
+        <td>590G～ × 上位後 × スルー2+</td>
+        <td>90</td>
+        <td>623</td>
+        <td>33</td>
+        <td>-595</td>
+        <td>542</td>
+        <td>31</td>
+        <td>511</td>
+        <td>125</td>
+        <td>1761.9%</td>
+        <td>1045.7%</td>
+        <td>12,565</td>
+        <td>97.8%</td>
+        <td>67.8%</td>
+        <td>34.4%</td>
+        <td>7.8%</td>
+        <td>6.7%</td>
+      </tr><tr class="hot">
+        <td>590G～ × 差枚-1000以下 × 前回ST1000枚以上 × 当日4区間目以降</td>
+        <td>173</td>
+        <td>622</td>
+        <td>32</td>
+        <td>-1,997</td>
+        <td>572</td>
+        <td>34</td>
+        <td>538</td>
+        <td>152</td>
+        <td>1683.8%</td>
+        <td>1113.8%</td>
+        <td>13,346</td>
+        <td>97.7%</td>
+        <td>71.7%</td>
+        <td>33.5%</td>
+        <td>12.7%</td>
+        <td>13.3%</td>
+      </tr><tr class="hot">
+        <td>590G～ × 差枚-1500以下 × 前回ST1000枚以上 × 当日4区間目以降</td>
+        <td>121</td>
+        <td>625</td>
+        <td>35</td>
+        <td>-2,323</td>
+        <td>588</td>
+        <td>38</td>
+        <td>550</td>
+        <td>163</td>
+        <td>1547.1%</td>
+        <td>1058.7%</td>
+        <td>12,615</td>
+        <td>97.5%</td>
+        <td>74.4%</td>
+        <td>32.2%</td>
+        <td>14.0%</td>
+        <td>14.9%</td>
+      </tr><tr class="hot">
+        <td>590G～ × 差枚-500以下 × 前回ST1000枚以上 × 当日4区間目以降</td>
+        <td>250</td>
+        <td>626</td>
+        <td>36</td>
+        <td>-1,618</td>
+        <td>608</td>
+        <td>39</td>
+        <td>569</td>
+        <td>182</td>
+        <td>1546.5%</td>
+        <td>1067.0%</td>
+        <td>12,713</td>
+        <td>97.2%</td>
+        <td>71.2%</td>
+        <td>34.0%</td>
+        <td>14.8%</td>
+        <td>15.2%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 差枚-1500以下 × 前回ST1000枚以上 × 当日4区間目以降</td>
+        <td>118</td>
+        <td>618</td>
+        <td>58</td>
+        <td>-2,311</td>
+        <td>555</td>
+        <td>38</td>
+        <td>518</td>
+        <td>149</td>
+        <td>1476.6%</td>
+        <td>599.6%</td>
+        <td>7,121</td>
+        <td>97.5%</td>
+        <td>72.9%</td>
+        <td>33.1%</td>
+        <td>12.7%</td>
+        <td>13.6%</td>
+      </tr><tr class="hot">
+        <td>560G～ × スルー1+ × 前回ST1000枚以上</td>
+        <td>492</td>
+        <td>622</td>
+        <td>62</td>
+        <td>-116</td>
+        <td>657</td>
+        <td>45</td>
+        <td>613</td>
+        <td>244</td>
+        <td>1463.6%</td>
+        <td>667.2%</td>
+        <td>7,918</td>
+        <td>98.0%</td>
+        <td>69.9%</td>
+        <td>32.1%</td>
+        <td>14.6%</td>
+        <td>15.4%</td>
+      </tr><tr class="hot">
+        <td>590G～ × スルー0 × 差枚-500以下 × 前回ST1000枚以上</td>
+        <td>123</td>
+        <td>624</td>
+        <td>34</td>
+        <td>-1,500</td>
+        <td>539</td>
+        <td>37</td>
+        <td>502</td>
+        <td>116</td>
+        <td>1448.3%</td>
+        <td>1007.2%</td>
+        <td>11,945</td>
+        <td>95.9%</td>
+        <td>71.5%</td>
+        <td>31.7%</td>
+        <td>12.2%</td>
+        <td>12.2%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 差枚-1000以下 × 前回ST1000枚以上 × 当日4区間目以降</td>
+        <td>175</td>
+        <td>621</td>
+        <td>61</td>
+        <td>-1,960</td>
+        <td>568</td>
+        <td>43</td>
+        <td>525</td>
+        <td>156</td>
+        <td>1324.6%</td>
+        <td>579.7%</td>
+        <td>6,827</td>
+        <td>96.6%</td>
+        <td>70.3%</td>
+        <td>33.7%</td>
+        <td>12.6%</td>
+        <td>12.6%</td>
+      </tr><tr class="hot">
+        <td>600G～ × 上位後 × 差枚-1000以下 × 当日4区間目以降</td>
+        <td>86</td>
+        <td>633</td>
+        <td>33</td>
+        <td>-2,165</td>
+        <td>584</td>
+        <td>45</td>
+        <td>539</td>
+        <td>227</td>
+        <td>1309.8%</td>
+        <td>1113.2%</td>
+        <td>13,098</td>
+        <td>96.5%</td>
+        <td>72.1%</td>
+        <td>25.6%</td>
+        <td>10.5%</td>
+        <td>10.5%</td>
+      </tr><tr class="hot">
+        <td>600G～ × 上位後 × スルー1+ × 差枚-500以下</td>
+        <td>106</td>
+        <td>630</td>
+        <td>30</td>
+        <td>-1,769</td>
+        <td>537</td>
+        <td>42</td>
+        <td>495</td>
+        <td>183</td>
+        <td>1287.5%</td>
+        <td>1110.0%</td>
+        <td>13,041</td>
+        <td>96.2%</td>
+        <td>76.4%</td>
+        <td>23.6%</td>
+        <td>11.3%</td>
+        <td>11.3%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 差枚-500以下 × 前回ST1000枚以上 × 当日4区間目以降</td>
+        <td>255</td>
+        <td>625</td>
+        <td>65</td>
+        <td>-1,574</td>
+        <td>605</td>
+        <td>48</td>
+        <td>557</td>
+        <td>189</td>
+        <td>1261.0%</td>
+        <td>588.8%</td>
+        <td>6,905</td>
+        <td>95.7%</td>
+        <td>70.2%</td>
+        <td>34.1%</td>
+        <td>14.5%</td>
+        <td>14.9%</td>
+      </tr><tr class="hot">
+        <td>560G～ × 上位後 × スルー2+</td>
+        <td>92</td>
+        <td>620</td>
+        <td>60</td>
+        <td>-573</td>
+        <td>534</td>
+        <td>43</td>
+        <td>491</td>
+        <td>123</td>
+        <td>1251.4%</td>
+        <td>555.2%</td>
+        <td>6,507</td>
+        <td>97.8%</td>
+        <td>65.2%</td>
+        <td>35.9%</td>
+        <td>6.5%</td>
+        <td>5.4%</td>
+      </tr><tr class="hot">
+        <td>560G～ × スルー0 × 差枚-500以下 × 前回ST1000枚以上</td>
+        <td>126</td>
+        <td>623</td>
+        <td>63</td>
+        <td>-1,459</td>
+        <td>551</td>
+        <td>45</td>
+        <td>507</td>
+        <td>138</td>
+        <td>1235.0%</td>
+        <td>553.5%</td>
+        <td>6,479</td>
+        <td>92.9%</td>
+        <td>70.6%</td>
+        <td>31.0%</td>
+        <td>12.7%</td>
+        <td>12.7%</td>
+      </tr><tr class="hot">
+        <td>590G～ × スルー1+ × 差枚-1000以下 × 前回ST1000枚以上</td>
+        <td>106</td>
+        <td>635</td>
+        <td>45</td>
+        <td>-1,985</td>
+        <td>608</td>
+        <td>53</td>
+        <td>555</td>
+        <td>168</td>
+        <td>1156.4%</td>
+        <td>839.4%</td>
+        <td>9,768</td>
+        <td>97.2%</td>
+        <td>70.8%</td>
+        <td>34.0%</td>
+        <td>14.2%</td>
+        <td>15.1%</td>
+      </tr><tr class="hot">
+        <td>520G～ × スルー1+ × 差枚-500以下 × 前回8連以上</td>
+        <td>134</td>
+        <td>588</td>
+        <td>68</td>
+        <td>-1,525</td>
+        <td>651</td>
+        <td>57</td>
+        <td>594</td>
+        <td>264</td>
+        <td>1141.3%</td>
+        <td>598.7%</td>
+        <td>6,958</td>
+        <td>98.5%</td>
+        <td>69.4%</td>
+        <td>35.8%</td>
+        <td>14.9%</td>
+        <td>16.4%</td>
+      </tr></tbody></table></div>
+    </section>
+
+    <section>
+        <h2>リセット後 打ち出しG別</h2>
+        <div class="scroll">
+          <table>
+            <thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead>
+            <tbody><tr class="hot">
+        <td>リセット後 0G～</td>
+        <td>2,974</td>
+        <td>360</td>
+        <td>360</td>
+        <td>0</td>
+        <td>628</td>
+        <td>517</td>
+        <td>110</td>
+        <td>0</td>
+        <td>121.3%</td>
+        <td>109.5%</td>
+        <td>245</td>
+        <td>61.2%</td>
+        <td>56.8%</td>
+        <td>13.8%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>リセット後 30G～</td>
+        <td>2,972</td>
+        <td>360</td>
+        <td>330</td>
+        <td>-48</td>
+        <td>627</td>
+        <td>470</td>
+        <td>157</td>
+        <td>0</td>
+        <td>133.3%</td>
+        <td>119.3%</td>
+        <td>380</td>
+        <td>61.1%</td>
+        <td>56.8%</td>
+        <td>13.8%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>リセット後 40G～</td>
+        <td>2,968</td>
+        <td>360</td>
+        <td>320</td>
+        <td>-64</td>
+        <td>627</td>
+        <td>455</td>
+        <td>172</td>
+        <td>0</td>
+        <td>137.8%</td>
+        <td>122.9%</td>
+        <td>430</td>
+        <td>61.2%</td>
+        <td>56.8%</td>
+        <td>13.8%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>リセット後 50G～</td>
+        <td>2,959</td>
+        <td>361</td>
+        <td>311</td>
+        <td>-79</td>
+        <td>627</td>
+        <td>441</td>
+        <td>186</td>
+        <td>0</td>
+        <td>142.2%</td>
+        <td>126.4%</td>
+        <td>478</td>
+        <td>61.3%</td>
+        <td>56.9%</td>
+        <td>13.8%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>リセット後 60G～</td>
+        <td>2,944</td>
+        <td>363</td>
+        <td>303</td>
+        <td>-95</td>
+        <td>627</td>
+        <td>428</td>
+        <td>199</td>
+        <td>0</td>
+        <td>146.5%</td>
+        <td>129.9%</td>
+        <td>526</td>
+        <td>61.3%</td>
+        <td>56.9%</td>
+        <td>13.8%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>リセット後 70G～</td>
+        <td>2,919</td>
+        <td>366</td>
+        <td>296</td>
+        <td>-111</td>
+        <td>626</td>
+        <td>416</td>
+        <td>210</td>
+        <td>0</td>
+        <td>150.5%</td>
+        <td>133.1%</td>
+        <td>569</td>
+        <td>61.3%</td>
+        <td>57.0%</td>
+        <td>13.7%</td>
+        <td>12.4%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>リセット後 80G～</td>
+        <td>2,887</td>
+        <td>369</td>
+        <td>289</td>
+        <td>-126</td>
+        <td>624</td>
+        <td>405</td>
+        <td>219</td>
+        <td>0</td>
+        <td>153.9%</td>
+        <td>135.7%</td>
+        <td>605</td>
+        <td>61.6%</td>
+        <td>57.3%</td>
+        <td>13.7%</td>
+        <td>12.4%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>リセット後 90G～</td>
+        <td>2,842</td>
+        <td>373</td>
+        <td>283</td>
+        <td>-141</td>
+        <td>622</td>
+        <td>396</td>
+        <td>225</td>
+        <td>0</td>
+        <td>156.8%</td>
+        <td>137.8%</td>
+        <td>636</td>
+        <td>62.0%</td>
+        <td>57.7%</td>
+        <td>13.7%</td>
+        <td>12.4%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>リセット後 100G～</td>
+        <td>2,810</td>
+        <td>376</td>
+        <td>276</td>
+        <td>-157</td>
+        <td>623</td>
+        <td>385</td>
+        <td>238</td>
+        <td>0</td>
+        <td>161.7%</td>
+        <td>141.5%</td>
+        <td>688</td>
+        <td>62.5%</td>
+        <td>58.2%</td>
+        <td>13.7%</td>
+        <td>12.4%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>リセット後 120G～</td>
+        <td>2,763</td>
+        <td>381</td>
+        <td>261</td>
+        <td>-187</td>
+        <td>617</td>
+        <td>361</td>
+        <td>256</td>
+        <td>0</td>
+        <td>170.9%</td>
+        <td>148.5%</td>
+        <td>785</td>
+        <td>63.9%</td>
+        <td>59.4%</td>
+        <td>13.6%</td>
+        <td>12.3%</td>
+        <td>13.5%</td>
+      </tr><tr class="hot">
+        <td>リセット後 140G～</td>
+        <td>2,684</td>
+        <td>388</td>
+        <td>248</td>
+        <td>-218</td>
+        <td>617</td>
+        <td>342</td>
+        <td>275</td>
+        <td>0</td>
+        <td>180.4%</td>
+        <td>155.9%</td>
+        <td>885</td>
+        <td>64.1%</td>
+        <td>59.6%</td>
+        <td>13.6%</td>
+        <td>12.3%</td>
+        <td>13.6%</td>
+      </tr><tr class="hot">
+        <td>リセット後 150G～</td>
+        <td>2,647</td>
+        <td>392</td>
+        <td>242</td>
+        <td>-234</td>
+        <td>618</td>
+        <td>332</td>
+        <td>286</td>
+        <td>0</td>
+        <td>186.1%</td>
+        <td>160.5%</td>
+        <td>946</td>
+        <td>64.6%</td>
+        <td>60.1%</td>
+        <td>13.6%</td>
+        <td>12.4%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>リセット後 180G～</td>
+        <td>2,436</td>
+        <td>411</td>
+        <td>231</td>
+        <td>-277</td>
+        <td>614</td>
+        <td>315</td>
+        <td>299</td>
+        <td>0</td>
+        <td>194.9%</td>
+        <td>166.7%</td>
+        <td>1,034</td>
+        <td>67.7%</td>
+        <td>63.1%</td>
+        <td>13.5%</td>
+        <td>12.2%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>リセット後 200G～</td>
+        <td>2,325</td>
+        <td>422</td>
+        <td>222</td>
+        <td>-306</td>
+        <td>619</td>
+        <td>299</td>
+        <td>320</td>
+        <td>0</td>
+        <td>206.8%</td>
+        <td>175.0%</td>
+        <td>1,151</td>
+        <td>69.6%</td>
+        <td>64.8%</td>
+        <td>13.8%</td>
+        <td>12.4%</td>
+        <td>13.9%</td>
+      </tr><tr class="hot">
+        <td>リセット後 250G～</td>
+        <td>2,173</td>
+        <td>436</td>
+        <td>186</td>
+        <td>-384</td>
+        <td>614</td>
+        <td>243</td>
+        <td>371</td>
+        <td>0</td>
+        <td>253.0%</td>
+        <td>207.4%</td>
+        <td>1,597</td>
+        <td>71.3%</td>
+        <td>66.2%</td>
+        <td>13.6%</td>
+        <td>12.3%</td>
+        <td>13.6%</td>
+      </tr><tr class="hot">
+        <td>リセット後 300G～</td>
+        <td>1,856</td>
+        <td>463</td>
+        <td>163</td>
+        <td>-461</td>
+        <td>605</td>
+        <td>212</td>
+        <td>393</td>
+        <td>0</td>
+        <td>285.5%</td>
+        <td>232.9%</td>
+        <td>1,928</td>
+        <td>71.6%</td>
+        <td>66.9%</td>
+        <td>13.3%</td>
+        <td>11.9%</td>
+        <td>13.1%</td>
+      </tr><tr class="hot">
+        <td>リセット後 350G～</td>
+        <td>1,223</td>
+        <td>537</td>
+        <td>187</td>
+        <td>-529</td>
+        <td>612</td>
+        <td>243</td>
+        <td>369</td>
+        <td>0</td>
+        <td>251.6%</td>
+        <td>206.0%</td>
+        <td>1,581</td>
+        <td>71.1%</td>
+        <td>66.1%</td>
+        <td>13.6%</td>
+        <td>11.9%</td>
+        <td>13.4%</td>
+      </tr><tr class="hot">
+        <td>リセット後 400G～</td>
+        <td>1,120</td>
+        <td>552</td>
+        <td>152</td>
+        <td>-606</td>
+        <td>609</td>
+        <td>187</td>
+        <td>422</td>
+        <td>0</td>
+        <td>325.1%</td>
+        <td>252.0%</td>
+        <td>2,222</td>
+        <td>76.1%</td>
+        <td>70.4%</td>
+        <td>13.2%</td>
+        <td>11.8%</td>
+        <td>13.3%</td>
+      </tr><tr class="hot">
+        <td>リセット後 450G～</td>
+        <td>1,020</td>
+        <td>564</td>
+        <td>114</td>
+        <td>-683</td>
+        <td>601</td>
+        <td>129</td>
+        <td>471</td>
+        <td>0</td>
+        <td>464.2%</td>
+        <td>331.1%</td>
+        <td>3,310</td>
+        <td>80.8%</td>
+        <td>75.3%</td>
+        <td>12.9%</td>
+        <td>11.7%</td>
+        <td>13.1%</td>
+      </tr><tr class="hot">
+        <td>リセット後 500G～</td>
+        <td>796</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-757</td>
+        <td>614</td>
+        <td>89</td>
+        <td>526</td>
+        <td>0</td>
+        <td>692.4%</td>
+        <td>435.5%</td>
+        <td>4,746</td>
+        <td>87.2%</td>
+        <td>81.2%</td>
+        <td>13.6%</td>
+        <td>12.7%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>リセット後 520G～</td>
+        <td>740</td>
+        <td>595</td>
+        <td>75</td>
+        <td>-788</td>
+        <td>615</td>
+        <td>66</td>
+        <td>549</td>
+        <td>0</td>
+        <td>935.9%</td>
+        <td>517.1%</td>
+        <td>5,884</td>
+        <td>89.9%</td>
+        <td>83.2%</td>
+        <td>13.6%</td>
+        <td>12.7%</td>
+        <td>13.9%</td>
+      </tr><tr class="hot">
+        <td>リセット後 560G～</td>
+        <td>670</td>
+        <td>601</td>
+        <td>41</td>
+        <td>-849</td>
+        <td>621</td>
+        <td>10</td>
+        <td>610</td>
+        <td>0</td>
+        <td>6019.4%</td>
+        <td>961.2%</td>
+        <td>12,041</td>
+        <td>96.0%</td>
+        <td>88.7%</td>
+        <td>14.0%</td>
+        <td>13.1%</td>
+        <td>14.3%</td>
+      </tr><tr class="">
+        <td>リセット後 590G～</td>
+        <td>639</td>
+        <td>602</td>
+        <td>12</td>
+        <td>-896</td>
+        <td>619</td>
+        <td>0</td>
+        <td>619</td>
+        <td>0</td>
+        <td>-</td>
+        <td>3307.5%</td>
+        <td>42,134</td>
+        <td>98.3%</td>
+        <td>90.3%</td>
+        <td>13.9%</td>
+        <td>13.0%</td>
+        <td>14.1%</td>
+      </tr><tr class="">
+        <td>リセット後 600G～</td>
+        <td>491</td>
+        <td>603</td>
+        <td>3</td>
+        <td>-899</td>
+        <td>627</td>
+        <td>0</td>
+        <td>627</td>
+        <td>0</td>
+        <td>-</td>
+        <td>14487.4%</td>
+        <td>184,553</td>
+        <td>100.0%</td>
+        <td>91.9%</td>
+        <td>15.1%</td>
+        <td>14.1%</td>
+        <td>15.5%</td>
+      </tr></tbody>
+          </table>
+        </div>
+      </section><section>
+        <h2>駆け抜け後 打ち出しG別</h2>
+        <div class="scroll">
+          <table>
+            <thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead>
+            <tbody><tr class="hot">
+        <td>駆け抜け後 0G～</td>
+        <td>4,161</td>
+        <td>382</td>
+        <td>382</td>
+        <td>-822</td>
+        <td>654</td>
+        <td>553</td>
+        <td>101</td>
+        <td>0</td>
+        <td>118.3%</td>
+        <td>107.5%</td>
+        <td>212</td>
+        <td>60.1%</td>
+        <td>51.5%</td>
+        <td>18.2%</td>
+        <td>12.9%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 30G～</td>
+        <td>4,140</td>
+        <td>385</td>
+        <td>355</td>
+        <td>-862</td>
+        <td>652</td>
+        <td>512</td>
+        <td>141</td>
+        <td>0</td>
+        <td>127.4%</td>
+        <td>115.3%</td>
+        <td>316</td>
+        <td>60.2%</td>
+        <td>51.5%</td>
+        <td>18.2%</td>
+        <td>12.9%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 40G～</td>
+        <td>4,099</td>
+        <td>389</td>
+        <td>349</td>
+        <td>-876</td>
+        <td>653</td>
+        <td>502</td>
+        <td>151</td>
+        <td>0</td>
+        <td>130.1%</td>
+        <td>117.5%</td>
+        <td>346</td>
+        <td>60.6%</td>
+        <td>51.7%</td>
+        <td>18.3%</td>
+        <td>12.9%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 50G～</td>
+        <td>3,981</td>
+        <td>399</td>
+        <td>349</td>
+        <td>-892</td>
+        <td>649</td>
+        <td>501</td>
+        <td>148</td>
+        <td>0</td>
+        <td>129.6%</td>
+        <td>116.7%</td>
+        <td>339</td>
+        <td>61.2%</td>
+        <td>52.3%</td>
+        <td>18.2%</td>
+        <td>12.8%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 60G～</td>
+        <td>3,962</td>
+        <td>402</td>
+        <td>342</td>
+        <td>-904</td>
+        <td>648</td>
+        <td>489</td>
+        <td>159</td>
+        <td>0</td>
+        <td>132.5%</td>
+        <td>119.2%</td>
+        <td>373</td>
+        <td>61.3%</td>
+        <td>52.5%</td>
+        <td>18.0%</td>
+        <td>12.7%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 70G～</td>
+        <td>3,943</td>
+        <td>403</td>
+        <td>333</td>
+        <td>-917</td>
+        <td>649</td>
+        <td>476</td>
+        <td>172</td>
+        <td>0</td>
+        <td>136.2%</td>
+        <td>122.2%</td>
+        <td>414</td>
+        <td>61.6%</td>
+        <td>52.8%</td>
+        <td>18.1%</td>
+        <td>12.7%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 80G～</td>
+        <td>3,918</td>
+        <td>406</td>
+        <td>326</td>
+        <td>-931</td>
+        <td>649</td>
+        <td>465</td>
+        <td>185</td>
+        <td>0</td>
+        <td>139.8%</td>
+        <td>125.2%</td>
+        <td>454</td>
+        <td>61.9%</td>
+        <td>53.1%</td>
+        <td>18.1%</td>
+        <td>12.8%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 90G～</td>
+        <td>3,847</td>
+        <td>412</td>
+        <td>322</td>
+        <td>-941</td>
+        <td>648</td>
+        <td>458</td>
+        <td>190</td>
+        <td>0</td>
+        <td>141.4%</td>
+        <td>126.4%</td>
+        <td>471</td>
+        <td>61.9%</td>
+        <td>53.1%</td>
+        <td>18.1%</td>
+        <td>12.8%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 100G～</td>
+        <td>3,783</td>
+        <td>418</td>
+        <td>318</td>
+        <td>-956</td>
+        <td>646</td>
+        <td>451</td>
+        <td>195</td>
+        <td>0</td>
+        <td>143.2%</td>
+        <td>127.7%</td>
+        <td>491</td>
+        <td>62.1%</td>
+        <td>53.1%</td>
+        <td>18.1%</td>
+        <td>12.8%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 120G～</td>
+        <td>3,694</td>
+        <td>426</td>
+        <td>306</td>
+        <td>-979</td>
+        <td>647</td>
+        <td>432</td>
+        <td>214</td>
+        <td>0</td>
+        <td>149.6%</td>
+        <td>132.9%</td>
+        <td>561</td>
+        <td>62.7%</td>
+        <td>53.8%</td>
+        <td>18.0%</td>
+        <td>12.8%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 140G～</td>
+        <td>3,610</td>
+        <td>433</td>
+        <td>293</td>
+        <td>-1,007</td>
+        <td>646</td>
+        <td>413</td>
+        <td>233</td>
+        <td>0</td>
+        <td>156.5%</td>
+        <td>138.3%</td>
+        <td>636</td>
+        <td>63.7%</td>
+        <td>54.5%</td>
+        <td>18.0%</td>
+        <td>12.7%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 150G～</td>
+        <td>3,553</td>
+        <td>438</td>
+        <td>288</td>
+        <td>-1,025</td>
+        <td>646</td>
+        <td>404</td>
+        <td>241</td>
+        <td>0</td>
+        <td>159.7%</td>
+        <td>140.9%</td>
+        <td>671</td>
+        <td>64.1%</td>
+        <td>54.9%</td>
+        <td>18.0%</td>
+        <td>12.7%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 180G～</td>
+        <td>3,355</td>
+        <td>454</td>
+        <td>274</td>
+        <td>-1,066</td>
+        <td>646</td>
+        <td>384</td>
+        <td>262</td>
+        <td>0</td>
+        <td>168.4%</td>
+        <td>147.8%</td>
+        <td>765</td>
+        <td>65.8%</td>
+        <td>56.4%</td>
+        <td>18.0%</td>
+        <td>12.7%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 200G～</td>
+        <td>3,206</td>
+        <td>467</td>
+        <td>267</td>
+        <td>-1,089</td>
+        <td>647</td>
+        <td>372</td>
+        <td>275</td>
+        <td>0</td>
+        <td>174.1%</td>
+        <td>151.9%</td>
+        <td>824</td>
+        <td>66.7%</td>
+        <td>57.5%</td>
+        <td>17.9%</td>
+        <td>12.7%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 250G～</td>
+        <td>2,999</td>
+        <td>485</td>
+        <td>235</td>
+        <td>-1,146</td>
+        <td>639</td>
+        <td>319</td>
+        <td>320</td>
+        <td>0</td>
+        <td>200.1%</td>
+        <td>171.0%</td>
+        <td>1,090</td>
+        <td>69.2%</td>
+        <td>59.6%</td>
+        <td>17.4%</td>
+        <td>12.4%</td>
+        <td>14.2%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 300G～</td>
+        <td>2,757</td>
+        <td>504</td>
+        <td>204</td>
+        <td>-1,213</td>
+        <td>635</td>
+        <td>271</td>
+        <td>364</td>
+        <td>0</td>
+        <td>234.3%</td>
+        <td>195.7%</td>
+        <td>1,429</td>
+        <td>71.2%</td>
+        <td>61.5%</td>
+        <td>17.4%</td>
+        <td>12.3%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 350G～</td>
+        <td>2,323</td>
+        <td>537</td>
+        <td>187</td>
+        <td>-1,272</td>
+        <td>626</td>
+        <td>244</td>
+        <td>382</td>
+        <td>0</td>
+        <td>256.3%</td>
+        <td>210.1%</td>
+        <td>1,632</td>
+        <td>74.4%</td>
+        <td>64.8%</td>
+        <td>16.9%</td>
+        <td>12.1%</td>
+        <td>13.9%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 400G～</td>
+        <td>2,089</td>
+        <td>556</td>
+        <td>156</td>
+        <td>-1,347</td>
+        <td>625</td>
+        <td>193</td>
+        <td>432</td>
+        <td>0</td>
+        <td>323.1%</td>
+        <td>252.2%</td>
+        <td>2,218</td>
+        <td>78.2%</td>
+        <td>68.2%</td>
+        <td>17.0%</td>
+        <td>12.1%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 450G～</td>
+        <td>1,942</td>
+        <td>566</td>
+        <td>116</td>
+        <td>-1,406</td>
+        <td>622</td>
+        <td>131</td>
+        <td>491</td>
+        <td>0</td>
+        <td>474.9%</td>
+        <td>336.7%</td>
+        <td>3,386</td>
+        <td>83.0%</td>
+        <td>72.8%</td>
+        <td>16.9%</td>
+        <td>11.9%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 500G～</td>
+        <td>1,565</td>
+        <td>586</td>
+        <td>86</td>
+        <td>-1,476</td>
+        <td>622</td>
+        <td>85</td>
+        <td>536</td>
+        <td>0</td>
+        <td>728.8%</td>
+        <td>452.2%</td>
+        <td>4,970</td>
+        <td>87.7%</td>
+        <td>77.6%</td>
+        <td>16.7%</td>
+        <td>11.8%</td>
+        <td>13.4%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 520G～</td>
+        <td>1,455</td>
+        <td>592</td>
+        <td>72</td>
+        <td>-1,486</td>
+        <td>618</td>
+        <td>62</td>
+        <td>556</td>
+        <td>0</td>
+        <td>994.5%</td>
+        <td>536.4%</td>
+        <td>6,146</td>
+        <td>90.1%</td>
+        <td>79.9%</td>
+        <td>16.4%</td>
+        <td>11.6%</td>
+        <td>13.3%</td>
+      </tr><tr class="hot">
+        <td>駆け抜け後 560G～</td>
+        <td>1,312</td>
+        <td>598</td>
+        <td>38</td>
+        <td>-1,529</td>
+        <td>619</td>
+        <td>7</td>
+        <td>612</td>
+        <td>0</td>
+        <td>9191.3%</td>
+        <td>1013.7%</td>
+        <td>12,773</td>
+        <td>95.0%</td>
+        <td>85.1%</td>
+        <td>15.9%</td>
+        <td>11.3%</td>
+        <td>13.2%</td>
+      </tr><tr class="">
+        <td>駆け抜け後 590G～</td>
+        <td>1,259</td>
+        <td>599</td>
+        <td>9</td>
+        <td>-1,570</td>
+        <td>617</td>
+        <td>0</td>
+        <td>617</td>
+        <td>0</td>
+        <td>-</td>
+        <td>4129.2%</td>
+        <td>52,602</td>
+        <td>98.9%</td>
+        <td>88.7%</td>
+        <td>16.0%</td>
+        <td>11.6%</td>
+        <td>13.5%</td>
+      </tr><tr class="">
+        <td>駆け抜け後 600G～</td>
+        <td>456</td>
+        <td>602</td>
+        <td>2</td>
+        <td>-1,524</td>
+        <td>567</td>
+        <td>0</td>
+        <td>567</td>
+        <td>0</td>
+        <td>-</td>
+        <td>16815.7%</td>
+        <td>214,213</td>
+        <td>99.6%</td>
+        <td>91.2%</td>
+        <td>11.8%</td>
+        <td>8.8%</td>
+        <td>10.5%</td>
+      </tr></tbody>
+          </table>
+        </div>
+      </section><section>
+        <h2>上位後 打ち出しG別</h2>
+        <div class="scroll">
+          <table>
+            <thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead>
+            <tbody><tr class="hot">
+        <td>上位後 0G～</td>
+        <td>3,246</td>
+        <td>398</td>
+        <td>398</td>
+        <td>139</td>
+        <td>664</td>
+        <td>579</td>
+        <td>86</td>
+        <td>0</td>
+        <td>114.8%</td>
+        <td>104.8%</td>
+        <td>172</td>
+        <td>52.9%</td>
+        <td>42.0%</td>
+        <td>24.9%</td>
+        <td>12.8%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>上位後 30G～</td>
+        <td>3,250</td>
+        <td>401</td>
+        <td>371</td>
+        <td>110</td>
+        <td>666</td>
+        <td>537</td>
+        <td>129</td>
+        <td>0</td>
+        <td>124.0%</td>
+        <td>112.6%</td>
+        <td>278</td>
+        <td>53.3%</td>
+        <td>42.2%</td>
+        <td>25.0%</td>
+        <td>12.8%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>上位後 40G～</td>
+        <td>3,217</td>
+        <td>406</td>
+        <td>366</td>
+        <td>97</td>
+        <td>665</td>
+        <td>527</td>
+        <td>138</td>
+        <td>0</td>
+        <td>126.2%</td>
+        <td>114.3%</td>
+        <td>302</td>
+        <td>54.0%</td>
+        <td>42.8%</td>
+        <td>25.0%</td>
+        <td>12.9%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>上位後 50G～</td>
+        <td>3,169</td>
+        <td>412</td>
+        <td>362</td>
+        <td>91</td>
+        <td>664</td>
+        <td>521</td>
+        <td>142</td>
+        <td>0</td>
+        <td>127.3%</td>
+        <td>115.1%</td>
+        <td>314</td>
+        <td>56.4%</td>
+        <td>44.7%</td>
+        <td>24.9%</td>
+        <td>12.8%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>上位後 60G～</td>
+        <td>3,168</td>
+        <td>413</td>
+        <td>353</td>
+        <td>84</td>
+        <td>662</td>
+        <td>507</td>
+        <td>155</td>
+        <td>0</td>
+        <td>130.5%</td>
+        <td>117.7%</td>
+        <td>350</td>
+        <td>56.6%</td>
+        <td>44.9%</td>
+        <td>24.8%</td>
+        <td>12.8%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>上位後 70G～</td>
+        <td>3,166</td>
+        <td>415</td>
+        <td>345</td>
+        <td>79</td>
+        <td>663</td>
+        <td>494</td>
+        <td>169</td>
+        <td>0</td>
+        <td>134.2%</td>
+        <td>120.8%</td>
+        <td>392</td>
+        <td>57.4%</td>
+        <td>45.5%</td>
+        <td>24.9%</td>
+        <td>12.8%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>上位後 80G～</td>
+        <td>3,161</td>
+        <td>417</td>
+        <td>337</td>
+        <td>68</td>
+        <td>664</td>
+        <td>481</td>
+        <td>182</td>
+        <td>0</td>
+        <td>137.8%</td>
+        <td>123.8%</td>
+        <td>433</td>
+        <td>58.1%</td>
+        <td>46.3%</td>
+        <td>24.9%</td>
+        <td>12.9%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>上位後 90G～</td>
+        <td>3,130</td>
+        <td>421</td>
+        <td>331</td>
+        <td>57</td>
+        <td>661</td>
+        <td>472</td>
+        <td>189</td>
+        <td>0</td>
+        <td>140.1%</td>
+        <td>125.5%</td>
+        <td>457</td>
+        <td>58.6%</td>
+        <td>46.5%</td>
+        <td>25.0%</td>
+        <td>12.9%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>上位後 100G～</td>
+        <td>3,110</td>
+        <td>425</td>
+        <td>325</td>
+        <td>52</td>
+        <td>661</td>
+        <td>462</td>
+        <td>199</td>
+        <td>0</td>
+        <td>143.1%</td>
+        <td>128.0%</td>
+        <td>491</td>
+        <td>59.5%</td>
+        <td>47.2%</td>
+        <td>25.1%</td>
+        <td>12.9%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>上位後 120G～</td>
+        <td>3,059</td>
+        <td>431</td>
+        <td>311</td>
+        <td>33</td>
+        <td>662</td>
+        <td>441</td>
+        <td>220</td>
+        <td>0</td>
+        <td>150.0%</td>
+        <td>133.4%</td>
+        <td>566</td>
+        <td>60.6%</td>
+        <td>48.3%</td>
+        <td>25.0%</td>
+        <td>13.0%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>上位後 140G～</td>
+        <td>3,007</td>
+        <td>438</td>
+        <td>298</td>
+        <td>9</td>
+        <td>656</td>
+        <td>420</td>
+        <td>236</td>
+        <td>0</td>
+        <td>156.2%</td>
+        <td>138.2%</td>
+        <td>634</td>
+        <td>62.0%</td>
+        <td>49.4%</td>
+        <td>25.0%</td>
+        <td>13.0%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>上位後 150G～</td>
+        <td>2,971</td>
+        <td>442</td>
+        <td>292</td>
+        <td>-1</td>
+        <td>655</td>
+        <td>411</td>
+        <td>244</td>
+        <td>0</td>
+        <td>159.3%</td>
+        <td>140.6%</td>
+        <td>667</td>
+        <td>62.9%</td>
+        <td>49.9%</td>
+        <td>25.0%</td>
+        <td>12.9%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>上位後 180G～</td>
+        <td>2,865</td>
+        <td>453</td>
+        <td>273</td>
+        <td>-33</td>
+        <td>651</td>
+        <td>382</td>
+        <td>269</td>
+        <td>0</td>
+        <td>170.6%</td>
+        <td>149.4%</td>
+        <td>788</td>
+        <td>66.5%</td>
+        <td>52.8%</td>
+        <td>25.1%</td>
+        <td>12.8%</td>
+        <td>14.3%</td>
+      </tr><tr class="hot">
+        <td>上位後 200G～</td>
+        <td>2,781</td>
+        <td>463</td>
+        <td>263</td>
+        <td>-52</td>
+        <td>646</td>
+        <td>364</td>
+        <td>282</td>
+        <td>0</td>
+        <td>177.5%</td>
+        <td>154.4%</td>
+        <td>859</td>
+        <td>68.0%</td>
+        <td>54.3%</td>
+        <td>25.0%</td>
+        <td>12.6%</td>
+        <td>14.1%</td>
+      </tr><tr class="hot">
+        <td>上位後 250G～</td>
+        <td>2,640</td>
+        <td>480</td>
+        <td>230</td>
+        <td>-92</td>
+        <td>638</td>
+        <td>311</td>
+        <td>327</td>
+        <td>0</td>
+        <td>205.0%</td>
+        <td>174.6%</td>
+        <td>1,139</td>
+        <td>72.0%</td>
+        <td>57.5%</td>
+        <td>25.1%</td>
+        <td>12.5%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>上位後 300G～</td>
+        <td>2,430</td>
+        <td>500</td>
+        <td>200</td>
+        <td>-142</td>
+        <td>630</td>
+        <td>266</td>
+        <td>365</td>
+        <td>0</td>
+        <td>237.3%</td>
+        <td>197.6%</td>
+        <td>1,456</td>
+        <td>75.4%</td>
+        <td>60.7%</td>
+        <td>24.9%</td>
+        <td>12.3%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>上位後 350G～</td>
+        <td>2,033</td>
+        <td>537</td>
+        <td>187</td>
+        <td>-178</td>
+        <td>624</td>
+        <td>244</td>
+        <td>380</td>
+        <td>0</td>
+        <td>255.8%</td>
+        <td>209.5%</td>
+        <td>1,626</td>
+        <td>78.2%</td>
+        <td>62.4%</td>
+        <td>25.8%</td>
+        <td>12.4%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>上位後 400G～</td>
+        <td>1,855</td>
+        <td>555</td>
+        <td>155</td>
+        <td>-241</td>
+        <td>623</td>
+        <td>192</td>
+        <td>431</td>
+        <td>0</td>
+        <td>324.3%</td>
+        <td>253.1%</td>
+        <td>2,230</td>
+        <td>83.4%</td>
+        <td>65.6%</td>
+        <td>26.3%</td>
+        <td>12.3%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>上位後 450G～</td>
+        <td>1,717</td>
+        <td>567</td>
+        <td>117</td>
+        <td>-283</td>
+        <td>623</td>
+        <td>132</td>
+        <td>491</td>
+        <td>0</td>
+        <td>470.9%</td>
+        <td>334.8%</td>
+        <td>3,360</td>
+        <td>87.4%</td>
+        <td>68.2%</td>
+        <td>26.3%</td>
+        <td>12.5%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>上位後 500G～</td>
+        <td>1,381</td>
+        <td>589</td>
+        <td>89</td>
+        <td>-330</td>
+        <td>623</td>
+        <td>89</td>
+        <td>534</td>
+        <td>0</td>
+        <td>702.5%</td>
+        <td>440.7%</td>
+        <td>4,815</td>
+        <td>91.7%</td>
+        <td>70.2%</td>
+        <td>27.0%</td>
+        <td>12.7%</td>
+        <td>14.3%</td>
+      </tr><tr class="hot">
+        <td>上位後 520G～</td>
+        <td>1,300</td>
+        <td>594</td>
+        <td>74</td>
+        <td>-366</td>
+        <td>618</td>
+        <td>65</td>
+        <td>553</td>
+        <td>0</td>
+        <td>954.7%</td>
+        <td>524.4%</td>
+        <td>5,981</td>
+        <td>93.8%</td>
+        <td>71.5%</td>
+        <td>27.3%</td>
+        <td>12.6%</td>
+        <td>14.3%</td>
+      </tr><tr class="hot">
+        <td>上位後 560G～</td>
+        <td>1,174</td>
+        <td>601</td>
+        <td>41</td>
+        <td>-379</td>
+        <td>623</td>
+        <td>10</td>
+        <td>613</td>
+        <td>0</td>
+        <td>5956.1%</td>
+        <td>965.5%</td>
+        <td>12,093</td>
+        <td>97.9%</td>
+        <td>75.0%</td>
+        <td>27.0%</td>
+        <td>12.7%</td>
+        <td>14.2%</td>
+      </tr><tr class="hot">
+        <td>上位後 590G～</td>
+        <td>1,124</td>
+        <td>602</td>
+        <td>12</td>
+        <td>-426</td>
+        <td>625</td>
+        <td>4</td>
+        <td>621</td>
+        <td>0</td>
+        <td>14616.5%</td>
+        <td>3311.4%</td>
+        <td>41,895</td>
+        <td>99.0%</td>
+        <td>75.9%</td>
+        <td>27.0%</td>
+        <td>12.7%</td>
+        <td>14.1%</td>
+      </tr><tr class="hot">
+        <td>上位後 600G～</td>
+        <td>270</td>
+        <td>614</td>
+        <td>14</td>
+        <td>-548</td>
+        <td>618</td>
+        <td>17</td>
+        <td>601</td>
+        <td>0</td>
+        <td>3613.0%</td>
+        <td>2726.2%</td>
+        <td>33,768</td>
+        <td>98.5%</td>
+        <td>75.2%</td>
+        <td>29.3%</td>
+        <td>13.7%</td>
+        <td>14.1%</td>
+      </tr></tbody>
+          </table>
+        </div>
+      </section><section>
+        <h2>非短縮後 打ち出しG別</h2>
+        <div class="scroll">
+          <table>
+            <thead><tr>
+    <th>条件</th><th>件数</th><th>平均ST当選G</th><th>平均残G</th><th>開始差枚</th><th>平均回収</th><th>投資(note)</th><th>期待差枚</th><th>同G上乗せ</th><th>機械割(note)</th><th>機械割(生)</th><th>時給換算</th><th>次回REGでST</th><th>次回REGエピボ</th><th>上位</th><th>8連+</th><th>1000枚+</th>
+  </tr></thead>
+            <tbody><tr class="plus">
+        <td>非短縮後 0G～</td>
+        <td>15,007</td>
+        <td>416</td>
+        <td>416</td>
+        <td>-397</td>
+        <td>640</td>
+        <td>607</td>
+        <td>33</td>
+        <td>0</td>
+        <td>105.5%</td>
+        <td>96.6%</td>
+        <td>64</td>
+        <td>54.1%</td>
+        <td>48.3%</td>
+        <td>16.3%</td>
+        <td>12.3%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 30G～</td>
+        <td>14,905</td>
+        <td>420</td>
+        <td>390</td>
+        <td>-437</td>
+        <td>641</td>
+        <td>567</td>
+        <td>74</td>
+        <td>0</td>
+        <td>113.0%</td>
+        <td>103.2%</td>
+        <td>151</td>
+        <td>54.2%</td>
+        <td>48.4%</td>
+        <td>16.3%</td>
+        <td>12.4%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 40G～</td>
+        <td>14,597</td>
+        <td>428</td>
+        <td>388</td>
+        <td>-448</td>
+        <td>641</td>
+        <td>564</td>
+        <td>77</td>
+        <td>0</td>
+        <td>113.6%</td>
+        <td>103.7%</td>
+        <td>158</td>
+        <td>54.4%</td>
+        <td>48.5%</td>
+        <td>16.4%</td>
+        <td>12.4%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 50G～</td>
+        <td>14,144</td>
+        <td>441</td>
+        <td>391</td>
+        <td>-461</td>
+        <td>642</td>
+        <td>567</td>
+        <td>75</td>
+        <td>0</td>
+        <td>113.2%</td>
+        <td>103.2%</td>
+        <td>153</td>
+        <td>55.0%</td>
+        <td>49.0%</td>
+        <td>16.5%</td>
+        <td>12.4%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 60G～</td>
+        <td>14,048</td>
+        <td>444</td>
+        <td>384</td>
+        <td>-474</td>
+        <td>642</td>
+        <td>556</td>
+        <td>85</td>
+        <td>0</td>
+        <td>115.3%</td>
+        <td>105.0%</td>
+        <td>178</td>
+        <td>55.2%</td>
+        <td>49.1%</td>
+        <td>16.5%</td>
+        <td>12.4%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 70G～</td>
+        <td>13,912</td>
+        <td>448</td>
+        <td>378</td>
+        <td>-485</td>
+        <td>642</td>
+        <td>548</td>
+        <td>94</td>
+        <td>0</td>
+        <td>117.2%</td>
+        <td>106.7%</td>
+        <td>199</td>
+        <td>55.4%</td>
+        <td>49.3%</td>
+        <td>16.5%</td>
+        <td>12.4%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 80G～</td>
+        <td>13,750</td>
+        <td>452</td>
+        <td>372</td>
+        <td>-499</td>
+        <td>642</td>
+        <td>540</td>
+        <td>102</td>
+        <td>0</td>
+        <td>118.9%</td>
+        <td>108.2%</td>
+        <td>219</td>
+        <td>55.6%</td>
+        <td>49.6%</td>
+        <td>16.6%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 90G～</td>
+        <td>13,381</td>
+        <td>463</td>
+        <td>373</td>
+        <td>-513</td>
+        <td>641</td>
+        <td>540</td>
+        <td>101</td>
+        <td>0</td>
+        <td>118.8%</td>
+        <td>108.0%</td>
+        <td>217</td>
+        <td>56.0%</td>
+        <td>49.8%</td>
+        <td>16.6%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 100G～</td>
+        <td>13,092</td>
+        <td>471</td>
+        <td>371</td>
+        <td>-522</td>
+        <td>641</td>
+        <td>537</td>
+        <td>104</td>
+        <td>0</td>
+        <td>119.3%</td>
+        <td>108.4%</td>
+        <td>223</td>
+        <td>56.3%</td>
+        <td>50.1%</td>
+        <td>16.6%</td>
+        <td>12.4%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 120G～</td>
+        <td>12,683</td>
+        <td>484</td>
+        <td>364</td>
+        <td>-548</td>
+        <td>642</td>
+        <td>525</td>
+        <td>117</td>
+        <td>0</td>
+        <td>122.2%</td>
+        <td>110.9%</td>
+        <td>257</td>
+        <td>56.6%</td>
+        <td>50.4%</td>
+        <td>16.7%</td>
+        <td>12.5%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 140G～</td>
+        <td>12,217</td>
+        <td>497</td>
+        <td>357</td>
+        <td>-577</td>
+        <td>640</td>
+        <td>516</td>
+        <td>124</td>
+        <td>0</td>
+        <td>124.1%</td>
+        <td>112.4%</td>
+        <td>278</td>
+        <td>57.3%</td>
+        <td>50.9%</td>
+        <td>16.7%</td>
+        <td>12.4%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 150G～</td>
+        <td>11,938</td>
+        <td>506</td>
+        <td>356</td>
+        <td>-590</td>
+        <td>638</td>
+        <td>514</td>
+        <td>124</td>
+        <td>0</td>
+        <td>124.2%</td>
+        <td>112.6%</td>
+        <td>280</td>
+        <td>57.6%</td>
+        <td>51.1%</td>
+        <td>16.7%</td>
+        <td>12.3%</td>
+        <td>13.7%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 180G～</td>
+        <td>10,822</td>
+        <td>541</td>
+        <td>361</td>
+        <td>-619</td>
+        <td>636</td>
+        <td>524</td>
+        <td>112</td>
+        <td>0</td>
+        <td>121.4%</td>
+        <td>110.5%</td>
+        <td>249</td>
+        <td>59.3%</td>
+        <td>52.5%</td>
+        <td>16.9%</td>
+        <td>12.3%</td>
+        <td>13.8%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 200G～</td>
+        <td>9,967</td>
+        <td>572</td>
+        <td>372</td>
+        <td>-644</td>
+        <td>637</td>
+        <td>539</td>
+        <td>98</td>
+        <td>0</td>
+        <td>118.2%</td>
+        <td>107.4%</td>
+        <td>210</td>
+        <td>60.6%</td>
+        <td>53.4%</td>
+        <td>17.1%</td>
+        <td>12.4%</td>
+        <td>13.9%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 250G～</td>
+        <td>9,169</td>
+        <td>604</td>
+        <td>354</td>
+        <td>-706</td>
+        <td>638</td>
+        <td>510</td>
+        <td>129</td>
+        <td>0</td>
+        <td>125.3%</td>
+        <td>113.2%</td>
+        <td>291</td>
+        <td>62.3%</td>
+        <td>54.9%</td>
+        <td>17.4%</td>
+        <td>12.5%</td>
+        <td>14.0%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 300G～</td>
+        <td>8,243</td>
+        <td>642</td>
+        <td>342</td>
+        <td>-783</td>
+        <td>637</td>
+        <td>492</td>
+        <td>146</td>
+        <td>0</td>
+        <td>129.6%</td>
+        <td>117.1%</td>
+        <td>341</td>
+        <td>63.5%</td>
+        <td>55.8%</td>
+        <td>17.7%</td>
+        <td>12.7%</td>
+        <td>14.2%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 350G～</td>
+        <td>6,218</td>
+        <td>746</td>
+        <td>396</td>
+        <td>-830</td>
+        <td>641</td>
+        <td>577</td>
+        <td>64</td>
+        <td>0</td>
+        <td>111.1%</td>
+        <td>101.7%</td>
+        <td>130</td>
+        <td>60.5%</td>
+        <td>52.1%</td>
+        <td>18.6%</td>
+        <td>12.9%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 400G～</td>
+        <td>5,672</td>
+        <td>783</td>
+        <td>383</td>
+        <td>-903</td>
+        <td>644</td>
+        <td>555</td>
+        <td>89</td>
+        <td>0</td>
+        <td>116.1%</td>
+        <td>105.7%</td>
+        <td>186</td>
+        <td>62.0%</td>
+        <td>53.1%</td>
+        <td>19.0%</td>
+        <td>13.0%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 450G～</td>
+        <td>5,291</td>
+        <td>809</td>
+        <td>359</td>
+        <td>-975</td>
+        <td>642</td>
+        <td>518</td>
+        <td>124</td>
+        <td>0</td>
+        <td>124.0%</td>
+        <td>112.2%</td>
+        <td>277</td>
+        <td>63.7%</td>
+        <td>54.2%</td>
+        <td>19.2%</td>
+        <td>13.0%</td>
+        <td>14.6%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 500G～</td>
+        <td>4,827</td>
+        <td>842</td>
+        <td>342</td>
+        <td>-1,043</td>
+        <td>639</td>
+        <td>490</td>
+        <td>149</td>
+        <td>0</td>
+        <td>130.4%</td>
+        <td>117.4%</td>
+        <td>348</td>
+        <td>66.4%</td>
+        <td>56.2%</td>
+        <td>19.4%</td>
+        <td>12.9%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 520G～</td>
+        <td>4,673</td>
+        <td>854</td>
+        <td>334</td>
+        <td>-1,068</td>
+        <td>639</td>
+        <td>477</td>
+        <td>162</td>
+        <td>0</td>
+        <td>133.9%</td>
+        <td>120.2%</td>
+        <td>388</td>
+        <td>68.2%</td>
+        <td>57.8%</td>
+        <td>19.6%</td>
+        <td>13.0%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 560G～</td>
+        <td>4,370</td>
+        <td>876</td>
+        <td>316</td>
+        <td>-1,121</td>
+        <td>641</td>
+        <td>449</td>
+        <td>192</td>
+        <td>0</td>
+        <td>142.9%</td>
+        <td>127.5%</td>
+        <td>487</td>
+        <td>70.8%</td>
+        <td>59.9%</td>
+        <td>19.6%</td>
+        <td>12.8%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 590G～</td>
+        <td>4,205</td>
+        <td>888</td>
+        <td>298</td>
+        <td>-1,161</td>
+        <td>640</td>
+        <td>420</td>
+        <td>220</td>
+        <td>0</td>
+        <td>152.3%</td>
+        <td>134.7%</td>
+        <td>589</td>
+        <td>71.8%</td>
+        <td>60.8%</td>
+        <td>19.6%</td>
+        <td>12.8%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 600G～</td>
+        <td>4,159</td>
+        <td>892</td>
+        <td>292</td>
+        <td>-1,177</td>
+        <td>638</td>
+        <td>410</td>
+        <td>229</td>
+        <td>0</td>
+        <td>155.8%</td>
+        <td>137.4%</td>
+        <td>627</td>
+        <td>72.2%</td>
+        <td>61.2%</td>
+        <td>19.6%</td>
+        <td>12.8%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 630G～</td>
+        <td>4,050</td>
+        <td>900</td>
+        <td>270</td>
+        <td>-1,212</td>
+        <td>640</td>
+        <td>376</td>
+        <td>265</td>
+        <td>0</td>
+        <td>170.5%</td>
+        <td>149.1%</td>
+        <td>786</td>
+        <td>73.0%</td>
+        <td>61.9%</td>
+        <td>19.8%</td>
+        <td>12.9%</td>
+        <td>14.4%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 650G～</td>
+        <td>3,912</td>
+        <td>909</td>
+        <td>259</td>
+        <td>-1,249</td>
+        <td>642</td>
+        <td>358</td>
+        <td>284</td>
+        <td>0</td>
+        <td>179.1%</td>
+        <td>155.6%</td>
+        <td>876</td>
+        <td>74.1%</td>
+        <td>62.7%</td>
+        <td>19.9%</td>
+        <td>12.9%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 700G～</td>
+        <td>3,480</td>
+        <td>938</td>
+        <td>238</td>
+        <td>-1,321</td>
+        <td>641</td>
+        <td>325</td>
+        <td>316</td>
+        <td>0</td>
+        <td>197.1%</td>
+        <td>169.2%</td>
+        <td>1,062</td>
+        <td>77.4%</td>
+        <td>65.4%</td>
+        <td>20.1%</td>
+        <td>12.9%</td>
+        <td>14.5%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 800G～</td>
+        <td>2,949</td>
+        <td>974</td>
+        <td>174</td>
+        <td>-1,457</td>
+        <td>633</td>
+        <td>223</td>
+        <td>410</td>
+        <td>0</td>
+        <td>284.0%</td>
+        <td>228.2%</td>
+        <td>1,883</td>
+        <td>84.0%</td>
+        <td>70.7%</td>
+        <td>20.4%</td>
+        <td>13.0%</td>
+        <td>14.7%</td>
+      </tr><tr class="hot">
+        <td>非短縮後 900G～</td>
+        <td>2,534</td>
+        <td>995</td>
+        <td>95</td>
+        <td>-1,604</td>
+        <td>618</td>
+        <td>97</td>
+        <td>522</td>
+        <td>0</td>
+        <td>639.5%</td>
+        <td>409.2%</td>
+        <td>4,398</td>
+        <td>91.0%</td>
+        <td>76.6%</td>
+        <td>20.5%</td>
+        <td>13.0%</td>
+        <td>14.5%</td>
+      </tr></tbody>
+          </table>
+        </div>
+      </section>
+  </main>
+</body>
+</html>
