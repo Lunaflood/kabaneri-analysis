@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>カバネリ 条件該当グラフ一覧</title>
+  <style>
+    :root{--bg:#f4f1e9;--panel:#fffdf8;--ink:#1d2424;--muted:#64706c;--line:#d8d0bf;--green:#25a45d;--red:#df3c2f;--gold:#d1a13a;--blue:#4b91c8;--dark:#30302f}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;letter-spacing:0}
+    header{padding:22px clamp(12px,3vw,34px) 14px;background:#fff8ea;border-bottom:1px solid var(--line)}
+    h1{font-size:clamp(22px,3vw,34px);line-height:1.25;margin:0 0 8px}
+    .lead{font-size:13px;color:var(--muted);line-height:1.7;max-width:1160px;margin:0}
+    main{padding:14px clamp(10px,2.4vw,28px) 36px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0}
+    .nav a{color:#165f55;font-weight:800;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 10px;font-size:13px}
+    .metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0 0 12px}
+    .metric{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+    .metric b{display:block;font-size:20px}.metric span{font-size:12px;color:var(--muted)}
+    .controls{position:sticky;top:0;z-index:5;display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:rgba(244,241,233,.96);border-bottom:1px solid var(--line);padding:10px 0;margin:0 0 12px}
+    .controls input,.controls select{height:34px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:0 10px;font:inherit;font-size:13px}
+    .controls input{min-width:260px}.count{color:var(--muted);font-size:12px}
+    .case-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:12px;align-items:start}
+    .case-card{background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+    .case-head{display:grid;grid-template-columns:1fr auto;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);background:#fff}
+    .case-title{font-weight:900;line-height:1.35}.case-title span{display:block;font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+    .badge{align-self:start;background:#1f5f55;color:#fff;border-radius:6px;padding:5px 7px;font-size:12px;font-weight:900}
+    .quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line);background:#fbf8ef}
+    .quick div{padding:7px 8px;border-right:1px solid var(--line)}.quick div:last-child{border-right:0}
+    .quick b{display:block;font-size:14px}.quick span{font-size:11px;color:var(--muted)}
+    .chart{height:300px;background:var(--dark);border-bottom:1px solid #222;overflow:hidden}
+    .chart svg{width:100%;height:100%;display:block}.axis{stroke:#62625f;stroke-width:1}.zero{stroke:var(--red);stroke-width:1.6}.gridline{stroke:#4a4a47;stroke-width:1}.line{fill:none;stroke:var(--green);stroke-width:2.4}.chart-label{fill:#f2f2ee;font-size:11px;font-weight:700}.muted-label{fill:#b7b7b0;font-size:11px}.session-line{stroke:#f2d46b;stroke-width:1.5;stroke-dasharray:5 4}.mark-before{fill:var(--gold)}.mark-final{fill:var(--red);stroke:#fff;stroke-width:1.5}.mark-chain{fill:var(--blue)}
+    .history-wrap{overflow:auto}
+    .history{width:100%;min-width:620px;border-collapse:collapse;background:#fff;font-size:11px}
+    .history th,.history td{border:1px solid var(--line);padding:4px 5px;text-align:right;white-space:nowrap}.history th:first-child,.history td:first-child{text-align:left}
+    .history th{background:#e8dfcf;color:#313a38;position:sticky;top:54px;z-index:2}.history .kind{text-align:center;font-weight:800}.plus{color:#11774f;font-weight:800}.minus{color:#ad342b;font-weight:800}
+    .history tr.mark-before td{background:#fff7d9}.history tr.mark-final td{background:#ffe4df}.history tr.mark-chain td{background:#e8f3fb}
+    .note{font-size:11px;color:var(--muted);line-height:1.6;padding:7px 10px;border-bottom:1px solid var(--line);background:#fffdf8}
+    @media(max-width:980px){.metrics{grid-template-columns:1fr 1fr}.case-grid{grid-template-columns:1fr}.controls input{min-width:180px}.quick{grid-template-columns:1fr 1fr}.chart{height:260px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>開始差枚 -3000〜-2001 × 前回AT当選200-349G グラフ一覧</h1>
+    <p class="lead">条件に当てはまる296件を、台ごとの推定差枚グラフと当日の全履歴つきで一覧表示します。黄色は同区間内のAT非突入RB、赤は今回ATにつながった初当たり、青はそのAT中の履歴です。</p>
+    <div class="nav">
+      <a href="condition_startnet_m3000_m2001_prev_at_200_349.html">表一覧</a>
+      <a href="unit_day_detail.html">台別検索</a>
+    </div>
+  </header>
+  <main>
+    <div class="metrics">
+      <div class="metric"><b>296</b><span>該当件数</span></div>
+      <div class="metric"><b>149 / 296</b><span>0Gプラス件数</span></div>
+      <div class="metric"><b>147</b><span>0G平均差枚</span></div>
+      <div class="metric"><b>124.3%</b><span>0G機械割</span></div>
+      <div class="metric"><b>89.2%</b><span>今回エピボ率</span></div>
+      <div class="metric"><b>19.6%</b><span>1000枚以上</span></div>
+    </div>
+    <div class="controls">
+      <input id="search" placeholder="店舗・台番・日付で検索">
+      <select id="store"><option value="">全店舗</option><option value="プラザ天神">プラザ天神</option><option value="ワンダーランド1177大分南店">ワンダーランド1177大分南店</option><option value="ワンダーランド1177谷山店">ワンダーランド1177谷山店</option><option value="ワンダーランド1188宮崎芳士店">ワンダーランド1188宮崎芳士店</option><option value="ワンダーランド1188鹿児島新栄店">ワンダーランド1188鹿児島新栄店</option><option value="ワンダーランド1188福岡東店">ワンダーランド1188福岡東店</option><option value="ワンダーランドうきはバイパス店">ワンダーランドうきはバイパス店</option><option value="ワンダーランド伊万里店">ワンダーランド伊万里店</option><option value="ワンダーランド香椎II">ワンダーランド香椎II</option><option value="ワンダーランド香椎本館">ワンダーランド香椎本館</option><option value="ワンダーランド佐世保白岳店">ワンダーランド佐世保白岳店</option><option value="ワンダーランド三潴店">ワンダーランド三潴店</option><option value="ワンダーランド小戸本館">ワンダーランド小戸本館</option><option value="ワンダーランド須恵店">ワンダーランド須恵店</option><option value="ワンダーランド大川店">ワンダーランド大川店</option><option value="ワンダーランド大刀洗">ワンダーランド大刀洗</option><option value="ワンダーランド大分皆春店">ワンダーランド大分皆春店</option><option value="ワンダーランド南ヶ丘店">ワンダーランド南ヶ丘店</option><option value="ワンダーランド百年橋">ワンダーランド百年橋</option><option value="ワンダーランド武雄店">ワンダーランド武雄店</option><option value="ワンダーランド諫早店">ワンダーランド諫早店</option><option value="玉屋雑餉隈">玉屋雑餉隈</option><option value="玉屋本店">玉屋本店</option></select>
+      <select id="date"><option value="">全日付</option><option value="2026-05-06">2026-05-06</option><option value="2026-05-05">2026-05-05</option><option value="2026-05-04">2026-05-04</option><option value="2026-05-03">2026-05-03</option><option value="2026-05-02">2026-05-02</option><option value="2026-05-01">2026-05-01</option><option value="2026-04-30">2026-04-30</option><option value="2026-04-29">2026-04-29</option></select>
+      <select id="sort">
+        <option value="no">元の順番</option>
+        <option value="netDesc">0G差枚 高い順</option>
+        <option value="netAsc">0G差枚 低い順</option>
+        <option value="startAsc">開始差枚 深い順</option>
+        <option value="thisG">今回AT G 低い順</option>
+        <option value="priorCeiling">前最大G 高い順</option>
+      </select>
+      <span class="count" id="count">読み込み中</span>
+    </div>
+    <div id="cases" class="case-grid"></div>
+  </main>
+  <script>
+    const dataUrl = 'kabaneri_condition_case_graphs.json';
+    const els = {
+      search: document.getElementById('search'),
+      store: document.getElementById('store'),
+      date: document.getElementById('date'),
+      sort: document.getElementById('sort'),
+      count: document.getElementById('count'),
+      cases: document.getElementById('cases')
+    };
+    const fmt = (n,d=0)=>Number(n||0).toLocaleString('ja-JP',{maximumFractionDigits:d,minimumFractionDigits:d});
+    const pct = x => x == null ? '-' : (x*100).toFixed(1) + '%';
+    const cls = n => n > 0 ? 'plus' : n < 0 ? 'minus' : '';
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const markerClass = m => m === 1 ? 'mark-before' : m === 2 ? 'mark-final' : m === 3 ? 'mark-chain' : '';
+    let allCases = [];
+
+    function renderChart(row) {
+      const w = 720, h = 300, pad = {l:48,r:14,t:18,b:28};
+      const events = row.day.events;
+      const points = [[0,0,'',0,0,0,0], ...events];
+      const maxX = Math.max(1, ...points.map(p=>p[5] || 0));
+      const minY = Math.min(0, ...points.map(p=>p[4] || 0));
+      const maxY = Math.max(0, ...points.map(p=>p[4] || 0));
+      const ySpan = Math.max(300, maxY - minY);
+      const sx = x => pad.l + (x / maxX) * (w - pad.l - pad.r);
+      const sy = y => pad.t + ((maxY - y) / ySpan) * (h - pad.t - pad.b);
+      const path = points.map((p,i)=>(i?'L':'M') + sx(p[5] || 0).toFixed(1) + ' ' + sy(p[4] || 0).toFixed(1)).join(' ');
+      const ticks = [minY, 0, maxY];
+      const grid = ticks.map(y => '<line class="' + (y === 0 ? 'zero' : 'gridline') + '" x1="'+pad.l+'" y1="'+sy(y).toFixed(1)+'" x2="'+(w-pad.r)+'" y2="'+sy(y).toFixed(1)+'"></line>').join('');
+      const markers = events.filter(e=>e[6]).map(e => '<circle class="'+markerClass(e[6])+'" cx="'+sx(e[5]).toFixed(1)+'" cy="'+sy(e[4]).toFixed(1)+'" r="'+(e[6]===2?5:3.2)+'"></circle>').join('');
+      const final = events.find(e=>e[6]===2);
+      const finalLine = final ? '<line class="session-line" x1="'+sx(final[5]).toFixed(1)+'" y1="'+pad.t+'" x2="'+sx(final[5]).toFixed(1)+'" y2="'+(h-pad.b)+'"></line>' : '';
+      return '<svg viewBox="0 0 '+w+' '+h+'" role="img">' +
+        grid +
+        '<line class="axis" x1="'+pad.l+'" y1="'+(h-pad.b)+'" x2="'+(w-pad.r)+'" y2="'+(h-pad.b)+'"></line>' +
+        '<line class="axis" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(h-pad.b)+'"></line>' +
+        '<path class="line" d="'+path+'"></path>' + finalLine + markers +
+        '<text class="chart-label" x="8" y="'+(sy(maxY)+4).toFixed(1)+'">+'+fmt(maxY)+'</text>' +
+        '<text class="chart-label" x="8" y="'+(sy(minY)+4).toFixed(1)+'">'+fmt(minY)+'</text>' +
+        '<text class="muted-label" x="'+(w-pad.r-72)+'" y="'+(h-8)+'">'+fmt(maxX)+'G</text>' +
+        '<text class="chart-label" text-anchor="middle" x="'+(w/2)+'" y="16">スマスロ 甲鉄城のカバネリ 海門決戦</text>' +
+      '</svg>';
+    }
+
+    function renderHistory(row) {
+      return '<div class="history-wrap"><table class="history"><thead><tr><th>印</th><th>#</th><th>時刻</th><th>累計G</th><th>種別</th><th>G数</th><th>出玉</th><th>推定差枚</th></tr></thead><tbody>' +
+        row.day.events.map((e, i) => {
+          const mark = e[6] === 1 ? '区間RB' : e[6] === 2 ? '今回AT' : e[6] === 3 ? 'AT中' : '';
+          return '<tr class="'+markerClass(e[6])+'"><td>'+mark+'</td><td>'+fmt(i+1)+'</td><td>'+esc(e[0])+'</td><td>'+fmt(e[5])+'</td><td class="kind">'+esc(e[2])+'</td><td>'+fmt(e[1])+'</td><td>'+fmt(e[3])+'</td><td class="'+cls(e[4])+'">'+fmt(e[4])+'</td></tr>';
+        }).join('') + '</tbody></table></div>';
+    }
+
+    function card(row) {
+      return '<article class="case-card">' +
+        '<div class="case-head"><div class="case-title">#'+row.no+' '+esc(row.store)+' '+esc(row.unit)+'番台<span>'+esc(row.date)+' / 区間'+fmt(row.intervalIndex)+' / 履歴'+fmt(row.day.eventCount)+'件</span></div><div class="badge">'+esc(row.thisResult)+'</div></div>' +
+        '<div class="quick">' +
+          '<div><b>'+fmt(row.startNet0)+'</b><span>開始差枚</span></div>' +
+          '<div><b>'+fmt(row.prevG)+'G</b><span>前回AT当選</span></div>' +
+          '<div><b>'+fmt(row.thisG)+'G</b><span>今回AT当選</span></div>' +
+          '<div><b class="'+cls(row.rawNet0)+'">'+fmt(row.rawNet0)+'</b><span>0G差枚 / '+pct(row.rawRate0)+'</span></div>' +
+        '</div>' +
+        '<div class="chart">'+renderChart(row)+'</div>' +
+        '<div class="note">前AT '+fmt(row.priorAtCount)+'回 / 前RB '+fmt(row.priorInitialCount)+'回 / 前596G+ '+fmt(row.priorCeiling596)+'回 / 前996G+ '+fmt(row.priorCeiling996)+'回 / 前最大 '+fmt(row.priorMaxG)+'G / AT前RB '+fmt(row.rbBeforeAt)+'回</div>' +
+        renderHistory(row) +
+      '</article>';
+    }
+
+    function apply() {
+      const q = els.search.value.trim().toLowerCase();
+      const store = els.store.value;
+      const date = els.date.value;
+      let rows = allCases.filter(row => {
+        const hay = (row.store + ' ' + row.unit + ' ' + row.date).toLowerCase();
+        return (!q || hay.includes(q)) && (!store || row.store === store) && (!date || row.date === date);
+      });
+      const sort = els.sort.value;
+      rows = rows.slice().sort((a,b) => {
+        if (sort === 'netDesc') return b.rawNet0 - a.rawNet0;
+        if (sort === 'netAsc') return a.rawNet0 - b.rawNet0;
+        if (sort === 'startAsc') return a.startNet0 - b.startNet0;
+        if (sort === 'thisG') return a.thisG - b.thisG;
+        if (sort === 'priorCeiling') return b.priorMaxG - a.priorMaxG;
+        return a.no - b.no;
+      });
+      els.count.textContent = rows.length + ' / ' + allCases.length + '件';
+      els.cases.innerHTML = rows.map(card).join('') || '<div class="case-card" style="padding:14px">該当なし</div>';
+    }
+
+    [els.search, els.store, els.date, els.sort].forEach(el => {
+      el.addEventListener('input', apply);
+      el.addEventListener('change', apply);
+    });
+
+    fetch(dataUrl).then(r=>r.json()).then(data => {
+      allCases = data.cases;
+      apply();
+    }).catch(err => {
+      els.count.textContent = '読み込み失敗';
+      els.cases.innerHTML = '<div class="case-card" style="padding:14px">'+esc(err.message)+'</div>';
+    });
+  </script>
+</body>
+</html>

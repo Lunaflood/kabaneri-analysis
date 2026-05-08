@@ -10,6 +10,7 @@
     header{padding:24px clamp(14px,4vw,42px) 16px;background:#fff8ea;border-bottom:1px solid var(--line)}
     h1{font-size:clamp(23px,3vw,36px);line-height:1.2;margin:0 0 8px}.lead{max-width:1160px;color:var(--muted);font-size:14px;line-height:1.7}
     main{padding:16px clamp(12px,3vw,36px) 36px}.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:14px}.metric{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}.metric b{display:block;font-size:20px}.metric span{font-size:12px;color:var(--muted)}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.nav a{color:var(--green);font-weight:800;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 10px;font-size:13px}.nav a:hover{text-decoration:underline}
     .controls{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.controls input,.controls select{height:34px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:0 10px;font:inherit;font-size:13px}.controls input{min-width:260px}.count{align-self:center;color:var(--muted);font-size:12px}
     .table-wrap{overflow:auto;max-height:78vh;border:1px solid var(--line);background:#fff}.small{font-size:12px;color:var(--muted);line-height:1.7;margin:10px 0 0}
     table{border-collapse:collapse;width:100%;font-size:12px}th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:6px 7px;text-align:right;white-space:nowrap}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}th{position:sticky;top:0;background:#efe7d8;color:#38413f;z-index:1;cursor:pointer}.detail-link{color:var(--green);font-weight:800;text-decoration:none}.detail-link:hover{text-decoration:underline}.plus{color:var(--green);font-weight:800}.minus{color:var(--red);font-weight:800}
@@ -22,6 +23,10 @@
     <p class="lead">該当296件の全データ。0G/1G開始でAT当選まで打ち、AT消化後即ヤメした場合の生収支を表示。前596G+/前996G+は、この打ち出し前に同じ台の当日履歴で実質Gが到達していた初当たり回数です。</p>
   </header>
   <main>
+    <div class="nav">
+      <a href="condition_case_graphs.html">グラフ一覧</a>
+      <a href="unit_day_detail.html">台別検索</a>
+    </div>
     <div class="metrics">
       <div class="metric"><b>296</b><span>該当件数</span></div>
       <div class="metric"><b>149 / 296</b><span>0Gプラス件数</span></div>
