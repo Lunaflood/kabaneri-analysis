@@ -9,6 +9,7 @@
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;letter-spacing:0}
     header{padding:24px clamp(14px,4vw,42px) 16px;background:#fff8ea;border-bottom:1px solid var(--line)}
     h1{font-size:clamp(23px,3vw,36px);line-height:1.2;margin:0 0 8px}h2{font-size:19px;margin:0 0 10px}.lead{max-width:1160px;color:var(--muted);font-size:14px;line-height:1.7}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0}.nav a{color:var(--green);font-weight:800;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 10px;font-size:13px}.nav a:hover{text-decoration:underline}
     main{padding:16px clamp(12px,3vw,36px) 36px}.controls{display:grid;grid-template-columns:1.4fr 1fr 120px 120px auto;gap:8px;margin-bottom:12px;align-items:center}.controls input,.controls select,.controls button{height:36px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:0 10px;font:inherit;font-size:13px}.controls button{background:#176f5f;color:white;border-color:#176f5f;font-weight:800;cursor:pointer}.count{color:var(--muted);font-size:12px}
     .layout{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:12px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}.list{max-height:72vh;overflow:auto;padding:0}.day-btn{display:block;width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid var(--line);padding:9px 10px;cursor:pointer}.day-btn:hover,.day-btn.active{background:#eef5f2}.day-btn b{display:block}.day-btn span{color:var(--muted);font-size:12px}
     .metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:12px}.metric{background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px}.metric b{display:block;font-size:19px}.metric span{font-size:12px;color:var(--muted)}
@@ -21,6 +22,11 @@
   <header>
     <h1>カバネリ 台別当日履歴</h1>
     <p class="lead">店舗・台番・日付ごとに、推定差枚グラフとその日の履歴全部を表示。差枚は履歴の出玉値と50枚/31.4Gの投資仮定から作った推定値です。</p>
+    <div class="nav">
+      <a href="index.html">機種一覧</a>
+      <a href="machine_kabaneri.html">カバネリ条件一覧</a>
+      <a href="condition_case_graphs.html">グラフ一覧</a>
+    </div>
   </header>
   <main>
     <div class="controls">

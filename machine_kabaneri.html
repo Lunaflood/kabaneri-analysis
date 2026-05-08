@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>カバネリ 条件一覧</title>
+  <style>
+    :root{--bg:#f4f1e9;--panel:#fffdf8;--ink:#1d2424;--muted:#65706d;--line:#d8d0bf;--green:#176f5f;--red:#a94239}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;letter-spacing:0}
+    header{padding:22px clamp(14px,4vw,46px) 16px;background:#fff8ea;border-bottom:1px solid var(--line)}
+    h1{margin:0 0 8px;font-size:clamp(24px,3vw,36px);line-height:1.2}
+    .lead{margin:0;max-width:1120px;color:var(--muted);font-size:14px;line-height:1.7}
+    main{padding:16px clamp(14px,4vw,46px) 40px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+    .nav a{color:var(--green);font-weight:800;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 10px;font-size:13px}
+    .summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:1120px;margin:0 0 14px}
+    .metric{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+    .metric b{display:block;font-size:21px}.metric span{font-size:12px;color:var(--muted)}
+    .condition-list{display:grid;grid-template-columns:minmax(0,1120px);gap:10px}
+    .condition{background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+    .condition-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:14px;border-bottom:1px solid var(--line);background:#fff}
+    .condition-title{font-size:19px;font-weight:900;line-height:1.4}
+    .condition-title small{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-top:3px}
+    .badge{border-radius:999px;background:#e8f2ee;color:var(--green);padding:5px 8px;font-size:12px;font-weight:900;white-space:nowrap}
+    .condition-body{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;border-bottom:1px solid var(--line)}
+    .condition-body div{padding:10px;border-right:1px solid var(--line);background:#fbf8ef}
+    .condition-body div:last-child{border-right:0}
+    .condition-body b{display:block;font-size:18px}.condition-body span{font-size:11px;color:var(--muted)}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px}
+    .actions a{display:inline-block;text-decoration:none;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--green);font-weight:900;font-size:13px;padding:8px 10px}
+    .actions a.primary{background:var(--green);border-color:var(--green);color:#fff}
+    @media(max-width:980px){.summary{grid-template-columns:1fr 1fr}.condition-body{grid-template-columns:1fr 1fr}.condition-head{display:block}.badge{display:inline-block;margin-top:8px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>スマスロ 甲鉄城のカバネリ 海門決戦</h1>
+    <p class="lead">カバネリの条件分析をここに集約します。今は公開する条件を一つに絞っています。</p>
+  </header>
+  <main>
+    <div class="nav">
+      <a href="index.html">機種一覧</a>
+      <a href="unit_day_detail.html">台別検索</a>
+    </div>
+
+    <div class="summary">
+      <div class="metric"><b>191,188</b><span>履歴</span></div>
+      <div class="metric"><b>3,401</b><span>台日</span></div>
+      <div class="metric"><b>37</b><span>店舗</span></div>
+      <div class="metric"><b>13,305,016G</b><span>総ゲーム</span></div>
+    </div>
+
+    <section class="condition-list" aria-label="条件一覧">
+      <article class="condition">
+        <div class="condition-head">
+          <div class="condition-title">開始差枚 -3000〜-2001 × 前回AT当選200-349G<small>0G/1G開始、AT当選後即やめ想定の検証条件</small></div>
+          <span class="badge">296件</span>
+        </div>
+        <div class="condition-body">
+          <div><b>149 / 296</b><span>0Gプラス</span></div>
+          <div><b>+147枚</b><span>0G平均差枚</span></div>
+          <div><b>124.3%</b><span>0G機械割</span></div>
+          <div><b>89.2%</b><span>今回エピボ率</span></div>
+          <div><b>20.9%</b><span>今回6-9G候補</span></div>
+          <div><b>19.6%</b><span>1000枚以上</span></div>
+        </div>
+        <div class="actions">
+          <a class="primary" href="condition_case_graphs.html">グラフ一覧を見る</a>
+          <a href="condition_startnet_m3000_m2001_prev_at_200_349.html">表一覧を見る</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
