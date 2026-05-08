@@ -30,13 +30,13 @@
     .quick b{display:block;font-size:14px}.quick span{font-size:11px;color:var(--muted)}
     .chart{height:300px;background:var(--dark);border-bottom:1px solid #222;overflow:hidden}
     .chart svg{width:100%;height:100%;display:block}.axis{stroke:#62625f;stroke-width:1}.zero{stroke:var(--red);stroke-width:1.6}.gridline{stroke:#4a4a47;stroke-width:1}.line{fill:none;stroke:var(--green);stroke-width:2.4}.chart-label{fill:#f2f2ee;font-size:11px;font-weight:700}.muted-label{fill:#b7b7b0;font-size:11px}.session-line{stroke:#f2d46b;stroke-width:1.5;stroke-dasharray:5 4}.mark-before{fill:var(--gold)}.mark-final{fill:var(--red);stroke:#fff;stroke-width:1.5}.mark-chain{fill:var(--blue)}
-    .history-wrap{overflow:auto}
+    .history-wrap{overflow:auto;max-height:280px;border-top:1px solid var(--line)}
     .history{width:100%;min-width:620px;border-collapse:collapse;background:#fff;font-size:11px}
     .history th,.history td{border:1px solid var(--line);padding:4px 5px;text-align:right;white-space:nowrap}.history th:first-child,.history td:first-child{text-align:left}
-    .history th{background:#e8dfcf;color:#313a38;position:sticky;top:54px;z-index:2}.history .kind{text-align:center;font-weight:800}.plus{color:#11774f;font-weight:800}.minus{color:#ad342b;font-weight:800}
+    .history th{background:#e8dfcf;color:#313a38;position:sticky;top:0;z-index:2}.history .kind{text-align:center;font-weight:800}.plus{color:#11774f;font-weight:800}.minus{color:#ad342b;font-weight:800}
     .history tr.mark-before td{background:#fff7d9}.history tr.mark-final td{background:#ffe4df}.history tr.mark-chain td{background:#e8f3fb}
     .note{font-size:11px;color:var(--muted);line-height:1.6;padding:7px 10px;border-bottom:1px solid var(--line);background:#fffdf8}
-    @media(max-width:980px){.metrics{grid-template-columns:1fr 1fr}.case-grid{grid-template-columns:1fr}.controls input{min-width:180px}.quick{grid-template-columns:1fr 1fr}.chart{height:260px}}
+    @media(max-width:980px){.metrics{grid-template-columns:1fr 1fr}.case-grid{grid-template-columns:1fr}.controls input{min-width:180px}.quick{grid-template-columns:1fr 1fr}.chart{height:260px}.history-wrap{max-height:240px}}
   </style>
 </head>
 <body>
