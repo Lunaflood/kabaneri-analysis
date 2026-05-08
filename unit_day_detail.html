@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>カバネリ 台別当日履歴</title>
+  <style>
+    :root{--bg:#f5f2ea;--panel:#fffdf8;--ink:#1d2424;--muted:#66706d;--line:#d9d2c2;--green:#176f5f;--red:#a94239;--gold:#a87925;--blue:#276b8f}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;letter-spacing:0}
+    header{padding:24px clamp(14px,4vw,42px) 16px;background:#fff8ea;border-bottom:1px solid var(--line)}
+    h1{font-size:clamp(23px,3vw,36px);line-height:1.2;margin:0 0 8px}h2{font-size:19px;margin:0 0 10px}.lead{max-width:1160px;color:var(--muted);font-size:14px;line-height:1.7}
+    main{padding:16px clamp(12px,3vw,36px) 36px}.controls{display:grid;grid-template-columns:1.4fr 1fr 120px 120px auto;gap:8px;margin-bottom:12px;align-items:center}.controls input,.controls select,.controls button{height:36px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:0 10px;font:inherit;font-size:13px}.controls button{background:#176f5f;color:white;border-color:#176f5f;font-weight:800;cursor:pointer}.count{color:var(--muted);font-size:12px}
+    .layout{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:12px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}.list{max-height:72vh;overflow:auto;padding:0}.day-btn{display:block;width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid var(--line);padding:9px 10px;cursor:pointer}.day-btn:hover,.day-btn.active{background:#eef5f2}.day-btn b{display:block}.day-btn span{color:var(--muted);font-size:12px}
+    .metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:12px}.metric{background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px}.metric b{display:block;font-size:19px}.metric span{font-size:12px;color:var(--muted)}
+    .chart{height:360px;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:12px}.chart svg{width:100%;height:100%;display:block}.axis{stroke:#c9c0ae;stroke-width:1}.line{fill:none;stroke:var(--green);stroke-width:2.4}.zero{stroke:#8c867b;stroke-dasharray:4 4}.marker-reg{fill:#a87925}.marker-at{fill:#276b8f}.chart-label{font-size:11px;fill:#65706d}
+    .scroll{overflow:auto;max-height:46vh;border:1px solid var(--line);background:#fff}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:6px 7px;text-align:right;white-space:nowrap}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}th{position:sticky;top:0;background:#efe7d8;color:#38413f;z-index:1}.plus{color:var(--green);font-weight:800}.minus{color:var(--red);font-weight:800}.small{font-size:12px;color:var(--muted);line-height:1.7;margin:8px 0 0}
+    @media(max-width:1100px){.layout{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}.chart{height:300px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>カバネリ 台別当日履歴</h1>
+    <p class="lead">店舗・台番・日付ごとに、推定差枚グラフとその日の履歴全部を表示。差枚は履歴の出玉値と50枚/31.4Gの投資仮定から作った推定値です。</p>
+  </header>
+  <main>
+    <div class="controls">
+      <input id="search" placeholder="店舗名・台番で検索">
+      <select id="store"><option value="">全店舗</option></select>
+      <select id="unit"><option value="">全台</option></select>
+      <select id="date"><option value="">全日付</option></select>
+      <button id="reset">リセット</button>
+      <span class="count" id="count">読み込み中</span>
+    </div>
+    <div class="layout">
+      <div class="panel list" id="dayList"></div>
+      <div>
+        <section class="panel">
+          <h2 id="title">台を選択</h2>
+          <div class="metrics" id="metrics"></div>
+          <div class="chart" id="chart"></div>
+          <div class="scroll">
+            <table>
+              <thead><tr><th>#</th><th>時刻</th><th>累計G</th><th>種別</th><th>当選G</th><th>出玉</th><th>推定差枚</th></tr></thead>
+              <tbody id="history"></tbody>
+            </table>
+          </div>
+          <p class="small">グラフ上の金点はREG/RB、青点はBIG/ART。履歴サイトの出玉表記をそのまま使っているため、厳密な実差枚ではなく推定です。</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script>
+    const jsonUrl = 'kabaneri_unit_days_compact.json';
+    const state = { data:null, filtered:[], selected:null };
+    const els = {
+      search: document.getElementById('search'), store: document.getElementById('store'), unit: document.getElementById('unit'), date: document.getElementById('date'), reset: document.getElementById('reset'), count: document.getElementById('count'), list: document.getElementById('dayList'), title: document.getElementById('title'), metrics: document.getElementById('metrics'), chart: document.getElementById('chart'), history: document.getElementById('history')
+    };
+    const fmt = (n,d=0)=>Number(n||0).toLocaleString('ja-JP',{maximumFractionDigits:d,minimumFractionDigits:d});
+    const cls = n => n > 0 ? 'plus' : n < 0 ? 'minus' : '';
+    function setOptions(select, values, label) {
+      const cur = select.value;
+      select.innerHTML = '<option value="">' + label + '</option>' + values.map(v => '<option value="' + escapeHtml(v) + '">' + escapeHtml(v) + '</option>').join('');
+      if (values.includes(cur)) select.value = cur;
+    }
+    function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+    function initFilters() {
+      const days = state.data.days;
+      setOptions(els.store, [...new Set(days.map(d=>d.store))].sort((a,b)=>a.localeCompare(b,'ja')), '全店舗');
+      setOptions(els.date, [...new Set(days.map(d=>d.date))].sort().reverse(), '全日付');
+      updateUnits();
+    }
+    function updateUnits() {
+      const store = els.store.value;
+      const days = state.data.days.filter(d => !store || d.store === store);
+      setOptions(els.unit, [...new Set(days.map(d=>String(d.unit)))].sort((a,b)=>Number(a)-Number(b)), '全台');
+    }
+    function applyFilters() {
+      const q = els.search.value.trim().toLowerCase();
+      const s = els.store.value, u = els.unit.value, dt = els.date.value;
+      state.filtered = state.data.days.filter(d => {
+        const hay = (d.store + ' ' + d.unit + ' ' + d.date).toLowerCase();
+        return (!q || hay.includes(q)) && (!s || d.store === s) && (!u || String(d.unit) === u) && (!dt || d.date === dt);
+      });
+      renderList();
+    }
+    function renderList() {
+      els.count.textContent = state.filtered.length + ' / ' + state.data.days.length + '台日';
+      const shown = state.filtered.slice(0, 500);
+      els.list.innerHTML = shown.map(d => '<button class="day-btn ' + (state.selected?.id === d.id ? 'active' : '') + '" data-id="' + escapeHtml(d.id) + '"><b>' + escapeHtml(d.store) + ' ' + escapeHtml(d.unit) + '番台</b><span>' + escapeHtml(d.date) + ' / ' + fmt(d.totalGames) + 'G / 推定' + fmt(d.finalNet) + '枚</span></button>').join('') || '<div class="small" style="padding:12px">該当なし</div>';
+    }
+    function renderDay(day) {
+      state.selected = day;
+      history.replaceState(null, '', '?id=' + encodeURIComponent(day.id));
+      renderList();
+      els.title.textContent = day.store + ' ' + day.unit + '番台 ' + day.date;
+      els.metrics.innerHTML = [
+        ['累計G', fmt(day.totalGames)], ['推定最終差枚', fmt(day.finalNet)], ['最大', fmt(day.maxNet)], ['最小', fmt(day.minNet)], ['初当たり', fmt(day.initialCount)], ['AT表示', fmt(day.atCount)]
+      ].map(([label,value])=>'<div class="metric"><b>'+value+'</b><span>'+label+'</span></div>').join('');
+      renderChart(day);
+      els.history.innerHTML = day.events.map((e,i)=>'<tr><td>'+fmt(i+1)+'</td><td>'+escapeHtml(e[0])+'</td><td>'+fmt(e[5])+'</td><td>'+escapeHtml(e[2])+'</td><td>'+fmt(e[1])+'</td><td>'+fmt(e[3])+'</td><td class="'+cls(e[4])+'">'+fmt(e[4])+'</td></tr>').join('');
+    }
+    function renderChart(day) {
+      const w = 960, h = 340, pad = {l:58,r:18,t:18,b:34};
+      const points = [[0,0,'',0], ...day.events.map(e=>[e[5], e[4], e[2], e[1]])];
+      const maxX = Math.max(1, ...points.map(p=>p[0]));
+      const minY = Math.min(0, ...points.map(p=>p[1]));
+      const maxY = Math.max(0, ...points.map(p=>p[1]));
+      const ySpan = Math.max(100, maxY - minY);
+      const sx = x => pad.l + (x / maxX) * (w - pad.l - pad.r);
+      const sy = y => pad.t + ((maxY - y) / ySpan) * (h - pad.t - pad.b);
+      const path = points.map((p,i)=>(i?'L':'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1)).join(' ');
+      const zeroY = sy(0);
+      const markers = day.events.map(e => {
+        const kind = e[2] === 'REG' || e[2] === 'RB' ? 'marker-reg' : 'marker-at';
+        return '<circle class="'+kind+'" cx="'+sx(e[5]).toFixed(1)+'" cy="'+sy(e[4]).toFixed(1)+'" r="3"></circle>';
+      }).join('');
+      els.chart.innerHTML = '<svg viewBox="0 0 '+w+' '+h+'" role="img">' +
+        '<line class="axis" x1="'+pad.l+'" y1="'+(h-pad.b)+'" x2="'+(w-pad.r)+'" y2="'+(h-pad.b)+'"></line>' +
+        '<line class="axis" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(h-pad.b)+'"></line>' +
+        '<line class="zero" x1="'+pad.l+'" y1="'+zeroY+'" x2="'+(w-pad.r)+'" y2="'+zeroY+'"></line>' +
+        '<text class="chart-label" x="8" y="'+(sy(maxY)+4)+'">+'+fmt(maxY)+'</text>' +
+        '<text class="chart-label" x="8" y="'+(sy(minY)+4)+'">'+fmt(minY)+'</text>' +
+        '<text class="chart-label" x="'+(w-pad.r-70)+'" y="'+(h-8)+'">'+fmt(maxX)+'G</text>' +
+        '<path class="line" d="'+path+'"></path>' + markers + '</svg>';
+    }
+    els.list.addEventListener('click', e => {
+      const btn = e.target.closest('.day-btn');
+      if (!btn) return;
+      const day = state.data.days.find(d=>d.id===btn.dataset.id);
+      if (day) renderDay(day);
+    });
+    els.store.addEventListener('change', ()=>{ updateUnits(); applyFilters(); });
+    [els.search, els.unit, els.date].forEach(el=>el.addEventListener('input', applyFilters));
+    [els.unit, els.date].forEach(el=>el.addEventListener('change', applyFilters));
+    els.reset.addEventListener('click', ()=>{ els.search.value=''; els.store.value=''; updateUnits(); els.unit.value=''; els.date.value=''; applyFilters(); });
+    fetch(jsonUrl).then(r=>r.json()).then(data=>{
+      state.data = data;
+      initFilters();
+      applyFilters();
+      const id = new URLSearchParams(location.search).get('id');
+      const initial = id ? data.days.find(d=>d.id===id) : data.days[0];
+      if (initial) renderDay(initial);
+    }).catch(err => { els.count.textContent = '読み込み失敗'; els.list.innerHTML = '<div class="small" style="padding:12px">'+escapeHtml(err.message)+'</div>'; });
+  </script>
+</body>
+</html>
