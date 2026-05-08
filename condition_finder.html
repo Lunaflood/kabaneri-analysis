@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>カバネリ 条件検索</title>
+  <style>
+    :root{--bg:#f4f1e9;--panel:#fffdf8;--ink:#1d2424;--muted:#65706d;--line:#d8d0bf;--green:#176f5f;--red:#a94239;--gold:#9a6d1f}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;letter-spacing:0}
+    header{padding:22px clamp(14px,4vw,46px) 16px;background:#fff8ea;border-bottom:1px solid var(--line)}
+    h1{margin:0 0 8px;font-size:clamp(24px,3vw,36px);line-height:1.2}.lead{margin:0;max-width:1120px;color:var(--muted);font-size:14px;line-height:1.7}
+    main{padding:14px clamp(10px,3vw,34px) 38px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0}.nav a,.button{color:var(--green);font-weight:800;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 10px;font-size:13px;cursor:pointer}
+    .filters{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:8px;margin:0 0 12px}.field{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px}.field label{display:block;font-size:11px;color:var(--muted);font-weight:800;margin-bottom:5px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    input,select,button{height:34px;width:100%;border:1px solid var(--line);background:#fff;border-radius:6px;padding:0 8px;font:inherit;font-size:13px}.buttons{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.button.primary{background:var(--green);color:#fff;border-color:var(--green)}
+    .metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0 0 12px}.metric{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}.metric b{display:block;font-size:20px}.metric span{font-size:12px;color:var(--muted)}
+    .table-wrap{overflow:auto;max-height:72vh;border:1px solid var(--line);background:#fff}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:6px 7px;text-align:right;white-space:nowrap}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}th{position:sticky;top:0;background:#efe7d8;color:#38413f;z-index:1}.plus{color:var(--green);font-weight:900}.minus{color:var(--red);font-weight:900}.small{font-size:12px;color:var(--muted);line-height:1.6;margin:8px 0}
+    @media(max-width:1180px){.filters{grid-template-columns:repeat(3,1fr)}.metrics{grid-template-columns:repeat(3,1fr)}}@media(max-width:720px){.filters,.metrics{grid-template-columns:1fr 1fr}.field.wide{grid-column:1/-1}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>カバネリ 条件検索</h1>
+    <p class="lead">開始差枚、前回AT、当日の履歴条件を選んで、該当する0G/1G開始候補を抽出します。</p>
+    <div class="nav">
+      <a href="index.html">機種一覧</a>
+      <a href="machine_kabaneri.html">カバネリ条件一覧</a>
+      <a href="condition_case_graphs.html">グラフ一覧</a>
+      <a href="unit_day_detail.html">台別検索</a>
+    </div>
+  </header>
+  <main>
+    <div class="filters">
+      <div class="field"><label>開始差枚</label><div class="pair"><input id="startMin" type="number" value="-3000"><input id="startMax" type="number" value="-2001"></div></div>
+      <div class="field"><label>前回AT当選G</label><div class="pair"><input id="prevGMin" type="number" value="200"><input id="prevGMax" type="number" value="349"></div></div>
+      <div class="field"><label>今回AT当選G</label><div class="pair"><input id="thisGMin" type="number" placeholder="下限"><input id="thisGMax" type="number" placeholder="上限"></div></div>
+      <div class="field"><label>前最大G / 前596G+</label><div class="pair"><input id="priorMaxMin" type="number" placeholder="最大G下限"><input id="prior596Min" type="number" placeholder="596回数"></div></div>
+      <div class="field"><label>前996G+ / AT前RB</label><div class="pair"><input id="prior996Min" type="number" placeholder="996回数"><input id="rbBeforeMin" type="number" placeholder="RB回数"></div></div>
+      <div class="field"><label>今回結果</label><select id="thisResult"><option value="">すべて</option><option>エピボAT</option><option>ハヤジロ突破</option><option>6-9G候補</option><option>その他AT</option></select></div>
+      <div class="field"><label>前回結果</label><select id="prevFlag"><option value="">すべて</option><option value="prevEpisode">前回エピボ</option><option value="prevHayajiro">前回ハヤジロ</option><option value="prevUpper">前回6-9G候補</option><option value="prevRunThrough">前回駆け抜け</option><option value="prevOver1000">前回1000枚以上</option></select></div>
+      <div class="field"><label>0G差枚</label><select id="netSign"><option value="">すべて</option><option value="plus">プラスのみ</option><option value="minus">マイナスのみ</option></select></div>
+      <div class="field"><label>店舗・台番検索</label><input id="search" placeholder="店舗 / 台番 / 日付"></div>
+      <div class="field"><label>並び順</label><select id="sort"><option value="date">日付順</option><option value="netDesc">0G差枚 高い順</option><option value="netAsc">0G差枚 低い順</option><option value="startAsc">開始差枚 深い順</option><option value="thisG">今回AT G 低い順</option><option value="priorMax">前最大G 高い順</option></select></div>
+      <div class="field"><label>表示件数</label><select id="limit"><option value="500">500件</option><option value="1000">1000件</option><option value="all">全部</option></select></div>
+      <div class="field wide"><label>操作</label><button id="preset">いまの条件に戻す</button></div>
+    </div>
+    <div class="buttons">
+      <button class="button primary" id="download">抽出結果CSV</button>
+      <span class="small" id="count">読み込み中</span>
+    </div>
+    <div class="metrics" id="metrics"></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>店舗</th><th>台</th><th>日付</th><th>台詳細</th><th>区間</th><th>状態</th><th>開始差枚</th><th>前回AT G</th><th>前回結果</th><th>前最大G</th><th>前596+</th><th>前996+</th><th>今回AT G</th><th>今回結果</th><th>AT前RB</th><th>今回枚</th><th>0G差枚</th><th>0G割</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    const dataUrl = 'kabaneri_condition_finder.json';
+    const ids = ['startMin','startMax','prevGMin','prevGMax','thisGMin','thisGMax','priorMaxMin','prior596Min','prior996Min','rbBeforeMin','thisResult','prevFlag','netSign','search','sort','limit'];
+    const els = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+    els.tbody = document.getElementById('tbody'); els.metrics = document.getElementById('metrics'); els.count = document.getElementById('count');
+    const fmt = (n,d=0)=>Number(n||0).toLocaleString('ja-JP',{maximumFractionDigits:d,minimumFractionDigits:d});
+    const pct = x => x == null ? '-' : (x*100).toFixed(1)+'%';
+    const cls = n => n > 0 ? 'plus' : n < 0 ? 'minus' : '';
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const num = id => els[id].value === '' ? null : Number(els[id].value);
+    let rows = [], filtered = [];
+    function inRange(v, min, max){ return (min == null || v >= min) && (max == null || v <= max); }
+    function apply(){
+      const q = els.search.value.trim().toLowerCase();
+      const sMin=num('startMin'), sMax=num('startMax'), pMin=num('prevGMin'), pMax=num('prevGMax'), tMin=num('thisGMin'), tMax=num('thisGMax');
+      const priorMaxMin=num('priorMaxMin'), prior596Min=num('prior596Min'), prior996Min=num('prior996Min'), rbBeforeMin=num('rbBeforeMin');
+      filtered = rows.filter(r => {
+        const hay = (r.store+' '+r.unit+' '+r.date).toLowerCase();
+        if (q && !hay.includes(q)) return false;
+        if (!inRange(r.startNet0, sMin, sMax)) return false;
+        if (!inRange(r.prevG, pMin, pMax)) return false;
+        if (!inRange(r.thisG, tMin, tMax)) return false;
+        if (priorMaxMin != null && r.priorMaxG < priorMaxMin) return false;
+        if (prior596Min != null && r.priorCeiling596 < prior596Min) return false;
+        if (prior996Min != null && r.priorCeiling996 < prior996Min) return false;
+        if (rbBeforeMin != null && r.rbBeforeAt < rbBeforeMin) return false;
+        if (els.thisResult.value && r.thisResult !== els.thisResult.value) return false;
+        if (els.prevFlag.value && !r[els.prevFlag.value]) return false;
+        if (els.netSign.value === 'plus' && r.rawNet0 <= 0) return false;
+        if (els.netSign.value === 'minus' && r.rawNet0 >= 0) return false;
+        return true;
+      });
+      sortRows();
+      render();
+    }
+    function sortRows(){
+      const sort = els.sort.value;
+      filtered = filtered.slice().sort((a,b)=>{
+        if (sort === 'netDesc') return b.rawNet0-a.rawNet0;
+        if (sort === 'netAsc') return a.rawNet0-b.rawNet0;
+        if (sort === 'startAsc') return a.startNet0-b.startNet0;
+        if (sort === 'thisG') return a.thisG-b.thisG;
+        if (sort === 'priorMax') return b.priorMaxG-a.priorMaxG;
+        return a.date.localeCompare(b.date) || a.store.localeCompare(b.store,'ja') || Number(a.unit)-Number(b.unit) || a.intervalIndex-b.intervalIndex;
+      });
+    }
+    function render(){
+      const returns = filtered.reduce((a,r)=>a+r.totalReturn,0);
+      const invests = filtered.reduce((a,r)=>a+r.rawInvest0,0);
+      const plus = filtered.filter(r=>r.rawNet0>0).length;
+      const avgNet = filtered.length ? filtered.reduce((a,r)=>a+r.rawNet0,0)/filtered.length : 0;
+      const episode = filtered.length ? filtered.filter(r=>r.thisEpisode).length/filtered.length : 0;
+      const over1000 = filtered.length ? filtered.filter(r=>r.thisOver1000).length/filtered.length : 0;
+      els.metrics.innerHTML = [
+        ['該当件数', fmt(filtered.length)], ['0Gプラス', fmt(plus)+' / '+fmt(filtered.length)], ['0G平均差枚', fmt(avgNet)], ['0G機械割', invests ? pct(returns/invests) : '-'], ['今回エピボ率', pct(episode)], ['1000枚以上', pct(over1000)]
+      ].map(([k,v])=>'<div class="metric"><b>'+v+'</b><span>'+k+'</span></div>').join('');
+      const limit = els.limit.value === 'all' ? filtered.length : Number(els.limit.value);
+      const shown = filtered.slice(0, limit);
+      els.count.textContent = fmt(filtered.length)+'件中 '+fmt(shown.length)+'件表示';
+      els.tbody.innerHTML = shown.map((r,i)=>'<tr>'+
+        '<td>'+fmt(i+1)+'</td><td>'+esc(r.store)+'</td><td>'+esc(r.unit)+'</td><td>'+esc(r.date)+'</td>'+
+        '<td><a href="unit_day_detail.html?id='+encodeURIComponent(r.detailId)+'">開く</a></td>'+
+        '<td>'+fmt(r.intervalIndex)+'</td><td>'+esc(r.state)+'</td><td>'+fmt(r.startNet0)+'</td><td>'+fmt(r.prevG)+'</td><td>'+esc(r.prevResult)+'</td>'+
+        '<td>'+fmt(r.priorMaxG)+'</td><td>'+fmt(r.priorCeiling596)+'</td><td>'+fmt(r.priorCeiling996)+'</td><td>'+fmt(r.thisG)+'</td><td>'+esc(r.thisResult)+'</td>'+
+        '<td>'+fmt(r.rbBeforeAt)+'</td><td>'+fmt(r.thisOutput)+'</td><td class="'+cls(r.rawNet0)+'">'+fmt(r.rawNet0)+'</td><td>'+pct(r.rawRate0)+'</td></tr>'
+      ).join('');
+    }
+    function downloadCsv(){
+      const header = ['店舗','台','日付','区間','状態','開始差枚','前回AT G','前回結果','前最大G','前596+','前996+','今回AT G','今回結果','AT前RB','今回枚','0G差枚','0G割','台詳細ID'];
+      const csv = [header, ...filtered.map(r=>[r.store,r.unit,r.date,r.intervalIndex,r.state,r.startNet0,r.prevG,r.prevResult,r.priorMaxG,r.priorCeiling596,r.priorCeiling996,r.thisG,r.thisResult,r.rbBeforeAt,r.thisOutput,r.rawNet0,r.rawRate0,r.detailId])]
+        .map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+      a.download = 'kabaneri_condition_extract.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function preset(){
+      els.startMin.value='-3000'; els.startMax.value='-2001'; els.prevGMin.value='200'; els.prevGMax.value='349';
+      ['thisGMin','thisGMax','priorMaxMin','prior596Min','prior996Min','rbBeforeMin','search'].forEach(id=>els[id].value='');
+      ['thisResult','prevFlag','netSign'].forEach(id=>els[id].value='');
+      els.sort.value='date'; els.limit.value='500';
+      apply();
+    }
+    ids.forEach(id => { els[id].addEventListener('input', apply); els[id].addEventListener('change', apply); });
+    document.getElementById('preset').addEventListener('click', preset);
+    document.getElementById('download').addEventListener('click', downloadCsv);
+    fetch(dataUrl).then(r=>r.json()).then(data=>{
+      rows = data.rows.map(values => Object.fromEntries(data.fields.map((field, index) => [field, values[index]])));
+      apply();
+    }).catch(err=>{ els.count.textContent='読み込み失敗: '+err.message; });
+  </script>
+</body>
+</html>
