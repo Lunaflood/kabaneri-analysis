@@ -14,7 +14,7 @@
     main{padding:18px clamp(14px,4vw,46px) 42px}
     .section-title{font-size:17px;margin:0 0 10px}
     .machine-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;max-width:1120px}
-    .machine{display:grid;grid-template-rows:auto 1fr auto;min-height:230px;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden;text-decoration:none;color:inherit}
+    .machine{display:grid;grid-template-rows:auto 1fr;min-height:190px;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden;text-decoration:none;color:inherit}
     .machine:hover{border-color:#9ab7ad;box-shadow:0 8px 20px rgba(29,36,36,.08)}
     .machine[aria-disabled="true"]{cursor:default}
     .machine-head{padding:14px 14px 10px;border-bottom:1px solid var(--line);background:#fff}
@@ -26,8 +26,6 @@
     .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0}
     .stat{border:1px solid var(--line);background:#fff;border-radius:6px;padding:8px}
     .stat b{display:block;font-size:18px}.stat span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
-    .machine-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid var(--line);background:#fbf8ef;color:var(--green);font-weight:900;font-size:13px}
-    .machine[aria-disabled="true"] .machine-foot{color:var(--disabled)}
     @media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.machine{min-height:auto}}
   </style>
 </head>
@@ -52,7 +50,6 @@
             <div class="stat"><b>13,305,016G</b><span>累計ゲーム</span></div>
           </div>
         </div>
-        <div class="machine-foot"><span>条件一覧へ</span><span>→</span></div>
       </a>
 
       <a class="machine" href="machine_million_god.html">
@@ -68,7 +65,6 @@
             <div class="stat"><b>4,018,747G</b><span>累計ゲーム</span></div>
           </div>
         </div>
-        <div class="machine-foot"><span>準備中ページへ</span><span>→</span></div>
       </a>
     </div>
   </main>
