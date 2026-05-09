@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ミリオンゴッド 機械割が高い区間</title>
+  <style>
+    :root{--bg:#f4f1e9;--panel:#fffdf8;--ink:#1d2424;--muted:#65706d;--line:#d8d0bf;--green:#176f5f;--gold:#9a6d1f;--red:#a94239}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;letter-spacing:0}
+    header{padding:22px clamp(14px,4vw,46px) 16px;background:#fff8ea;border-bottom:1px solid var(--line)}
+    h1{margin:0 0 8px;font-size:clamp(24px,3vw,36px);line-height:1.2}
+    .lead{margin:0;max-width:1160px;color:var(--muted);font-size:14px;line-height:1.7}
+    main{padding:16px clamp(14px,4vw,46px) 42px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+    .nav a{color:var(--green);font-weight:800;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 10px;font-size:13px}
+    .summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;max-width:1160px;margin:0 0 14px}
+    .metric,.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px}
+    .metric{padding:10px}.metric b{display:block;font-size:21px}.metric span{font-size:12px;color:var(--muted)}
+    .panel{max-width:1160px;margin:0 0 14px;padding:14px}
+    .panel h2{font-size:18px;margin:0 0 10px}
+    .note{font-size:12px;color:var(--muted);line-height:1.7;margin:8px 0 0}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+    table{width:100%;border-collapse:collapse;min-width:760px;font-size:13px}
+    th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px 9px;text-align:right;white-space:nowrap}
+    th:first-child,td:first-child{text-align:left}
+    th{background:#eadfca;color:#2e3835;font-size:12px}
+    tr:last-child td{border-bottom:0}td:last-child,th:last-child{border-right:0}
+    .hot{color:#11724f;font-weight:900}.warm{color:#746017;font-weight:900}.plus{color:#11724f;font-weight:800}.minus{color:var(--red);font-weight:800}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1160px}
+    @media(max-width:980px){.summary{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>スマスロ ミリオンゴッド-神々の軌跡- 機械割が高い区間</h1>
+    <p class="lead">保存履歴を、AT間天井期待値記事の条件に寄せてセッション化し、開始G別の機械割をスキャンしたページです。</p>
+  </header>
+  <main>
+    <div class="nav">
+      <a href="index.html">機種一覧</a>
+      <a href="machine_million_god.html">ゴッド</a>
+    </div>
+
+    <div class="summary">
+      <div class="metric"><b>41,990</b><span>初当たりセッション</span></div>
+      <div class="metric"><b>3,416</b><span>リセット扱い</span></div>
+      <div class="metric"><b>38,574</b><span>AT後扱い</span></div>
+      <div class="metric"><b>3,559</b><span>台日</span></div>
+      <div class="metric"><b>123,205</b><span>履歴</span></div>
+    </div>
+
+    <section class="panel">
+      <h2>104/106/108%到達ボーダー</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>条件</th><th>開始G</th><th>件数</th><th>20G除外</th><th>除外なし</th><th>平均回収</th></tr></thead>
+          <tbody>
+            <tr>
+    <td>30.8G リセット 104%</td>
+    <td>50G〜</td>
+    <td>3,343</td>
+    <td class="hot">113.9%</td>
+    <td>108.4%</td>
+    <td>716枚</td>
+  </tr>
+            <tr>
+    <td>30.8G リセット 106%</td>
+    <td>50G〜</td>
+    <td>3,343</td>
+    <td class="hot">113.9%</td>
+    <td>108.4%</td>
+    <td>716枚</td>
+  </tr>
+            <tr>
+    <td>30.8G リセット 108%</td>
+    <td>50G〜</td>
+    <td>3,343</td>
+    <td class="hot">113.9%</td>
+    <td>108.4%</td>
+    <td>716枚</td>
+  </tr>
+            <tr>
+    <td>30.8G AT後 104%</td>
+    <td>150G〜</td>
+    <td>29,214</td>
+    <td class="">104.5%</td>
+    <td>99.4%</td>
+    <td>641枚</td>
+  </tr>
+            <tr>
+    <td>30.8G AT後 106%</td>
+    <td>200G〜</td>
+    <td>26,004</td>
+    <td class="">106.5%</td>
+    <td>101.2%</td>
+    <td>647枚</td>
+  </tr>
+            <tr>
+    <td>30.8G AT後 108%</td>
+    <td>250G〜</td>
+    <td>23,142</td>
+    <td class="hot">109.2%</td>
+    <td>103.8%</td>
+    <td>656枚</td>
+  </tr>
+            <tr>
+    <td>34.2G リセット 104%</td>
+    <td>0G〜</td>
+    <td>3,416</td>
+    <td class="hot">113.5%</td>
+    <td>108.4%</td>
+    <td>710枚</td>
+  </tr>
+            <tr>
+    <td>34.2G AT後 104%</td>
+    <td>50G〜</td>
+    <td>37,237</td>
+    <td class="hot">113.4%</td>
+    <td>107.9%</td>
+    <td>632枚</td>
+  </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">20G除外は参考記事の「着席後から除外するG数」に合わせた値です。判断時は除外なしも並べて見ています。</p>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>リセット 開始G別 30.8G/50枚</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>開始</th><th>件数</th><th>20G除外</th><th>除外なし</th><th>差枚</th><th>平均当選</th><th>平均回収</th><th>1480到達</th></tr></thead>
+            <tbody><tr>
+        <td>0G〜</td>
+        <td>3,416</td>
+        <td class="">102.2%</td>
+        <td>97.6%</td>
+        <td class="plus">51,658枚</td>
+        <td>448G</td>
+        <td>710枚</td>
+        <td>1.9%</td>
+      </tr><tr>
+        <td>50G〜</td>
+        <td>3,343</td>
+        <td class="hot">113.9%</td>
+        <td>108.4%</td>
+        <td class="plus">291,617枚</td>
+        <td>457G</td>
+        <td>716枚</td>
+        <td>1.9%</td>
+      </tr><tr>
+        <td>100G〜</td>
+        <td>3,032</td>
+        <td class="hot">118.6%</td>
+        <td>112.8%</td>
+        <td class="plus">345,072枚</td>
+        <td>496G</td>
+        <td>725枚</td>
+        <td>2.1%</td>
+      </tr><tr>
+        <td>200G〜</td>
+        <td>2,474</td>
+        <td class="hot">127.7%</td>
+        <td>121.0%</td>
+        <td class="plus">394,700枚</td>
+        <td>575G</td>
+        <td>736枚</td>
+        <td>2.6%</td>
+      </tr><tr>
+        <td>300G〜</td>
+        <td>1,998</td>
+        <td class="hot">139.4%</td>
+        <td>131.6%</td>
+        <td class="plus">425,167枚</td>
+        <td>653G</td>
+        <td>754枚</td>
+        <td>3.3%</td>
+      </tr><tr>
+        <td>400G〜</td>
+        <td>1,644</td>
+        <td class="hot">157.7%</td>
+        <td>148.0%</td>
+        <td class="plus">459,913枚</td>
+        <td>718G</td>
+        <td>765枚</td>
+        <td>4.0%</td>
+      </tr><tr>
+        <td>500G〜</td>
+        <td>1,283</td>
+        <td class="hot">171.1%</td>
+        <td>159.8%</td>
+        <td class="plus">407,278枚</td>
+        <td>795G</td>
+        <td>764枚</td>
+        <td>5.1%</td>
+      </tr><tr>
+        <td>600G〜</td>
+        <td>846</td>
+        <td class="hot">152.1%</td>
+        <td>143.0%</td>
+        <td class="plus">220,748枚</td>
+        <td>928G</td>
+        <td>762枚</td>
+        <td>7.7%</td>
+      </tr><tr>
+        <td>800G〜</td>
+        <td>515</td>
+        <td class="hot">189.5%</td>
+        <td>176.3%</td>
+        <td class="plus">193,843枚</td>
+        <td>1,078G</td>
+        <td>797枚</td>
+        <td>12.6%</td>
+      </tr><tr>
+        <td>1,000G〜</td>
+        <td>300</td>
+        <td class="hot">284.6%</td>
+        <td>260.3%</td>
+        <td class="plus">174,892枚</td>
+        <td>1,213G</td>
+        <td>899枚</td>
+        <td>21.7%</td>
+      </tr><tr>
+        <td>1,200G〜</td>
+        <td>137</td>
+        <td class="hot">355.9%</td>
+        <td>320.6%</td>
+        <td class="plus">101,137枚</td>
+        <td>1,397G</td>
+        <td>1,027枚</td>
+        <td>47.4%</td>
+      </tr><tr>
+        <td>1,400G〜</td>
+        <td>78</td>
+        <td class="hot">1274.6%</td>
+        <td>979.2%</td>
+        <td class="plus">97,842枚</td>
+        <td>1,486G</td>
+        <td>1,361枚</td>
+        <td>83.3%</td>
+      </tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>AT後 開始G別 30.8G/50枚</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>開始</th><th>件数</th><th>20G除外</th><th>除外なし</th><th>差枚</th><th>平均当選</th><th>平均回収</th><th>1480到達</th></tr></thead>
+            <tbody><tr>
+        <td>0G〜</td>
+        <td>38,574</td>
+        <td class="">93.5%</td>
+        <td>89.2%</td>
+        <td class="minus">-1,706,723枚</td>
+        <td>436G</td>
+        <td>632枚</td>
+        <td>2.0%</td>
+      </tr><tr>
+        <td>50G〜</td>
+        <td>37,237</td>
+        <td class="">102.1%</td>
+        <td>97.2%</td>
+        <td class="plus">487,769枚</td>
+        <td>450G</td>
+        <td>632枚</td>
+        <td>2.1%</td>
+      </tr><tr>
+        <td>100G〜</td>
+        <td>32,904</td>
+        <td class="">102.9%</td>
+        <td>97.9%</td>
+        <td class="plus">582,054枚</td>
+        <td>500G</td>
+        <td>636枚</td>
+        <td>2.3%</td>
+      </tr><tr>
+        <td>150G〜</td>
+        <td>29,214</td>
+        <td class="warm">104.5%</td>
+        <td>99.4%</td>
+        <td class="plus">803,320枚</td>
+        <td>548G</td>
+        <td>641枚</td>
+        <td>2.6%</td>
+      </tr><tr>
+        <td>200G〜</td>
+        <td>26,004</td>
+        <td class="warm">106.5%</td>
+        <td>101.2%</td>
+        <td class="plus">1,026,904枚</td>
+        <td>594G</td>
+        <td>647枚</td>
+        <td>3.0%</td>
+      </tr><tr>
+        <td>250G〜</td>
+        <td>23,142</td>
+        <td class="hot">109.2%</td>
+        <td>103.8%</td>
+        <td class="plus">1,284,906枚</td>
+        <td>640G</td>
+        <td>656枚</td>
+        <td>3.3%</td>
+      </tr><tr>
+        <td>300G〜</td>
+        <td>20,668</td>
+        <td class="hot">112.4%</td>
+        <td>106.7%</td>
+        <td class="plus">1,518,428枚</td>
+        <td>683G</td>
+        <td>664枚</td>
+        <td>3.7%</td>
+      </tr><tr>
+        <td>400G〜</td>
+        <td>16,646</td>
+        <td class="hot">121.9%</td>
+        <td>115.3%</td>
+        <td class="plus">2,039,543枚</td>
+        <td>764G</td>
+        <td>682枚</td>
+        <td>4.6%</td>
+      </tr><tr>
+        <td>500G〜</td>
+        <td>13,174</td>
+        <td class="hot">130.8%</td>
+        <td>123.4%</td>
+        <td class="plus">2,158,681枚</td>
+        <td>848G</td>
+        <td>696枚</td>
+        <td>5.8%</td>
+      </tr><tr>
+        <td>600G〜</td>
+        <td>10,218</td>
+        <td class="hot">140.9%</td>
+        <td>132.7%</td>
+        <td class="plus">2,136,361枚</td>
+        <td>934G</td>
+        <td>720枚</td>
+        <td>7.5%</td>
+      </tr><tr>
+        <td>800G〜</td>
+        <td>6,092</td>
+        <td class="hot">170.8%</td>
+        <td>159.7%</td>
+        <td class="plus">1,953,208枚</td>
+        <td>1,098G</td>
+        <td>773枚</td>
+        <td>12.6%</td>
+      </tr><tr>
+        <td>1,000G〜</td>
+        <td>3,547</td>
+        <td class="hot">221.3%</td>
+        <td>204.1%</td>
+        <td class="plus">1,587,109枚</td>
+        <td>1,246G</td>
+        <td>816枚</td>
+        <td>21.7%</td>
+      </tr><tr>
+        <td>1,200G〜</td>
+        <td>1,886</td>
+        <td class="hot">327.2%</td>
+        <td>294.0%</td>
+        <td class="plus">1,197,466枚</td>
+        <td>1,392G</td>
+        <td>914枚</td>
+        <td>40.8%</td>
+      </tr><tr>
+        <td>1,400G〜</td>
+        <td>1,008</td>
+        <td class="hot">1071.1%</td>
+        <td>814.6%</td>
+        <td class="plus">969,381枚</td>
+        <td>1,480G</td>
+        <td>1,061枚</td>
+        <td>76.3%</td>
+      </tr></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>AT後0G開始で高く出た条件</h2>
+      <div class="grid">
+        <div>
+          <h2>前回出玉別</h2>
+          <div class="table-wrap"><table><thead><tr><th>条件</th><th>件数</th><th>20G除外</th><th>除外なし</th><th>平均当選</th><th>平均回収</th><th>1480到達</th></tr></thead><tbody><tr>
+        <td>前回2000枚+</td>
+        <td>753</td>
+        <td class="hot">131.4%</td>
+        <td>125.4%</td>
+        <td>439G</td>
+        <td>894枚</td>
+        <td>1.5%</td>
+      </tr><tr>
+        <td>前回1500-1999枚</td>
+        <td>556</td>
+        <td class="hot">115.6%</td>
+        <td>110.1%</td>
+        <td>418G</td>
+        <td>748枚</td>
+        <td>1.6%</td>
+      </tr><tr>
+        <td>前回1000-1499枚</td>
+        <td>1,949</td>
+        <td class="warm">108.0%</td>
+        <td>103.2%</td>
+        <td>456G</td>
+        <td>765枚</td>
+        <td>2.3%</td>
+      </tr><tr>
+        <td>前回500-999枚</td>
+        <td>6,484</td>
+        <td class="">98.2%</td>
+        <td>93.7%</td>
+        <td>439G</td>
+        <td>668枚</td>
+        <td>1.8%</td>
+      </tr><tr>
+        <td>前回0-499枚</td>
+        <td>28,832</td>
+        <td class="">89.9%</td>
+        <td>85.8%</td>
+        <td>435G</td>
+        <td>605枚</td>
+        <td>2.0%</td>
+      </tr></tbody></table></div>
+        </div>
+        <div>
+          <h2>前回当選G別</h2>
+          <div class="table-wrap"><table><thead><tr><th>条件</th><th>件数</th><th>20G除外</th><th>除外なし</th><th>平均当選</th><th>平均回収</th><th>1480到達</th></tr></thead><tbody><tr>
+        <td>1400-1499G</td>
+        <td>856</td>
+        <td class="hot">121.2%</td>
+        <td>115.8%</td>
+        <td>451G</td>
+        <td>849枚</td>
+        <td>2.7%</td>
+      </tr><tr>
+        <td>1100-1199G</td>
+        <td>606</td>
+        <td class="hot">110.3%</td>
+        <td>104.9%</td>
+        <td>408G</td>
+        <td>694枚</td>
+        <td>2.5%</td>
+      </tr><tr>
+        <td>1000-1099G</td>
+        <td>1,026</td>
+        <td class="hot">109.3%</td>
+        <td>104.1%</td>
+        <td>421G</td>
+        <td>711枚</td>
+        <td>1.0%</td>
+      </tr><tr>
+        <td>1300-1399G</td>
+        <td>352</td>
+        <td class="warm">106.7%</td>
+        <td>101.5%</td>
+        <td>413G</td>
+        <td>680枚</td>
+        <td>2.6%</td>
+      </tr><tr>
+        <td>900-999G</td>
+        <td>1,097</td>
+        <td class="">102.9%</td>
+        <td>98.0%</td>
+        <td>418G</td>
+        <td>665枚</td>
+        <td>2.6%</td>
+      </tr><tr>
+        <td>800-899G</td>
+        <td>1,416</td>
+        <td class="">98.9%</td>
+        <td>94.4%</td>
+        <td>436G</td>
+        <td>668枚</td>
+        <td>2.1%</td>
+      </tr><tr>
+        <td>600-699G</td>
+        <td>2,280</td>
+        <td class="">98.0%</td>
+        <td>93.4%</td>
+        <td>426G</td>
+        <td>645枚</td>
+        <td>2.1%</td>
+      </tr><tr>
+        <td>400-499G</td>
+        <td>3,533</td>
+        <td class="">93.4%</td>
+        <td>89.2%</td>
+        <td>439G</td>
+        <td>636枚</td>
+        <td>1.8%</td>
+      </tr><tr>
+        <td>500-599G</td>
+        <td>3,158</td>
+        <td class="">93.1%</td>
+        <td>88.8%</td>
+        <td>439G</td>
+        <td>634枚</td>
+        <td>2.1%</td>
+      </tr><tr>
+        <td>1200-1299G</td>
+        <td>462</td>
+        <td class="">92.6%</td>
+        <td>88.2%</td>
+        <td>421G</td>
+        <td>602枚</td>
+        <td>1.9%</td>
+      </tr></tbody></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>集計条件</h2>
+      <p class="note">38G以上を初当たり、0〜37Gを連チャン/ストック扱い。差枚 -5000〜2000枚の範囲外、AT間1600G超え、19100枚超え、0枚履歴以降は除外。液晶状態、赤7判別、天国示唆、ストック示唆は未反映です。</p>
+      <p class="note">参考: <a href="https://note.com/seiyamaster/n/n825703eefe1f#ec2d17f4-ddcf-433d-b98f-868ee3ecef8b">ヲ猿さんのミリオンゴッドAT間天井期待値記事</a></p>
+    </section>
+  </main>
+</body>
+</html>
